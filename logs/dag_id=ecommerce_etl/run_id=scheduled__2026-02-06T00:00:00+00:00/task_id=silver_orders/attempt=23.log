@@ -1,0 +1,53 @@
+[2026-02-07T18:30:41.961+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl.silver_orders scheduled__2026-02-06T00:00:00+00:00 [queued]>
+[2026-02-07T18:30:41.965+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl.silver_orders scheduled__2026-02-06T00:00:00+00:00 [queued]>
+[2026-02-07T18:30:41.965+0000] {taskinstance.py:2170} INFO - Starting attempt 23 of 24
+[2026-02-07T18:30:41.971+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): silver_orders> on 2026-02-06 00:00:00+00:00
+[2026-02-07T18:30:41.974+0000] {standard_task_runner.py:60} INFO - Started process 10390 to run task
+[2026-02-07T18:30:41.977+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl', 'silver_orders', 'scheduled__2026-02-06T00:00:00+00:00', '--job-id', '176', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpjygw0sib']
+[2026-02-07T18:30:41.978+0000] {standard_task_runner.py:88} INFO - Job 176: Subtask silver_orders
+[2026-02-07T18:30:42.000+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl.silver_orders scheduled__2026-02-06T00:00:00+00:00 [running]> on host 1d9eed85a9d4
+[2026-02-07T18:30:42.036+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl' AIRFLOW_CTX_TASK_ID='silver_orders' AIRFLOW_CTX_EXECUTION_DATE='2026-02-06T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='23' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-06T00:00:00+00:00'
+[2026-02-07T18:30:42.040+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-07T18:30:42.041+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-07T18:30:42.041+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-07T18:30:42.078+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "WITH DeduplicatedOrders AS (\n  SELECT\n    *,\n    ROW_NUMBER() OVER (\n      PARTITION BY order_id, created_at\n      ORDER BY created_at\n    ) AS rn\n  FROM `bronze.ext_orders`\n),\n\nValidated AS (\n  SELECT\n    order_id,\n    SAFE_CAST(user_id AS INT64) AS user_id,\n    \n    COALESCE(CAST(status AS STRING), 'UNKNOWN') AS order_status,\n    COALESCE(CAST(gender AS STRING), 'UNKNOWN') AS gender,\n \n    SAFE_CAST(created_at AS TIMESTAMP) AS created_at,\n    \n    -- Normalize all delivery timestamps to TIMESTAMP\n    SAFE_CAST(shipped_at AS TIMESTAMP) AS shipped_at,\n    SAFE_CAST(delivered_at AS TIMESTAMP) AS delivered_at,\n    SAFE_CAST(returned_at AS TIMESTAMP) AS returned_at,\n    \n    SAFE_CAST(num_of_item AS INT64) AS num_of_item,\n\n    -- VALIDATION FLAGS (now using normalized TIMESTAMP columns)\n    (order_id > 0) AS is_valid_order_id,\n    (SAFE_CAST(user_id AS INT64) > 0) AS is_valid_user_id,\n    (created_at IS NOT NULL AND created_at <= CURRENT_TIMESTAMP()) AS is_valid_created_at,\n\n    (CAST(status AS STRING) IN ('Pending','Processing','Shipped','Delivered','Cancelled','Returned'))\n      AS is_known_status,\n\n    (CAST(gender AS STRING) IN ('M','F','Other'))\n      AS is_known_gender,\n\n    (SAFE_CAST(num_of_item AS INT64) >= 0) AS is_valid_num_of_item,\n\n    (shipped_at IS NULL OR shipped_at >= created_at) AS is_valid_shipped_time,\n    (delivered_at IS NULL OR delivered_at >= shipped_at) AS is_valid_delivered_time,\n    (returned_at IS NULL OR (delivered_at IS NOT NULL AND returned_at >= delivered_at))\n      AS is_valid_returned_time\n\n  FROM DeduplicatedOrders\n  WHERE rn = 1 AND order_id IS NOT NULL\n)\n\nSELECT\n  order_id,\n  user_id,\n  status_cleaned AS status,\n  gender_cleaned AS gender,\n  created_at,\n  shipped_at,\n  delivered_at,\n  returned_at,\n  num_of_item,\n\n  is_valid_order_id,\n  is_valid_user_id,\n  is_valid_created_at,\n  is_known_status,\n  is_known_gender,\n  is_valid_num_of_item,\n  is_valid_shipped_time,\n  is_valid_delivered_time,\n  is_valid_returned_time\n\nFROM Validated\nWHERE\n  is_valid_order_id\n  AND is_valid_user_id\n  AND is_valid_created_at\n  AND is_known_status\n  AND is_known_gender\n  AND is_valid_num_of_item\n  AND is_valid_shipped_time\n  AND is_valid_delivered_time\n  AND is_valid_returned_time;", 'useLegacySql': False, 'destinationTable': {'projectId': 'prism-486509', 'datasetId': 'silver', 'tableId': 'orders'}, 'writeDisposition': 'WRITE_TRUNCATE'}}'
+[2026-02-07T18:30:42.079+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_silver_orders_2026_02_06T00_00_00_00_00_db11d3c3754ced652f0f42bd8658523f
+[2026-02-07T18:30:42.953+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 No matching signature for operator >= for argument types: STRING, TIMESTAMP
+  Signature: T1 >= T1
+    Unable to find common supertype for templated argument <T1>
+      Input types for <T1>: {STRING, TIMESTAMP} at [43:59]; reason: invalidQuery, location: query, message: No matching signature for operator >= for argument types: STRING, TIMESTAMP
+  Signature: T1 >= T1
+    Unable to find common supertype for templated argument <T1>
+      Input types for <T1>: {STRING, TIMESTAMP} at [43:59]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_silver_orders_2026_02_06T00_00_00_00_00_db11d3c3754ced652f0f42bd8658523f
+
+[2026-02-07T18:30:42.965+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl, task_id=silver_orders, execution_date=20260206T000000, start_date=20260207T183041, end_date=20260207T183042
+[2026-02-07T18:30:42.977+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 176 for task silver_orders (400 No matching signature for operator >= for argument types: STRING, TIMESTAMP
+  Signature: T1 >= T1
+    Unable to find common supertype for templated argument <T1>
+      Input types for <T1>: {STRING, TIMESTAMP} at [43:59]; reason: invalidQuery, location: query, message: No matching signature for operator >= for argument types: STRING, TIMESTAMP
+  Signature: T1 >= T1
+    Unable to find common supertype for templated argument <T1>
+      Input types for <T1>: {STRING, TIMESTAMP} at [43:59]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_silver_orders_2026_02_06T00_00_00_00_00_db11d3c3754ced652f0f42bd8658523f
+; 10390)
+[2026-02-07T18:30:43.029+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-07T18:30:43.045+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

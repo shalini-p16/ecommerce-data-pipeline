@@ -1,0 +1,41 @@
+[2026-02-07T13:14:44.239+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl.process_users_6.create_ext_users manual__2026-02-07T12:49:01.289323+00:00 [queued]>
+[2026-02-07T13:14:44.267+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl.process_users_6.create_ext_users manual__2026-02-07T12:49:01.289323+00:00 [queued]>
+[2026-02-07T13:14:44.267+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-02-07T13:14:44.292+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): process_users_6.create_ext_users> on 2026-02-07 12:49:01.289323+00:00
+[2026-02-07T13:14:44.302+0000] {standard_task_runner.py:60} INFO - Started process 8128 to run task
+[2026-02-07T13:14:44.306+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl', 'process_users_6.create_ext_users', 'manual__2026-02-07T12:49:01.289323+00:00', '--job-id', '94', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp_uvoherb']
+[2026-02-07T13:14:44.307+0000] {standard_task_runner.py:88} INFO - Job 94: Subtask process_users_6.create_ext_users
+[2026-02-07T13:14:44.371+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl.process_users_6.create_ext_users manual__2026-02-07T12:49:01.289323+00:00 [running]> on host 1f74174bf145
+[2026-02-07T13:14:44.522+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl' AIRFLOW_CTX_TASK_ID='process_users_6.create_ext_users' AIRFLOW_CTX_EXECUTION_DATE='2026-02-07T12:49:01.289323+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-07T12:49:01.289323+00:00'
+[2026-02-07T13:14:44.534+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-07T13:14:44.535+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-07T13:14:44.536+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-07T13:14:44.588+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "\n                        CREATE OR REPLACE EXTERNAL TABLE `prism-486509.ecom_dataset.users_ext`\n                        OPTIONS(\n                            format='CSV',\n                            uris=['gs://bronze-data-ecom/2026/02/06/users.csv'],\n                            skip_leading_rows=1\n                        );\n                    ", 'useLegacySql': False}}'
+[2026-02-07T13:14:44.589+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_process_users_6_create_ext_users_2026_02_07T12_49_01_289323_00_00_ba9da1bc6ff9b9fc40138956a23b7f87
+[2026-02-07T13:14:46.184+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.Conflict: 409 Already Exists: Table prism-486509:ecom_dataset.users_ext; reason: duplicate, message: Already Exists: Table prism-486509:ecom_dataset.users_ext
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_process_users_6_create_ext_users_2026_02_07T12_49_01_289323_00_00_ba9da1bc6ff9b9fc40138956a23b7f87
+
+[2026-02-07T13:14:46.191+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl, task_id=process_users_6.create_ext_users, execution_date=20260207T124901, start_date=20260207T131444, end_date=20260207T131446
+[2026-02-07T13:14:46.197+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 94 for task process_users_6.create_ext_users (409 Already Exists: Table prism-486509:ecom_dataset.users_ext; reason: duplicate, message: Already Exists: Table prism-486509:ecom_dataset.users_ext
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_process_users_6_create_ext_users_2026_02_07T12_49_01_289323_00_00_ba9da1bc6ff9b9fc40138956a23b7f87
+; 8128)
+[2026-02-07T13:14:46.209+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-07T13:14:46.225+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,41 @@
+[2026-02-07T19:33:57.265+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl.silver_orders scheduled__2026-02-06T00:00:00+00:00 [queued]>
+[2026-02-07T19:33:57.270+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl.silver_orders scheduled__2026-02-06T00:00:00+00:00 [queued]>
+[2026-02-07T19:33:57.270+0000] {taskinstance.py:2170} INFO - Starting attempt 37 of 37
+[2026-02-07T19:33:57.276+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): silver_orders> on 2026-02-06 00:00:00+00:00
+[2026-02-07T19:33:57.280+0000] {standard_task_runner.py:60} INFO - Started process 14829 to run task
+[2026-02-07T19:33:57.283+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl', 'silver_orders', 'scheduled__2026-02-06T00:00:00+00:00', '--job-id', '194', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp734l3ay0']
+[2026-02-07T19:33:57.284+0000] {standard_task_runner.py:88} INFO - Job 194: Subtask silver_orders
+[2026-02-07T19:33:57.313+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl.silver_orders scheduled__2026-02-06T00:00:00+00:00 [running]> on host 1d9eed85a9d4
+[2026-02-07T19:33:57.352+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl' AIRFLOW_CTX_TASK_ID='silver_orders' AIRFLOW_CTX_EXECUTION_DATE='2026-02-06T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='37' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-06T00:00:00+00:00'
+[2026-02-07T19:33:57.357+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-07T19:33:57.357+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-07T19:33:57.358+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-07T19:33:57.399+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "SELECT\n    order_id,\n    user_id,\n    status,\n    CAST(gender AS STRING) AS gender,\n    -- Convert created_at from STRING to TIMESTAMP and format\n    FORMAT_TIMESTAMP('%Y-%m-%d %H:%M:%S', TIMESTAMP(created_at)) AS created_at,\n    \n    -- Handle other timestamp columns, allow NULLs\n    CASE \n        WHEN returned_at IS NOT NULL THEN FORMAT_TIMESTAMP('%Y-%m-%d %H:%M:%S', TIMESTAMP(returned_at))\n        ELSE NULL\n    END AS returned_at,\n    \n    CASE \n        WHEN shipped_at IS NOT NULL THEN FORMAT_TIMESTAMP('%Y-%m-%d %H:%M:%S', TIMESTAMP(shipped_at))\n        ELSE NULL\n    END AS shipped_at,\n    \n    CASE \n        WHEN delivered_at IS NOT NULL THEN FORMAT_TIMESTAMP('%Y-%m-%d %H:%M:%S', TIMESTAMP(delivered_at))\n        ELSE NULL\n    END AS delivered_at,\n    \n    num_of_item\n\nFROM `bronze.ext_orders`;", 'useLegacySql': False, 'destinationTable': {'projectId': 'prism-486509', 'datasetId': 'silver', 'tableId': 'orders'}, 'writeDisposition': 'WRITE_TRUNCATE'}}'
+[2026-02-07T19:33:57.400+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_silver_orders_2026_02_06T00_00_00_00_00_eb22bc5fd38a9ff0c530d07742cf1b92
+[2026-02-07T19:33:58.946+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Error while reading table: bronze.ext_orders, error message: Unable to parse; line_number: 1 byte_offset_to_start_of_line: 0 column_index: 0 column_name: "order_id" column_type: INT64 value: "order_id" File: gs://bronze-data-ecom/2026/02/06/orders.csv; reason: invalid, location: gs://bronze-data-ecom/2026/02/06/orders.csv, message: Error while reading table: bronze.ext_orders, error message: Unable to parse; line_number: 1 byte_offset_to_start_of_line: 0 column_index: 0 column_name: "order_id" column_type: INT64 value: "order_id" File: gs://bronze-data-ecom/2026/02/06/orders.csv; reason: invalid, location: gs://bronze-data-ecom/2026/02/06/orders.csv, message: Error while reading data, error message: Unable to parse; line_number: 1 byte_offset_to_start_of_line: 0 column_index: 0 column_name: "order_id" column_type: INT64 value: "order_id" File: gs://bronze-data-ecom/2026/02/06/orders.csv
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_silver_orders_2026_02_06T00_00_00_00_00_eb22bc5fd38a9ff0c530d07742cf1b92
+
+[2026-02-07T19:33:58.954+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=ecommerce_etl, task_id=silver_orders, execution_date=20260206T000000, start_date=20260207T193357, end_date=20260207T193358
+[2026-02-07T19:33:58.961+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 194 for task silver_orders (400 Error while reading table: bronze.ext_orders, error message: Unable to parse; line_number: 1 byte_offset_to_start_of_line: 0 column_index: 0 column_name: "order_id" column_type: INT64 value: "order_id" File: gs://bronze-data-ecom/2026/02/06/orders.csv; reason: invalid, location: gs://bronze-data-ecom/2026/02/06/orders.csv, message: Error while reading table: bronze.ext_orders, error message: Unable to parse; line_number: 1 byte_offset_to_start_of_line: 0 column_index: 0 column_name: "order_id" column_type: INT64 value: "order_id" File: gs://bronze-data-ecom/2026/02/06/orders.csv; reason: invalid, location: gs://bronze-data-ecom/2026/02/06/orders.csv, message: Error while reading data, error message: Unable to parse; line_number: 1 byte_offset_to_start_of_line: 0 column_index: 0 column_name: "order_id" column_type: INT64 value: "order_id" File: gs://bronze-data-ecom/2026/02/06/orders.csv
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_silver_orders_2026_02_06T00_00_00_00_00_eb22bc5fd38a9ff0c530d07742cf1b92
+; 14829)
+[2026-02-07T19:33:59.000+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-07T19:33:59.013+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,1 @@
+[2026-02-07T13:06:13.393+0000] {scheduler_job_runner.py:781} ERROR - Executor reports task instance <TaskInstance: ecommerce_etl.process_inventory_items_5a8a453b91e24cacb3897529bfbb1e58.create_ext_inventory_items manual__2026-02-07T12:49:01.289323+00:00 [queued]> finished (failed) although the task says it's queued. (Info: None) Was the task killed externally?

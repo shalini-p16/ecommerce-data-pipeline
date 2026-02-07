@@ -1,0 +1,1 @@
+[2026-02-07T12:17:35.193+0000] {scheduler_job_runner.py:781} ERROR - Executor reports task instance <TaskInstance: ecommerce_etl_full_dynamic.dynamic_task_creator manual__2026-02-07T11:55:00.536528+00:00 [queued]> finished (failed) although the task says it's queued. (Info: None) Was the task killed externally?

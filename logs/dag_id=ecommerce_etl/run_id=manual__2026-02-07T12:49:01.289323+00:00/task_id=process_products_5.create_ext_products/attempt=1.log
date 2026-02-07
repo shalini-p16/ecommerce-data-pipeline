@@ -1,0 +1,17 @@
+[2026-02-07T13:14:44.164+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl.process_products_5.create_ext_products manual__2026-02-07T12:49:01.289323+00:00 [queued]>
+[2026-02-07T13:14:44.202+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl.process_products_5.create_ext_products manual__2026-02-07T12:49:01.289323+00:00 [queued]>
+[2026-02-07T13:14:44.203+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-02-07T13:14:44.226+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): process_products_5.create_ext_products> on 2026-02-07 12:49:01.289323+00:00
+[2026-02-07T13:14:44.246+0000] {standard_task_runner.py:60} INFO - Started process 8127 to run task
+[2026-02-07T13:14:44.250+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl', 'process_products_5.create_ext_products', 'manual__2026-02-07T12:49:01.289323+00:00', '--job-id', '93', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpdqudczfn']
+[2026-02-07T13:14:44.258+0000] {standard_task_runner.py:88} INFO - Job 93: Subtask process_products_5.create_ext_products
+[2026-02-07T13:14:44.355+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl.process_products_5.create_ext_products manual__2026-02-07T12:49:01.289323+00:00 [running]> on host 1f74174bf145
+[2026-02-07T13:14:44.475+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl' AIRFLOW_CTX_TASK_ID='process_products_5.create_ext_products' AIRFLOW_CTX_EXECUTION_DATE='2026-02-07T12:49:01.289323+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-07T12:49:01.289323+00:00'
+[2026-02-07T13:14:44.489+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-07T13:14:44.489+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-07T13:14:44.490+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-07T13:14:44.562+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "\n                        CREATE OR REPLACE EXTERNAL TABLE `prism-486509.ecom_dataset.products_ext`\n                        OPTIONS(\n                            format='CSV',\n                            uris=['gs://bronze-data-ecom/2026/02/06/products.csv'],\n                            skip_leading_rows=1\n                        );\n                    ", 'useLegacySql': False}}'
+[2026-02-07T13:14:44.564+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_process_products_5_create_ext_products_2026_02_07T12_49_01_289323_00_00_7105948af354c0dbf446c3a5031ee61a
+[2026-02-07T13:14:45.931+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl, task_id=process_products_5.create_ext_products, execution_date=20260207T124901, start_date=20260207T131444, end_date=20260207T131445
+[2026-02-07T13:14:45.962+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-07T13:14:45.988+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

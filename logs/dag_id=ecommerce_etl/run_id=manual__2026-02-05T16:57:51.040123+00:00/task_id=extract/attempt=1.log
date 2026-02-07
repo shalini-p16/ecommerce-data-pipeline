@@ -1,0 +1,111 @@
+[2026-02-05T16:57:51.782+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl.extract manual__2026-02-05T16:57:51.040123+00:00 [queued]>
+[2026-02-05T16:57:51.786+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl.extract manual__2026-02-05T16:57:51.040123+00:00 [queued]>
+[2026-02-05T16:57:51.786+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-02-05T16:57:51.791+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): extract> on 2026-02-05 16:57:51.040123+00:00
+[2026-02-05T16:57:51.794+0000] {standard_task_runner.py:60} INFO - Started process 975 to run task
+[2026-02-05T16:57:51.796+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl', 'extract', 'manual__2026-02-05T16:57:51.040123+00:00', '--job-id', '27', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp7kbjid6u']
+[2026-02-05T16:57:51.797+0000] {standard_task_runner.py:88} INFO - Job 27: Subtask extract
+[2026-02-05T16:57:51.817+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl.extract manual__2026-02-05T16:57:51.040123+00:00 [running]> on host 892fa0b2fca4
+[2026-02-05T16:57:51.852+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl' AIRFLOW_CTX_TASK_ID='extract' AIRFLOW_CTX_EXECUTION_DATE='2026-02-05T16:57:51.040123+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-05T16:57:51.040123+00:00'
+[2026-02-05T16:57:51.859+0000] {logging_mixin.py:188} INFO - Starting Kaggle dataset download...
+[2026-02-05T16:57:51.861+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/***/.kaggle/kaggle.json'
+[2026-02-05T16:57:51.865+0000] {logging_mixin.py:188} INFO - Dataset URL: https://www.kaggle.com/datasets/mustafakeser4/looker-ecommerce-bigquery-dataset
+[2026-02-05T16:57:52.446+0000] {logging_mixin.py:188} INFO - Downloading looker-ecommerce-bigquery-dataset.zip to /tmp/bronze_temp
+[2026-02-05T16:57:52.447+0000] {logging_mixin.py:188} WARNING -   0%|          | 0.00/162M [00:00<?, ?B/s]
+[2026-02-05T16:57:53.027+0000] {logging_mixin.py:188} WARNING -   1%|          | 1.00M/162M [00:00<01:33, 1.81MB/s]
+[2026-02-05T16:57:53.208+0000] {logging_mixin.py:188} WARNING -   2%|1         | 3.00M/162M [00:00<00:34, 4.82MB/s]
+[2026-02-05T16:57:53.379+0000] {logging_mixin.py:188} WARNING -   3%|3         | 5.00M/162M [00:00<00:23, 7.02MB/s]
+[2026-02-05T16:57:53.540+0000] {logging_mixin.py:188} WARNING -   4%|4         | 7.00M/162M [00:01<00:18, 8.71MB/s]
+[2026-02-05T16:57:53.703+0000] {logging_mixin.py:188} WARNING -   6%|5         | 9.00M/162M [00:01<00:16, 9.92MB/s]
+[2026-02-05T16:57:53.871+0000] {logging_mixin.py:188} WARNING -   7%|6         | 11.0M/162M [00:01<00:14, 10.7MB/s]
+[2026-02-05T16:57:54.035+0000] {logging_mixin.py:188} WARNING -   8%|8         | 13.0M/162M [00:01<00:13, 11.3MB/s]
+[2026-02-05T16:57:54.201+0000] {logging_mixin.py:188} WARNING -   9%|9         | 15.0M/162M [00:01<00:13, 11.7MB/s]
+[2026-02-05T16:57:54.386+0000] {logging_mixin.py:188} WARNING -  10%|#         | 17.0M/162M [00:01<00:13, 11.6MB/s]
+[2026-02-05T16:57:54.584+0000] {logging_mixin.py:188} WARNING -  12%|#1        | 19.0M/162M [00:02<00:13, 11.3MB/s]
+[2026-02-05T16:57:54.751+0000] {logging_mixin.py:188} WARNING -  13%|#2        | 21.0M/162M [00:02<00:12, 11.6MB/s]
+[2026-02-05T16:57:54.923+0000] {logging_mixin.py:188} WARNING -  14%|#4        | 23.0M/162M [00:02<00:12, 11.8MB/s]
+[2026-02-05T16:57:55.089+0000] {logging_mixin.py:188} WARNING -  15%|#5        | 25.0M/162M [00:02<00:11, 12.0MB/s]
+[2026-02-05T16:57:55.267+0000] {logging_mixin.py:188} WARNING -  17%|#6        | 27.0M/162M [00:02<00:11, 12.0MB/s]
+[2026-02-05T16:57:55.419+0000] {logging_mixin.py:188} WARNING -  18%|#7        | 29.0M/162M [00:02<00:11, 12.5MB/s]
+[2026-02-05T16:57:55.584+0000] {logging_mixin.py:188} WARNING -  19%|#9        | 31.0M/162M [00:03<00:10, 12.5MB/s]
+[2026-02-05T16:57:55.754+0000] {logging_mixin.py:188} WARNING -  20%|##        | 33.0M/162M [00:03<00:10, 12.5MB/s]
+[2026-02-05T16:57:55.951+0000] {logging_mixin.py:188} WARNING -  22%|##1       | 35.0M/162M [00:03<00:11, 11.9MB/s]
+[2026-02-05T16:57:56.192+0000] {logging_mixin.py:188} WARNING -  23%|##2       | 37.0M/162M [00:03<00:12, 10.7MB/s]
+[2026-02-05T16:57:56.439+0000] {logging_mixin.py:188} WARNING -  24%|##4       | 39.0M/162M [00:03<00:13, 9.92MB/s]
+[2026-02-05T16:57:56.543+0000] {logging_mixin.py:188} WARNING -  25%|##4       | 40.0M/162M [00:04<00:12, 9.94MB/s]
+[2026-02-05T16:57:56.710+0000] {logging_mixin.py:188} WARNING -  26%|##5       | 42.0M/162M [00:04<00:11, 10.7MB/s]
+[2026-02-05T16:57:56.875+0000] {logging_mixin.py:188} WARNING -  27%|##7       | 44.0M/162M [00:04<00:11, 11.3MB/s]
+[2026-02-05T16:57:57.040+0000] {logging_mixin.py:188} WARNING -  28%|##8       | 46.0M/162M [00:04<00:10, 11.7MB/s]
+[2026-02-05T16:57:57.214+0000] {logging_mixin.py:188} WARNING -  30%|##9       | 48.0M/162M [00:04<00:10, 11.8MB/s]
+[2026-02-05T16:57:57.382+0000] {logging_mixin.py:188} WARNING -  31%|###       | 50.0M/162M [00:04<00:09, 12.0MB/s]
+[2026-02-05T16:57:57.542+0000] {logging_mixin.py:188} WARNING -  32%|###2      | 52.0M/162M [00:05<00:09, 12.3MB/s]
+[2026-02-05T16:57:57.708+0000] {logging_mixin.py:188} WARNING -  33%|###3      | 54.0M/162M [00:05<00:09, 12.4MB/s]
+[2026-02-05T16:57:57.877+0000] {logging_mixin.py:188} WARNING -  34%|###4      | 56.0M/162M [00:05<00:08, 12.4MB/s]
+[2026-02-05T16:57:58.192+0000] {logging_mixin.py:188} WARNING -  36%|###5      | 58.0M/162M [00:05<00:11, 9.84MB/s]
+[2026-02-05T16:57:58.365+0000] {logging_mixin.py:188} WARNING -  37%|###6      | 60.0M/162M [00:05<00:10, 10.4MB/s]
+[2026-02-05T16:57:58.529+0000] {logging_mixin.py:188} WARNING -  38%|###8      | 62.0M/162M [00:06<00:09, 11.0MB/s]
+[2026-02-05T16:57:58.690+0000] {logging_mixin.py:188} WARNING -  39%|###9      | 64.0M/162M [00:06<00:08, 11.6MB/s]
+[2026-02-05T16:57:58.854+0000] {logging_mixin.py:188} WARNING -  41%|####      | 66.0M/162M [00:06<00:08, 11.9MB/s]
+[2026-02-05T16:57:59.019+0000] {logging_mixin.py:188} WARNING -  42%|####1     | 68.0M/162M [00:06<00:08, 12.1MB/s]
+[2026-02-05T16:57:59.184+0000] {logging_mixin.py:188} WARNING -  43%|####3     | 70.0M/162M [00:06<00:07, 12.3MB/s]
+[2026-02-05T16:57:59.352+0000] {logging_mixin.py:188} WARNING -  44%|####4     | 72.0M/162M [00:06<00:07, 12.4MB/s]
+[2026-02-05T16:57:59.525+0000] {logging_mixin.py:188} WARNING -  46%|####5     | 74.0M/162M [00:07<00:07, 12.3MB/s]
+[2026-02-05T16:57:59.685+0000] {logging_mixin.py:188} WARNING -  47%|####6     | 76.0M/162M [00:07<00:07, 12.5MB/s]
+[2026-02-05T16:57:59.846+0000] {logging_mixin.py:188} WARNING -  48%|####8     | 78.0M/162M [00:07<00:06, 12.7MB/s]
+[2026-02-05T16:58:00.019+0000] {logging_mixin.py:188} WARNING -  49%|####9     | 80.0M/162M [00:07<00:06, 12.5MB/s]
+[2026-02-05T16:58:00.190+0000] {logging_mixin.py:188} WARNING -  51%|#####     | 82.0M/162M [00:07<00:06, 12.4MB/s]
+[2026-02-05T16:58:00.355+0000] {logging_mixin.py:188} WARNING -  52%|#####1    | 84.0M/162M [00:07<00:06, 12.5MB/s]
+[2026-02-05T16:58:00.515+0000] {logging_mixin.py:188} WARNING -  53%|#####2    | 86.0M/162M [00:08<00:06, 12.7MB/s]
+[2026-02-05T16:58:00.682+0000] {logging_mixin.py:188} WARNING -  54%|#####4    | 88.0M/162M [00:08<00:06, 12.7MB/s]
+[2026-02-05T16:58:00.846+0000] {logging_mixin.py:188} WARNING -  55%|#####5    | 90.0M/162M [00:08<00:05, 12.7MB/s]
+[2026-02-05T16:58:01.012+0000] {logging_mixin.py:188} WARNING -  57%|#####6    | 92.0M/162M [00:08<00:05, 12.7MB/s]
+[2026-02-05T16:58:01.176+0000] {logging_mixin.py:188} WARNING -  58%|#####7    | 94.0M/162M [00:08<00:05, 12.7MB/s]
+[2026-02-05T16:58:01.372+0000] {logging_mixin.py:188} WARNING -  59%|#####9    | 96.0M/162M [00:08<00:05, 12.0MB/s]
+[2026-02-05T16:58:01.535+0000] {logging_mixin.py:188} WARNING -  60%|######    | 98.0M/162M [00:09<00:05, 12.3MB/s]
+[2026-02-05T16:58:01.707+0000] {logging_mixin.py:188} WARNING -  62%|######1   | 100M/162M [00:09<00:05, 12.3MB/s] 
+[2026-02-05T16:58:01.865+0000] {logging_mixin.py:188} WARNING -  63%|######2   | 102M/162M [00:09<00:05, 12.5MB/s]
+[2026-02-05T16:58:02.033+0000] {logging_mixin.py:188} WARNING -  64%|######4   | 104M/162M [00:09<00:04, 12.5MB/s]
+[2026-02-05T16:58:02.200+0000] {logging_mixin.py:188} WARNING -  65%|######5   | 106M/162M [00:09<00:04, 12.5MB/s]
+[2026-02-05T16:58:02.361+0000] {logging_mixin.py:188} WARNING -  67%|######6   | 108M/162M [00:09<00:04, 12.7MB/s]
+[2026-02-05T16:58:02.524+0000] {logging_mixin.py:188} WARNING -  68%|######7   | 110M/162M [00:10<00:04, 12.7MB/s]
+[2026-02-05T16:58:02.691+0000] {logging_mixin.py:188} WARNING -  69%|######8   | 112M/162M [00:10<00:04, 12.7MB/s]
+[2026-02-05T16:58:02.854+0000] {logging_mixin.py:188} WARNING -  70%|#######   | 114M/162M [00:10<00:03, 12.7MB/s]
+[2026-02-05T16:58:03.019+0000] {logging_mixin.py:188} WARNING -  71%|#######1  | 116M/162M [00:10<00:03, 12.7MB/s]
+[2026-02-05T16:58:03.181+0000] {logging_mixin.py:188} WARNING -  73%|#######2  | 118M/162M [00:10<00:03, 12.8MB/s]
+[2026-02-05T16:58:03.492+0000] {logging_mixin.py:188} WARNING -  74%|#######3  | 120M/162M [00:11<00:04, 10.1MB/s]
+[2026-02-05T16:58:03.659+0000] {logging_mixin.py:188} WARNING -  75%|#######5  | 122M/162M [00:11<00:03, 10.7MB/s]
+[2026-02-05T16:58:03.817+0000] {logging_mixin.py:188} WARNING -  76%|#######6  | 124M/162M [00:11<00:03, 11.4MB/s]
+[2026-02-05T16:58:03.984+0000] {logging_mixin.py:188} WARNING -  78%|#######7  | 126M/162M [00:11<00:03, 11.7MB/s]
+[2026-02-05T16:58:04.149+0000] {logging_mixin.py:188} WARNING -  79%|#######8  | 128M/162M [00:11<00:03, 12.0MB/s]
+[2026-02-05T16:58:04.321+0000] {logging_mixin.py:188} WARNING -  80%|########  | 130M/162M [00:11<00:02, 12.1MB/s]
+[2026-02-05T16:58:04.486+0000] {logging_mixin.py:188} WARNING -  81%|########1 | 132M/162M [00:12<00:02, 12.2MB/s]
+[2026-02-05T16:58:04.647+0000] {logging_mixin.py:188} WARNING -  83%|########2 | 134M/162M [00:12<00:02, 12.5MB/s]
+[2026-02-05T16:58:04.811+0000] {logging_mixin.py:188} WARNING -  84%|########3 | 136M/162M [00:12<00:02, 12.6MB/s]
+[2026-02-05T16:58:04.977+0000] {logging_mixin.py:188} WARNING -  85%|########4 | 138M/162M [00:12<00:02, 12.6MB/s]
+[2026-02-05T16:58:05.158+0000] {logging_mixin.py:188} WARNING -  86%|########6 | 140M/162M [00:12<00:01, 12.3MB/s]
+[2026-02-05T16:58:05.307+0000] {logging_mixin.py:188} WARNING -  87%|########7 | 142M/162M [00:12<00:01, 12.7MB/s]
+[2026-02-05T16:58:05.511+0000] {logging_mixin.py:188} WARNING -  89%|########8 | 144M/162M [00:13<00:01, 11.9MB/s]
+[2026-02-05T16:58:05.670+0000] {logging_mixin.py:188} WARNING -  90%|########9 | 146M/162M [00:13<00:01, 12.3MB/s]
+[2026-02-05T16:58:05.850+0000] {logging_mixin.py:188} WARNING -  91%|#########1| 148M/162M [00:13<00:01, 12.1MB/s]
+[2026-02-05T16:58:06.050+0000] {logging_mixin.py:188} WARNING -  92%|#########2| 150M/162M [00:13<00:01, 11.5MB/s]
+[2026-02-05T16:58:06.178+0000] {logging_mixin.py:188} WARNING -  94%|#########3| 152M/162M [00:13<00:00, 12.7MB/s]
+[2026-02-05T16:58:06.357+0000] {logging_mixin.py:188} WARNING -  95%|#########4| 154M/162M [00:13<00:00, 12.4MB/s]
+[2026-02-05T16:58:06.512+0000] {logging_mixin.py:188} WARNING -  96%|#########6| 156M/162M [00:14<00:00, 12.7MB/s]
+[2026-02-05T16:58:06.677+0000] {logging_mixin.py:188} WARNING -  97%|#########7| 158M/162M [00:14<00:00, 12.7MB/s]
+[2026-02-05T16:58:06.841+0000] {logging_mixin.py:188} WARNING -  99%|#########8| 160M/162M [00:14<00:00, 12.7MB/s]
+[2026-02-05T16:58:07.004+0000] {logging_mixin.py:188} WARNING - 100%|#########9| 162M/162M [00:14<00:00, 12.7MB/s]
+[2026-02-05T16:58:07.033+0000] {logging_mixin.py:188} WARNING - 100%|##########| 162M/162M [00:14<00:00, 11.7MB/s]
+[2026-02-05T16:58:09.319+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/utils/context.py:315 AirflowContextDeprecationWarning: Accessing 'execution_date' from the template is deprecated and will be removed in a future version. Please use 'data_interval_start' or 'logical_date' instead.
+[2026-02-05T16:58:09.319+0000] {logging_mixin.py:188} INFO - Uploading CSVs to MinIO under partition: 2026/02/05/
+[2026-02-05T16:58:09.453+0000] {logging_mixin.py:188} INFO - Uploaded: 2026/02/05/orders.csv
+[2026-02-05T16:58:10.127+0000] {logging_mixin.py:188} INFO - Uploaded: 2026/02/05/inventory_items.csv
+[2026-02-05T16:58:12.961+0000] {logging_mixin.py:188} INFO - Uploaded: 2026/02/05/events.csv
+[2026-02-05T16:58:12.965+0000] {logging_mixin.py:188} INFO - Uploaded: 2026/02/05/distribution_centers.csv
+[2026-02-05T16:58:13.030+0000] {logging_mixin.py:188} INFO - Uploaded: 2026/02/05/users.csv
+[2026-02-05T16:58:13.058+0000] {logging_mixin.py:188} INFO - Uploaded: 2026/02/05/products.csv
+[2026-02-05T16:58:13.119+0000] {logging_mixin.py:188} INFO - Uploaded: 2026/02/05/order_items.csv
+[2026-02-05T16:58:13.119+0000] {logging_mixin.py:188} INFO - Extraction complete. Uploaded 7 CSV files to bucket under 2026/02/05/
+[2026-02-05T16:58:13.122+0000] {python.py:201} INFO - Done. Returned value was: None
+[2026-02-05T16:58:13.128+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl, task_id=extract, execution_date=20260205T165751, start_date=20260205T165751, end_date=20260205T165813
+[2026-02-05T16:58:13.154+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-05T16:58:13.164+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,135 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+ 
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"  # API
+      - "9001:9001"  # Console
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  airflow-init:
+    #image: apache/airflow:2.8.1
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      _AIRFLOW_WWW_USER_CREATE: "true"               # ← this is the key
+      _AIRFLOW_WWW_USER_USERNAME: airflow
+      _AIRFLOW_WWW_USER_PASSWORD: airflow
+      _AIRFLOW_WWW_USER_EMAIL: admin@example.com
+      _AIRFLOW_WWW_USER_FIRSTNAME: Airflow
+      _AIRFLOW_WWW_USER_LASTNAME: User
+      _AIRFLOW_WWW_USER_ROLE: Admin
+      _PIP_ADDITIONAL_REQUIREMENTS: ''
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./src:/opt/airflow/src
+      - ./config:/opt/airflow/config
+      - ./sql:/opt/airflow/sql
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./gcp-credentials.json:/opt/airflow/gcp-credentials.json
+      - ./kaggle.json:/home/airflow/.kaggle/kaggle.json:ro
+ 
+
+
+  airflow-webserver:
+    #image: apache/airflow:2.8.1
+    build: .
+    depends_on:
+      - airflow-init
+      - minio
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__WEBSERVER__WEB_SERVER_PORT: 8080
+      _AIRFLOW_WWW_USER_USERNAME: airflow           # ← ADDED
+      _AIRFLOW_WWW_USER_PASSWORD: airflow           # ← ADDED
+      _PIP_ADDITIONAL_REQUIREMENTS: ''
+      KAGGLE_USERNAME: "shalinipriya16"
+      KAGGLE_KEY: "KGAT_55d4f6d557fb0e7ecafdb33a62485b7f"
+      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./src:/opt/airflow/src
+      - ./sql:/opt/airflow/sql 
+      - ./config:/opt/airflow/config
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./gcp-credentials.json:/opt/airflow/gcp-credentials.json
+      - ./kaggle.json:/home/airflow/.kaggle/kaggle.json:ro
+    ports:
+      - "8080:8080"
+    command: webserver
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /opt/airflow/airflow-webserver.pid ]"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  airflow-scheduler:
+    #image: apache/airflow:2.8.1
+    build: .
+    depends_on:
+      - airflow-init
+      - minio
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      _AIRFLOW_WWW_USER_USERNAME: airflow           # ← ADDED
+      _AIRFLOW_WWW_USER_PASSWORD: airflow           # ← ADDED
+      _PIP_ADDITIONAL_REQUIREMENTS: ''
+      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/gcp-credentials.json
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./sql:/opt/airflow/sql
+      - ./config:/opt/airflow/config 
+      - ./src:/opt/airflow/src
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./gcp-credentials.json:/opt/airflow/gcp-credentials.json
+      - ./kaggle.json:/home/airflow/.kaggle/kaggle.json:ro
+    command: scheduler
+
+  
+
+volumes:
+  postgres_data:
+  minio_data:

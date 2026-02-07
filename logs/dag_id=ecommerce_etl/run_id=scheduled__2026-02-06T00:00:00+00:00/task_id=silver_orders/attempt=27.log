@@ -1,0 +1,41 @@
+[2026-02-07T19:05:31.583+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl.silver_orders scheduled__2026-02-06T00:00:00+00:00 [queued]>
+[2026-02-07T19:05:31.587+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl.silver_orders scheduled__2026-02-06T00:00:00+00:00 [queued]>
+[2026-02-07T19:05:31.587+0000] {taskinstance.py:2170} INFO - Starting attempt 27 of 28
+[2026-02-07T19:05:31.593+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): silver_orders> on 2026-02-06 00:00:00+00:00
+[2026-02-07T19:05:31.598+0000] {standard_task_runner.py:60} INFO - Started process 12645 to run task
+[2026-02-07T19:05:31.602+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl', 'silver_orders', 'scheduled__2026-02-06T00:00:00+00:00', '--job-id', '180', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp44db41rp']
+[2026-02-07T19:05:31.605+0000] {standard_task_runner.py:88} INFO - Job 180: Subtask silver_orders
+[2026-02-07T19:05:31.639+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl.silver_orders scheduled__2026-02-06T00:00:00+00:00 [running]> on host 1d9eed85a9d4
+[2026-02-07T19:05:31.678+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl' AIRFLOW_CTX_TASK_ID='silver_orders' AIRFLOW_CTX_EXECUTION_DATE='2026-02-06T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='27' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-06T00:00:00+00:00'
+[2026-02-07T19:05:31.683+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-07T19:05:31.683+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-07T19:05:31.683+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-07T19:05:31.723+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "WITH DeduplicatedOrders AS (\n  SELECT\n    *,\n    ROW_NUMBER() OVER (\n      PARTITION BY order_id, created_at\n      ORDER BY created_at\n    ) AS rn\n  FROM `prism-486509.ecom_dataset.orders`\n),\n\nValidatedAndCleanedOrders AS (\n  SELECT\n    order_id,\n    user_id AS user_id_cleaned,\n\n    COALESCE(status, 'UNKNOWN') AS status_cleaned,\n\n    -- gender is BOOLEAN (true/false)\n    gender AS gender_cleaned,\n\n    created_at,\n\n    -- returned_at is STRING → safely convert\n    SAFE_CAST(returned_at AS TIMESTAMP) AS returned_at_cleaned,\n\n    shipped_at,\n    delivered_at,\n\n    COALESCE(num_of_item, 0) AS num_of_item_cleaned,\n\n    -- Validation checks\n    CASE\n      WHEN order_id IS NULL OR order_id <= 0 THEN FALSE\n      ELSE TRUE\n    END AS is_valid_order_id,\n\n    CASE\n      WHEN user_id IS NULL OR user_id <= 0 THEN FALSE\n      ELSE TRUE\n    END AS is_valid_user_id,\n\n    CASE\n      WHEN created_at IS NULL OR created_at > CURRENT_TIMESTAMP() THEN FALSE\n      ELSE TRUE\n    END AS is_valid_created_at,\n\n    CASE\n      WHEN status IN ('Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned')\n      THEN TRUE\n      ELSE FALSE\n    END AS is_known_status,\n\n    -- gender is BOOLEAN → just check NOT NULL\n    CASE\n      WHEN gender IS NULL THEN FALSE\n      ELSE TRUE\n    END AS is_valid_gender,\n\n    CASE\n      WHEN num_of_item < 0 THEN FALSE\n      ELSE TRUE\n    END AS is_valid_num_of_item,\n\n    CASE\n      WHEN shipped_at IS NOT NULL AND shipped_at < created_at THEN FALSE\n      ELSE TRUE\n    END AS is_valid_shipped_time,\n\n    CASE\n      WHEN delivered_at IS NOT NULL\n           AND shipped_at IS NOT NULL\n           AND delivered_at < shipped_at THEN FALSE\n      ELSE TRUE\n    END AS is_valid_delivered_time,\n\n    CASE\n      WHEN SAFE_CAST(returned_at AS TIMESTAMP) IS NOT NULL\n           AND delivered_at IS NOT NULL\n           AND SAFE_CAST(returned_at AS TIMESTAMP) < delivered_at THEN FALSE\n      ELSE TRUE\n    END AS is_valid_returned_time\n\n  FROM DeduplicatedOrders\n  WHERE rn = 1\n    AND order_id IS NOT NULL\n)\n\nSELECT\n  order_id,\n  user_id_cleaned AS user_id,\n  status_cleaned AS status,\n  gender_cleaned AS gender,\n  created_at,\n  returned_at_cleaned AS returned_at,\n  shipped_at,\n  delivered_at,\n  num_of_item_cleaned AS num_of_item\nFROM ValidatedAndCleanedOrders\nWHERE\n  is_valid_order_id\n  AND is_valid_user_id\n  AND is_valid_created_at\n  AND is_known_status\n  AND is_valid_gender\n  AND is_valid_num_of_item\n  AND is_valid_shipped_time\n  AND is_valid_delivered_time\n  AND is_valid_returned_time;", 'useLegacySql': False, 'destinationTable': {'projectId': 'prism-486509', 'datasetId': 'silver', 'tableId': 'orders'}, 'writeDisposition': 'WRITE_TRUNCATE'}}'
+[2026-02-07T19:05:31.724+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_silver_orders_2026_02_06T00_00_00_00_00_df4524b7b19cc99f5668c5d074bd1fb4
+[2026-02-07T19:05:32.387+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: Table prism-486509:ecom_dataset.orders was not found in location europe-west1; reason: notFound, message: Not found: Table prism-486509:ecom_dataset.orders was not found in location europe-west1
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_silver_orders_2026_02_06T00_00_00_00_00_df4524b7b19cc99f5668c5d074bd1fb4
+
+[2026-02-07T19:05:32.395+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl, task_id=silver_orders, execution_date=20260206T000000, start_date=20260207T190531, end_date=20260207T190532
+[2026-02-07T19:05:32.404+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 180 for task silver_orders (404 Not found: Table prism-486509:ecom_dataset.orders was not found in location europe-west1; reason: notFound, message: Not found: Table prism-486509:ecom_dataset.orders was not found in location europe-west1
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_silver_orders_2026_02_06T00_00_00_00_00_df4524b7b19cc99f5668c5d074bd1fb4
+; 12645)
+[2026-02-07T19:05:32.421+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-07T19:05:32.431+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
