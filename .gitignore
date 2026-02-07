@@ -1,2 +1,4 @@
 echo "gcp-credentials.json" >> .gitignore
-echo "kaggle.json" >> .gitignore
+git add .gitignore
+git commit -m "Ignore gcp-credentials.json"
+git push origin main
