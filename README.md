@@ -25,6 +25,113 @@ The pipeline is built to answer the following key business questions:
    - Differences in buyer characteristics by product  
    - Impact of product attributes (price, category, etc.) on sales
 
+## Source Data Schema
+
+The pipeline processes the **Looker E-commerce BigQuery Dataset** (originally from Kaggle), which consists of the following seven CSV files. Below is the schema for each table, including column names, data types, and brief descriptions where relevant.
+
+### 1. distribution_centers.csv
+Distribution centers / warehouses
+
+- `id` (INT) — Distribution center ID (primary key)
+- `name` (STRING) — Name of the distribution center
+- `latitude` (FLOAT) — Latitude coordinate
+- `longitude` (FLOAT) — Longitude coordinate
+
+### 2. events.csv
+User website interactions (page views, add-to-cart, purchases, etc.)
+
+- `id` (INT) — Event ID (primary key)
+- `user_id` (INT) — References `users.id`
+- `sequence_number` (INT) — Order of events within a session
+- `session_id` (STRING) — Unique session identifier
+- `created_at` (TIMESTAMP) — When the event occurred
+- `ip_address` (STRING) — Visitor IP address
+- `city` (STRING) — City of the visitor
+- `state` (STRING) — State / region
+- `postal_code` (STRING) — Postal / ZIP code
+- `browser` (STRING) — Browser used
+- `traffic_source` (STRING) — Source of traffic (Organic, Paid, Email, Direct, etc.)
+- `uri` (STRING) — Page or resource accessed
+- `event_type` (STRING) — Type of event (e.g., 'Page View', 'Add to Cart', 'Purchase')
+
+### 3. inventory_items.csv
+Physical inventory records (snapshot of items in stock)
+
+- `id` (INT) — Inventory item ID (primary key)
+- `product_id` (INT) — References `products.id`
+- `created_at` (TIMESTAMP) — When inventory record was created
+- `sold_at` (TIMESTAMP) — When the item was sold (NULL if still in stock)
+- `cost` (DECIMAL) — Cost to the company
+- `product_category` (STRING) — Product category
+- `product_name` (STRING) — Product name
+- `product_brand` (STRING) — Brand name
+- `product_retail_price` (DECIMAL) — Retail price
+- `product_department` (STRING) — Department (e.g., Women, Men)
+- `product_sku` (STRING) — Stock Keeping Unit
+- `product_distribution_center_id` (INT) — References `distribution_centers.id`
+
+### 4. order_items.csv
+Line items within orders (the most granular sales data)
+
+- `id` (INT) — Order item ID (primary key)
+- `order_id` (INT) — References `orders.order_id`
+- `user_id` (INT) — References `users.id`
+- `product_id` (INT) — References `products.id`
+- `inventory_item_id` (INT) — References `inventory_items.id`
+- `status` (STRING) — Order item status (Processing, Shipped, Delivered, Returned, Cancelled, Complete)
+- `created_at` (TIMESTAMP) — When the order item was created
+- `shipped_at` (TIMESTAMP) — When shipped
+- `delivered_at` (TIMESTAMP) — When delivered
+- `returned_at` (TIMESTAMP) — When returned (NULL if not returned)
+
+### 5. orders.csv
+Order headers
+
+- `order_id` (INT) — Order ID (primary key)
+- `user_id` (INT) — References `users.id`
+- `status` (STRING) — Overall order status
+- `gender` (STRING) — Gender of the purchaser (Women, Men)
+- `created_at` (TIMESTAMP) — Order creation timestamp
+- `returned_at` (TIMESTAMP) — When the order was returned (NULL if not returned)
+- `shipped_at` (TIMESTAMP) — When the order was shipped
+- `delivered_at` (TIMESTAMP) — When the order was delivered
+- `num_of_item` (INT) — Number of items in the order
+
+### 6. products.csv
+Product catalog
+
+- `id` (INT) — Product ID (primary key)
+- `cost` (DECIMAL) — Cost to the company
+- `category` (STRING) — Product category
+- `name` (STRING) — Product name
+- `brand` (STRING) — Brand name
+- `retail_price` (DECIMAL) — Selling price
+- `department` (STRING) — Department (Women, Men)
+- `sku` (STRING) — Stock Keeping Unit
+- `distribution_center_id` (INT) — References `distribution_centers.id`
+
+### 7. users.csv
+Registered customers
+
+- `id` (INT) — User ID (primary key)
+- `first_name` (STRING)
+- `last_name` (STRING)
+- `email` (STRING)
+- `age` (INT)
+- `gender` (STRING) — Gender
+- `state` (STRING) — State / region
+- `street_address` (STRING) — Street address
+- `postal_code` (STRING) — Postal / ZIP code
+- `city` (STRING) — City
+- `country` (STRING) — Country
+- `latitude` (FLOAT) — Latitude
+- `longitude` (FLOAT) — Longitude
+- `traffic_source` (STRING) — How the user originally arrived (Organic, Adwords, Email, etc.)
+- `created_at` (TIMESTAMP) — Account creation timestamp
+
+**Note**:  
+Not all tables/columns are used in the core analytical model. The pipeline focuses on data relevant to customer behavior, purchase drivers, and product performance (see [Data Scope & Profiling](#data-scope--profiling) and [Dimensional Modeling](#dimensional-modeling---kimball-type-2)).
+
 ## Data Scope & Profiling
 
 **Focused Scope**  
@@ -76,7 +183,71 @@ Multi-level quality checks:
 - Support for late-arriving data and slowly changing dimensions (Type 2 updates)  
 - Mechanisms to handle facts arriving before dimension context (e.g., placeholder keys, eventual updates)
 
-## Business Matrix
+## Bus Matrix (Kimball Conformed Dimension Bus Architecture)
+
+### What is a Bus Matrix?
+
+The **Bus Matrix** is a central planning tool in Kimball dimensional modeling. It provides:
+
+- A high-level map of **business processes** to **fact tables**
+- Visibility of **conformed dimensions** reused across multiple facts
+- Assurance of **consistency** and **reusability** in analytics
+- Full coverage of business questions without duplication or missing pieces
+
+It helps stakeholders and developers understand:
+- Which facts support which business questions
+- Which dimensions are shared (conformed) across processes
+- Where analytics can be combined (drill-across reporting)
+
+### Step 1: Identified Business Processes
+
+Based on your core business questions, the following **business processes** are modeled:
+
+1. **Website Interaction / User Events**  
+   Tracking every user action on the site (views, clicks, add-to-cart, etc.)
+
+2. **Website Sessions / Visits**  
+   Aggregated session-level behavior and traffic attribution
+
+3. **Product Purchases / Sales**  
+   Granular item-level sales and revenue (order line items)
+
+4. **Order Fulfillment Lifecycle**  
+   Tracking order status progression (created → shipped → delivered → returned)
+
+### Step 2: Final Bus Matrix
+
+| Business Process                     | Fact Table                     | Date / Time | Customer | Product | Event Type | Traffic Source | Session | Order Status | Page / URI | Browser | Location | Business Questions Supported |
+|--------------------------------------|--------------------------------|-------------|----------|---------|------------|----------------|---------|--------------|------------|---------|----------|--------------------------------|
+| Website Interaction / User Events    | Fact_Web_Events                | ✅          | ✅       | ⚪       | ✅         | ✅             | ✅      | —            | ✅         | ✅      | ✅       | Navigation patterns, event frequency, traffic influence, funnels |
+| Website Sessions / Visits            | Fact_Sessions                  | ✅          | ✅       | —       | —          | ✅             | ✅      | —            | —          | ✅      | ✅       | Visit patterns, engagement, traffic attribution, bounce rates |
+| Product Purchases / Sales            | Fact_Sales_Order_Items         | ✅          | ✅       | ✅      | —          | ⚪             | —       | ✅           | —          | —       | ✅       | Revenue, units sold, top products, buyer profiles, conversion drivers |
+| Order Fulfillment Lifecycle          | Fact_Orders                    | ✅          | ✅       | —       | —          | —              | —       | ✅           | —          | —       | —        | Fulfillment KPIs, shipping times, return rates, status monitoring |
+
+**Legend**  
+✅ = Core / Required dimension  
+⚪ = Optional / Contextual (can be included depending on analysis)  
+— = Not applicable
+
+### Conformed Dimensions (Shared Across Facts)
+
+The following dimensions are **conformed** (designed once, reused everywhere):
+
+- **Dim_Date** (and role-playing variants: order_date, shipped_date, delivered_date, returned_date)
+- **Dim_Time**
+- **Dim_Customer**
+- **Dim_Product**
+- **Dim_Traffic_Source** (especially important for attribution analysis)
+- **Dim_Location** (city, state, postal_code — can be derived from events/users)
+
+### Benefits for Business Stakeholders
+
+- **Consistency** — The same customer, product, date, and traffic definitions are used everywhere.
+- **Drill-across capability** — Combine website behavior (Fact_Web_Events) with actual purchases (Fact_Sales_Order_Items) to answer “Which events precede purchases?”
+- **Coverage** — All three main business questions are fully supported.
+- **Scalability** — Easy to add new facts or dimensions later without breaking existing reports.
+
+This Bus Matrix serves as the **blueprint** for ensuring the data warehouse delivers consistent, reusable, and business-aligned analytics.
 
 Mapping of business processes to fact tables and key dimensions:
 
