@@ -1,0 +1,2 @@
+echo "gcp-credentials.json" >> .gitignore
+echo "kaggle.json" >> .gitignore
