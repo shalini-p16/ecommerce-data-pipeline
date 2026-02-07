@@ -1,0 +1,30 @@
+tables:
+  - entity: events
+    gcs_uri: gs://bronze-data-ecom/events.csv
+    external_table: bronze.ext_events
+    silver_table: silver.events
+    silver_sql: silver/events.sql
+
+  - entity: order_items
+    gcs_uri: gs://bronze-data-ecom/order_items.csv
+    external_table: bronze.ext_order_items
+    silver_table: silver.order_items
+    silver_sql: silver/order_items.sql
+
+  - entity: orders
+    gcs_uri: gs://bronze-data-ecom/orders.csv
+    external_table: bronze.ext_orders
+    silver_table: silver.orders
+    silver_sql: silver/orders.sql
+
+  - entity: products
+    gcs_uri: gs://bronze-data-ecom/products.csv
+    external_table: bronze.ext_products
+    silver_table: silver.products
+    silver_sql: silver/products.sql
+
+  - entity: users
+    gcs_uri: gs://bronze-data-ecom/users.csv
+    external_table: bronze.ext_users
+    silver_table: silver.users
+    silver_sql: silver/users.sql

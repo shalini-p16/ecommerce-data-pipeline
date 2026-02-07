@@ -1,0 +1,41 @@
+[2026-02-07T18:04:17.400+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl.silver_products scheduled__2026-02-06T00:00:00+00:00 [queued]>
+[2026-02-07T18:04:17.404+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl.silver_products scheduled__2026-02-06T00:00:00+00:00 [queued]>
+[2026-02-07T18:04:17.404+0000] {taskinstance.py:2170} INFO - Starting attempt 4 of 5
+[2026-02-07T18:04:17.410+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): silver_products> on 2026-02-06 00:00:00+00:00
+[2026-02-07T18:04:17.413+0000] {standard_task_runner.py:60} INFO - Started process 8401 to run task
+[2026-02-07T18:04:17.416+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl', 'silver_products', 'scheduled__2026-02-06T00:00:00+00:00', '--job-id', '163', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpgm_evxeo']
+[2026-02-07T18:04:17.417+0000] {standard_task_runner.py:88} INFO - Job 163: Subtask silver_products
+[2026-02-07T18:04:17.443+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl.silver_products scheduled__2026-02-06T00:00:00+00:00 [running]> on host 1d9eed85a9d4
+[2026-02-07T18:04:17.479+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl' AIRFLOW_CTX_TASK_ID='silver_products' AIRFLOW_CTX_EXECUTION_DATE='2026-02-06T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='4' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-06T00:00:00+00:00'
+[2026-02-07T18:04:17.483+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-07T18:04:17.484+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-07T18:04:17.484+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-07T18:04:17.522+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "\nWITH deduplicated_products AS (\n  SELECT\n    *,\n    ROW_NUMBER() OVER (\n      PARTITION BY id\n      ORDER BY product_id\n    ) AS row_num\n  FROM bronze.ext_products\n)\n\nSELECT\n  -- Identifiers\n  SAFE_CAST(id AS INT64) AS product_id,\n  sku,\n\n  -- Descriptive attributes\n  COALESCE(name, 'Unnamed Product') AS product_name,\n  COALESCE(brand, 'Unknown Brand') AS brand_name,\n  COALESCE(category, 'General') AS product_category,\n  department,\n\n  -- Pricing\n  SAFE_CAST(cost AS NUMERIC) AS unit_cost,\n  SAFE_CAST(retail_price AS NUMERIC) AS retail_price,\n\n  -- Distribution\n  SAFE_CAST(distribution_center_id AS INT64) AS dist_center_id,\n\n  -- Business checks\n  SAFE_CAST(retail_price AS NUMERIC) > SAFE_CAST(cost AS NUMERIC)\n    AS is_profitable,\n\n  ROUND(\n    SAFE_CAST(retail_price AS NUMERIC) - SAFE_CAST(cost AS NUMERIC),\n    2\n  ) AS absolute_markup,\n\n  CURRENT_TIMESTAMP() AS ingestion_ts\n\nFROM deduplicated_products\nWHERE row_num = 1;", 'useLegacySql': False, 'destinationTable': {'projectId': 'prism-486509', 'datasetId': 'silver', 'tableId': 'products'}, 'writeDisposition': 'WRITE_TRUNCATE'}}'
+[2026-02-07T18:04:17.523+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_silver_products_2026_02_06T00_00_00_00_00_97e3e2e0760f75ef9a504409e0ea732f
+[2026-02-07T18:04:18.423+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Unrecognized name: product_id at [7:16]; reason: invalidQuery, location: query, message: Unrecognized name: product_id at [7:16]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_silver_products_2026_02_06T00_00_00_00_00_97e3e2e0760f75ef9a504409e0ea732f
+
+[2026-02-07T18:04:18.433+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl, task_id=silver_products, execution_date=20260206T000000, start_date=20260207T180417, end_date=20260207T180418
+[2026-02-07T18:04:18.440+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 163 for task silver_products (400 Unrecognized name: product_id at [7:16]; reason: invalidQuery, location: query, message: Unrecognized name: product_id at [7:16]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_silver_products_2026_02_06T00_00_00_00_00_97e3e2e0760f75ef9a504409e0ea732f
+; 8401)
+[2026-02-07T18:04:18.484+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-07T18:04:18.493+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

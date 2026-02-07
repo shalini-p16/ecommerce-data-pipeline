@@ -1,0 +1,18 @@
+[2026-02-05T22:08:46.267+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_full.create_events_external_table manual__2026-02-05T21:49:21.244732+00:00 [queued]>
+[2026-02-05T22:08:46.271+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_full.create_events_external_table manual__2026-02-05T21:49:21.244732+00:00 [queued]>
+[2026-02-05T22:08:46.271+0000] {taskinstance.py:2170} INFO - Starting attempt 10 of 10
+[2026-02-05T22:08:46.276+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): create_events_external_table> on 2026-02-05 21:49:21.244732+00:00
+[2026-02-05T22:08:46.280+0000] {standard_task_runner.py:60} INFO - Started process 963 to run task
+[2026-02-05T22:08:46.282+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_full', 'create_events_external_table', 'manual__2026-02-05T21:49:21.244732+00:00', '--job-id', '30', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpx7t_risf']
+[2026-02-05T22:08:46.283+0000] {standard_task_runner.py:88} INFO - Job 30: Subtask create_events_external_table
+[2026-02-05T22:08:46.304+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_full.create_events_external_table manual__2026-02-05T21:49:21.244732+00:00 [running]> on host 12c5c10e9611
+[2026-02-05T22:08:46.327+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/utils/context.py:207 AirflowContextDeprecationWarning: Accessing 'execution_date' from the template is deprecated and will be removed in a future version. Please use 'data_interval_start' or 'logical_date' instead.
+[2026-02-05T22:08:46.340+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl_full' AIRFLOW_CTX_TASK_ID='create_events_external_table' AIRFLOW_CTX_EXECUTION_DATE='2026-02-05T21:49:21.244732+00:00' AIRFLOW_CTX_TRY_NUMBER='10' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-05T21:49:21.244732+00:00'
+[2026-02-05T22:08:46.346+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-05T22:08:46.346+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-05T22:08:46.346+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-05T22:08:46.386+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "\n                CREATE OR REPLACE EXTERNAL TABLE `prism-486509.ecom_dataset.events_ext`\n                OPTIONS(\n                    format = 'CSV',\n                    uris = ['gs://bronze-data-ecom/2026/02/05/events.csv'],\n                    skip_leading_rows = 1\n                )\n            ", 'useLegacySql': False}}'
+[2026-02-05T22:08:46.386+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_full_create_events_external_table_2026_02_05T21_49_21_244732_00_00_1dd6d51f6c1a68bcf7524455d9416756
+[2026-02-05T22:08:50.074+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_full, task_id=create_events_external_table, execution_date=20260205T214921, start_date=20260205T220846, end_date=20260205T220850
+[2026-02-05T22:08:50.109+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-05T22:08:50.130+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

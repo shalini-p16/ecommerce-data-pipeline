@@ -1,0 +1,41 @@
+[2026-02-07T14:58:11.085+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl.silver_events scheduled__2026-02-06T00:00:00+00:00 [queued]>
+[2026-02-07T14:58:11.089+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl.silver_events scheduled__2026-02-06T00:00:00+00:00 [queued]>
+[2026-02-07T14:58:11.089+0000] {taskinstance.py:2170} INFO - Starting attempt 4 of 5
+[2026-02-07T14:58:11.095+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): silver_events> on 2026-02-06 00:00:00+00:00
+[2026-02-07T14:58:11.098+0000] {standard_task_runner.py:60} INFO - Started process 1588 to run task
+[2026-02-07T14:58:11.100+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl', 'silver_events', 'scheduled__2026-02-06T00:00:00+00:00', '--job-id', '124', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp1psot8x4']
+[2026-02-07T14:58:11.102+0000] {standard_task_runner.py:88} INFO - Job 124: Subtask silver_events
+[2026-02-07T14:58:11.125+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl.silver_events scheduled__2026-02-06T00:00:00+00:00 [running]> on host 1d9eed85a9d4
+[2026-02-07T14:58:11.158+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl' AIRFLOW_CTX_TASK_ID='silver_events' AIRFLOW_CTX_EXECUTION_DATE='2026-02-06T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='4' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-06T00:00:00+00:00'
+[2026-02-07T14:58:11.163+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-07T14:58:11.163+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-07T14:58:11.163+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-07T14:58:11.201+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "WITH DeduplicatedEvents AS (\n  SELECT\n    *,\n    ROW_NUMBER() OVER(PARTITION BY id, created_at ORDER BY created_at) as rn -- Assuming id and created_at uniquely identify an event\n  FROM\n    `bronze.orders.events`\n),\nValidatedAndCleanedEvents AS (\n  SELECT\n    -- Explicit Data Type Casting and Null Handling\n    id, -- Already INT64, but included for completeness\n    COALESCE(SAFE_CAST(user_id AS INT64), 0) AS user_id, -- Casts to INT64, replaces NULLs (from original or SAFE_CAST failure) with 0\n    sequence_number, -- Already INT64\n    COALESCE(session_id, 'UNKNOWN') AS session_id, -- Handles NULLs for STRING with 'UNKNOWN'\n    created_at, -- Already TIMESTAMP\n    COALESCE(ip_address, 'UNKNOWN') AS ip_address, -- Handles NULLs for STRING with 'UNKNOWN'\n    COALESCE(city, 'UNKNOWN') AS city, -- Handles NULLs for STRING with 'UNKNOWN'\n    COALESCE(state, 'UNKNOWN') AS state, -- Handles NULLs for STRING with 'UNKNOWN'\n    COALESCE(postal_code, 'UNKNOWN') AS postal_code, -- Handles NULLs for STRING with 'UNKNOWN'\n    COALESCE(browser, 'UNKNOWN') AS browser, -- Handles NULLs for STRING with 'UNKNOWN'\n    COALESCE(traffic_source, 'UNKNOWN') AS traffic_source, -- Handles NULLs for STRING with 'UNKNOWN'\n    COALESCE(uri, 'UNKNOWN') AS uri, -- Handles NULLs for STRING with 'UNKNOWN'\n    COALESCE(event_type, 'UNKNOWN') AS event_type_cleaned, -- Handles NULLs for STRING, provides a default 'UNKNOWN', renamed to avoid conflict\n    \n    -- Basic Validation Checks\n    CASE WHEN id IS NULL OR id <= 0 THEN FALSE ELSE TRUE END AS is_valid_id,\n    CASE WHEN created_at IS NULL OR created_at > CURRENT_TIMESTAMP() THEN FALSE ELSE TRUE END AS is_valid_created_at,\n    CASE\n      WHEN event_type IN ('page_view', 'add_to_cart', 'purchase', 'login', 'signup', 'checkout') THEN TRUE\n      ELSE FALSE\n    END AS is_known_event_type\n\n\n  FROM\n    DeduplicatedEvents\n  WHERE rn = 1 -- Keep only the first occurrence for deduplication\n    AND id IS NOT NULL -- Exclude rows with a null 'id' as it's a critical identifier\n)\nSELECT\n  id,\n  user_id,\n  sequence_number,\n  session_id,\n  created_at,\n  ip_address,\n  city,\n  state,\n  postal_code,\n  browser,\n  traffic_source,\n  uri,\n  event_type_cleaned AS event_type, -- Use the cleaned event_type\n  is_valid_id,\n  is_valid_created_at,\n  is_known_event_type\nFROM\n  ValidatedAndCleanedEvents\nWHERE\n  is_valid_id = TRUE\n  AND is_valid_created_at = TRUE\n  AND is_known_event_type = TRUE; -- Filter to only include rows passing basic validation\n\n", 'useLegacySql': False}}'
+[2026-02-07T14:58:11.202+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_silver_events_2026_02_06T00_00_00_00_00_c7f32791a6e2d6ff085e90e6864dfb85
+[2026-02-07T14:58:12.043+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.Forbidden: 403 Access Denied: Table bronze:orders.events: User does not have permission to query table bronze:orders.events, or perhaps it does not exist.; reason: accessDenied, message: Access Denied: Table bronze:orders.events: User does not have permission to query table bronze:orders.events, or perhaps it does not exist.
+
+Location: US
+Job ID: airflow_ecommerce_etl_silver_events_2026_02_06T00_00_00_00_00_c7f32791a6e2d6ff085e90e6864dfb85
+
+[2026-02-07T14:58:12.053+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl, task_id=silver_events, execution_date=20260206T000000, start_date=20260207T145811, end_date=20260207T145812
+[2026-02-07T14:58:12.061+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 124 for task silver_events (403 Access Denied: Table bronze:orders.events: User does not have permission to query table bronze:orders.events, or perhaps it does not exist.; reason: accessDenied, message: Access Denied: Table bronze:orders.events: User does not have permission to query table bronze:orders.events, or perhaps it does not exist.
+
+Location: US
+Job ID: airflow_ecommerce_etl_silver_events_2026_02_06T00_00_00_00_00_c7f32791a6e2d6ff085e90e6864dfb85
+; 1588)
+[2026-02-07T14:58:12.070+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-07T14:58:12.080+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

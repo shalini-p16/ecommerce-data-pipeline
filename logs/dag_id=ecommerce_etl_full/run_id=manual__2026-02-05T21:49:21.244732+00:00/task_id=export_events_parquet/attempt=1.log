@@ -1,0 +1,18 @@
+[2026-02-05T22:09:39.451+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_full.export_events_parquet manual__2026-02-05T21:49:21.244732+00:00 [queued]>
+[2026-02-05T22:09:39.456+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_full.export_events_parquet manual__2026-02-05T21:49:21.244732+00:00 [queued]>
+[2026-02-05T22:09:39.456+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2026-02-05T22:09:39.462+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): export_events_parquet> on 2026-02-05 21:49:21.244732+00:00
+[2026-02-05T22:09:39.466+0000] {standard_task_runner.py:60} INFO - Started process 1083 to run task
+[2026-02-05T22:09:39.468+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_full', 'export_events_parquet', 'manual__2026-02-05T21:49:21.244732+00:00', '--job-id', '32', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp002xiwgx']
+[2026-02-05T22:09:39.469+0000] {standard_task_runner.py:88} INFO - Job 32: Subtask export_events_parquet
+[2026-02-05T22:09:39.494+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_full.export_events_parquet manual__2026-02-05T21:49:21.244732+00:00 [running]> on host 12c5c10e9611
+[2026-02-05T22:09:39.518+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/utils/context.py:207 AirflowContextDeprecationWarning: Accessing 'execution_date' from the template is deprecated and will be removed in a future version. Please use 'data_interval_start' or 'logical_date' instead.
+[2026-02-05T22:09:39.533+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl_full' AIRFLOW_CTX_TASK_ID='export_events_parquet' AIRFLOW_CTX_EXECUTION_DATE='2026-02-05T21:49:21.244732+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-05T21:49:21.244732+00:00'
+[2026-02-05T22:09:39.538+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-05T22:09:39.539+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-05T22:09:39.539+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-05T22:09:39.577+0000] {bigquery.py:2807} INFO - Executing: {'extract': {'sourceTable': {'projectId': 'prism-486509', 'datasetId': 'ecom_dataset', 'tableId': 'events_transformed'}, 'destinationUris': ['gs://bronze-data-ecom/2026/02/05/events.parquet'], 'destinationFormat': 'PARQUET', 'compression': 'SNAPPY'}}'
+[2026-02-05T22:09:39.578+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_full_export_events_parquet_2026_02_05T21_49_21_244732_00_00_1c96f359cffada47c6a609cd7c17f40d
+[2026-02-05T22:09:55.944+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_full, task_id=export_events_parquet, execution_date=20260205T214921, start_date=20260205T220939, end_date=20260205T220955
+[2026-02-05T22:09:55.978+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-05T22:09:55.987+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

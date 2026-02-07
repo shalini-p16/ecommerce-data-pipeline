@@ -1,0 +1,1 @@
+[2026-02-07T13:05:42.992+0000] {scheduler_job_runner.py:781} ERROR - Executor reports task instance <TaskInstance: ecommerce_etl.process_events_4ca707d4862b4283a1b539102d5e853e.create_ext_events manual__2026-02-07T12:49:01.289323+00:00 [queued]> finished (failed) although the task says it's queued. (Info: None) Was the task killed externally?
