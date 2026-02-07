@@ -1,6 +1,6 @@
 # E-commerce Data Pipeline
 
-Designed and implemented a modern **ETL data pipeline** using the **medallion architecture** (bronze → silver → gold layers) to process the **Looker E-commerce BigQuery Dataset** (sourced as CSV files from Kaggle). The pipeline transforms raw e-commerce event, order, and product data into clean, analytics-ready layers to enable deep insights into:
+Designed and implemented a modern **ETL data pipeline** using the **medallion architecture** (bronze → silver → gold layers) to process the **Looker E-commerce BigQuery Dataset** (sourced as CSV files from Kaggle). The pipeline transforms raw e-commerce  data into clean, analytics-ready layers to enable deep insights into:
 
 - Customer website behavior and navigation patterns
 - Factors driving purchases and conversion rates
