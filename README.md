@@ -157,7 +157,7 @@ Only data relevant to the business questions above was included. Non-essential t
 
 ## Architecture Overview
 
-<!-- ![Architecture](docs/images/architecture_etl.png) -->![alt text](architecture_etl.png)
+![E-commerce Data Pipeline Architecture](docs/images/architecture_etl.png)
 The pipeline follows the **medallion pattern**:
 
 - **Bronze Layer** — Raw, unprocessed data  
@@ -264,43 +264,76 @@ cd ecommerce-data-pipeline
 
 # Run the pipeline (example — adapt to your tool: dbt, DLT, Airflow, etc.)
 docker-compose up
-
+```
 
 
 ## Data Modeling
 
-### Data Modeling Approach
+The data warehouse follows the **Kimball dimensional modeling** approach.  
+This methodology is optimized for analytical queries and delivers clear, business-friendly results for stakeholders.
 
-The data warehouse uses a **Kimball dimensional modeling** methodology, optimized for analytical queries and business stakeholder needs.
+### Modeling Stages
 
-- **Conceptual Model**  
-  The first high-level view of the business system. It identifies the core entities and their relationships without technical details.  
-  Focus: What the business cares about (users, events, products etc).
+#### Conceptual Model
+The high-level business view of the system.  
+It focuses on **core entities** and their **natural relationships**, without technical implementation details.
 
-  <!-- ![Conceptual Model](docs/images/conceptual.png) -->![alt text](conceptual.png)
+**Purpose**:  
+Show what matters to the business — users, website events, sessions, purchases, products, etc.
 
-- **Logical Model**  
-  Adds structure to the conceptual model by defining:  
-  - Primary keys (natural and surrogate)  
-  - Attributes (columns)  
-  - Relationships between facts and dimensions  
-  - (Data types are suggested but not strictly enforced at this stage)
+![Conceptual Model](docs/images/conceptual.png)  
+*Conceptual Model — main business entities and relationships*
 
-   <!-- ![Logical Model](docs/images/logical.png) -->![alt text](logical.png)
+#### Logical Model
+Adds more structure to the conceptual model while remaining technology-independent.
 
-- **Physical Model**  
-  The final implementation in the target database (BigQuery). It includes:  
-  - Actual data types  
-  - Partitioning & clustering keys  
-  - Optimization for query performance (clustered tables, materialized views where appropriate)
+**Key elements defined**:
+- Primary keys (business keys + surrogate keys)
+- Attributes (columns) for each entity
+- Relationships between fact tables and dimension tables
+- Cardinality and optionality
+- Grain of each fact table
 
- <!-- ![Physical Model](docs/images/physical.png) -->![alt text](physical.png)
+Data types are suggested but not strictly enforced at this stage.
 
-## Future Enhancements
+![Logical Model](docs/images/logical.png)  
+*Logical Model — Kimball star schema with facts and conformed dimensions*
 
-- Implement true **incremental CDC** (change data capture) instead of full daily loads  
-- Add **real-time streaming ingestion** using Pub/Sub + Dataflow   
-- Introduce **data lineage** and **observability** (e.g., via Monte Carlo, dbt docs, or similar tools)  
-- Add automated **data quality monitoring** and alerting  
-- Support **schema evolution** and backward-compatible transformations  
- 
+#### Physical Model
+The actual implementation in the target database (**BigQuery** in this project).
+
+**Includes**:
+- Final column names and data types
+- Partitioning strategy (e.g. by date)
+- Clustering keys for performance
+- Storage format considerations
+- Indexes / materialized views / query optimization decisions
+
+![Physical Model](docs/images/physical.png)  
+*Physical Model — BigQuery tables with partitioning & clustering*
+
+### Summary of Modeling Approach
+
+| Stage          | Focus                              | Technical Detail | Target Audience          | Deliverable Example                  |
+|----------------|------------------------------------|------------------|---------------------------|--------------------------------------|
+| Conceptual     | Business entities & relationships  | None             | Business stakeholders     | High-level ER diagram                |
+| Logical        | Facts, dimensions, keys, grain     | Low              | Data modelers & analysts  | Star schema diagram                  |
+| Physical       | Database-specific implementation   | High             | Engineers & DBAs          | Table definitions + optimization     |
+
+### Future Enhancements
+
+- Implement true **incremental CDC** (change data capture) instead of full daily loads
+- Add **real-time streaming ingestion** using Pub/Sub + Dataflow
+- Introduce **data lineage** and **observability** (e.g. via dbt docs, Monte Carlo, or similar tools)
+- Add automated **data quality monitoring** and alerting
+- Support **schema evolution** and backward-compatible transformations
+
+---
+
+All diagrams are stored in the `docs/images/` folder:
+
+- `docs/images/conceptual.png`
+- `docs/images/logical.png`
+- `docs/images/physical.png`
+
+Make sure the images exist in the repository at these paths — GitHub will render them automatically in the README.
