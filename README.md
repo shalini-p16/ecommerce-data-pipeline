@@ -330,11 +330,3 @@ The actual implementation in the target database (**BigQuery** in this project).
 - Support **schema evolution** and backward-compatible transformations
 
 ---
-
-All diagrams are stored in the `docs/images/` folder:
-
-- `docs/images/conceptual.png`
-- `docs/images/logical.png`
-- `docs/images/physical.png`
-
-Make sure the images exist in the repository at these paths — GitHub will render them automatically in the README.
