@@ -1,17 +1,17 @@
 # E-commerce Data Pipeline
 
-Designed and implemented a modern **ETL data pipeline** using the **medallion architecture** (bronze → silver → gold layers) to process the **Looker E-commerce BigQuery Dataset** (sourced as CSV files from Kaggle) using bottom-up approach. The pipeline transforms raw e-commerce  data into clean, analytics-ready layers to enable deep insights into.
+Designed and implemented a modern **ETL data pipeline** using the **medallion architecture** (bronze → silver → gold layers) to process the **Looker E-commerce BigQuery Dataset** (sourced as CSV files from Kaggle) using bottom-up approach (Dimensional Data Modelling). The pipeline transforms raw e-commerce  data into clean, analytics-ready layers to enable deep insights.
 
 ## Technologies Used
 
+- **Cloud Platform**: Google Cloud Platform (GCP) 
 - **Storage**: Google Cloud Storage (GCS)  
 - **Data Warehouse**: Google BigQuery  
-- **Orchestration / Transformation**: dbt, Dagster, Apache Airflow, or custom Python (depending on implementation)  
+- **Orchestration / Transformation**: Apache Airflow, Python, SQL  
 - **Data Formats**:  
-  - Raw layer: CSV  
-  - Processed / analytic layer: Parquet  
+  - Raw layer: CSV   
 - **Architecture Pattern**: Medallion architecture (bronze → silver → gold)  
-- **Cloud Platform**: Google Cloud Platform (GCP)  
+ 
 
 ## Business Questions Addressed
 
@@ -153,7 +153,6 @@ Only data relevant to the business questions above was included. Non-essential t
 - Order Items (purchases, status, revenue)  
 - Users (customer attributes)  
 - Products (item details, categories, price)  
-- Related dimensions (traffic source, session, browser, etc.)
 
 ## Architecture Overview
 
@@ -167,7 +166,7 @@ The pipeline follows the **medallion pattern**:
 ### Key Subsystems
 
 1. **Change Data Capture (CDC) / Incremental Strategy**  
-   - Full daily load for simplicity and reliability  
+   - Full daily load for simplicity and reliability  (Current Implementation)
    - Optional change detection via file hashes or row counts to skip unchanged datasets  
    
 
@@ -177,15 +176,13 @@ The pipeline follows the **medallion pattern**:
 
 
 3. **Data Cleansing & Quality**  
-Multi-level quality checks:  
-- **Column screens**: null checks, range validation, format compliance  
-- **Structure screens**: foreign key integrity, hierarchical consistency  
+   Multi-level quality checks:  
+- **Column screens**: null checks, range validation, format compliance    
 - **Business rule screens**: complex domain-specific validations
 
 4. **Error Handling**  
 - Dedicated error event logging schema  
-- Support for late-arriving data and slowly changing dimensions (Type 2 updates)  
-- Mechanisms to handle facts arriving before dimension context (e.g., placeholder keys, eventual updates)
+- Support for slowly changing dimensions (Type 2 updates)  
 
 ## Bus Matrix 
 
@@ -207,7 +204,7 @@ Based on core business questions, the following **business processes** are model
 
 ### Step 2: Final Bus Matrix
 
-| Business Process                     | Fact Table                     | Date / Time | Customer | Product | Event Type | Traffic Source | Session | Order Status | Page / URI | Browser | Location | Business Questions Supported |
+| Business Process                     | Fact Table                     | Date / Time | User | Product | Event Type | Traffic Source | Session | Order Status | Page / URI | Browser | Location | Business Questions Supported |
 |--------------------------------------|--------------------------------|-------------|----------|---------|------------|----------------|---------|--------------|------------|---------|----------|--------------------------------|
 | Website Interaction / User Events    | Fact_Web_Events                | ✅          | ✅       | ⚪       | ✅         | ✅             | ✅      | —            | ✅         | ✅      | ✅       | Navigation patterns, event frequency, traffic influence, funnels |
 | Website Sessions / Visits            | Fact_Sessions                  | ✅          | ✅       | —       | —          | ✅             | ✅      | —            | —          | ✅      | ✅       | Visit patterns, engagement, traffic attribution, bounce rates |
@@ -240,13 +237,13 @@ The following dimensions are **conformed** (designed once, reused everywhere):
 
 **GCP Setup**  
 1. Create Cloud Storage buckets:  
-- `gs://your-project-id-raw-data` (raw CSVs)  
+- `gs://bronze-data-ecom` (raw CSVs)  
 
 
 2. Enable required APIs:  
 - BigQuery API  
 - Cloud Storage API  
-- IAM API, Security Token Service API, Service Account Credentials API  
+- IAM API, Service Account Credentials API  
 
 3. Create a **Service Account** with:  
 - Storage Object Admin (on all three buckets)  
@@ -259,7 +256,7 @@ The following dimensions are **conformed** (designed once, reused everywhere):
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/ecommerce-data-pipeline.git
+git clone https://github.com/shalini-p16/ecommerce-data-pipeline.git
 cd ecommerce-data-pipeline
 
 # Run the pipeline (example — adapt to your tool: dbt, DLT, Airflow, etc.)
@@ -282,7 +279,9 @@ It focuses on **core entities** and their **natural relationships**, without tec
 Show what matters to the business — users, website events, sessions, purchases, products, etc.
 
 ![Fact Order Items Conceptual Model](docs/images/fact_order_items_conceptual.png)  
+
 ![CFact Event onceptual Model](docs/images/fact_events_conceptual.png) 
+
 *Conceptual Model — main business entities and relationships*
 
 #### Logical Model
@@ -298,6 +297,7 @@ Adds more structure to the conceptual model while remaining technology-independe
 Data types are suggested but not strictly enforced at this stage.
 
 ![Logical Model](docs/images/fact_events_logical.png)  
+
 *Logical Model — Kimball star schema with facts and conformed dimensions*
 
 #### Physical Model
@@ -311,6 +311,7 @@ The actual implementation in the target database (**BigQuery** in this project).
 - Indexes / materialized views / query optimization decisions
 
 ![Physical Model](docs/images/physical.png)  
+
 *Physical Model — BigQuery tables with partitioning & clustering*
 
 ### Summary of Modeling Approach
@@ -324,7 +325,6 @@ The actual implementation in the target database (**BigQuery** in this project).
 ### Future Enhancements
 
 - Implement true **incremental CDC** (change data capture) instead of full daily loads
-- Add **real-time streaming ingestion** using Pub/Sub + Dataflow
 - Introduce **data lineage** and **observability** (e.g. via dbt docs, Monte Carlo, or similar tools)
 - Add automated **data quality monitoring** and alerting
 - Support **schema evolution** and backward-compatible transformations
