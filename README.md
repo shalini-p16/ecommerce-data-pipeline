@@ -227,43 +227,6 @@ The following dimensions are **conformed** (designed once, reused everywhere):
 - **Dim_Traffic_Source** (especially important for attribution analysis)
 - **Dim_Location** (city, state, postal_code — can be derived from events/users)
 
-
-## Prerequisites
-
-- **Docker Desktop** (recommended) — for local development and testing  
-- **Git** — to clone the repository  
-- **Python 3.x** — for any helper scripts (e.g., `generate_data.py`)  
-- **Google Cloud Platform (GCP) Project** with billing enabled  
-
-**GCP Setup**  
-1. Create Cloud Storage buckets:  
-- `gs://bronze-data-ecom` (raw CSVs)  
-
-
-2. Enable required APIs:  
-- BigQuery API  
-- Cloud Storage API  
-- IAM API, Service Account Credentials API  
-
-3. Create a **Service Account** with:  
-- Storage Object Admin (on all three buckets)  
-- BigQuery Data Editor  
-- BigQuery Job User  
-
-4. Download the JSON key → save as `gcp_credentials.json` in the project root
-
-## Getting Started
-
-```bash
-# Clone the repo
-git clone https://github.com/shalini-p16/ecommerce-data-pipeline.git
-cd ecommerce-data-pipeline
-
-# Run the pipeline (example — adapt to your tool: dbt, DLT, Airflow, etc.)
-docker-compose up
-```
-
-
 ## Data Modeling
 
 The data warehouse follows the **Kimball dimensional modeling** approach.  
@@ -278,7 +241,11 @@ It focuses on **core entities** and their **natural relationships**, without tec
 **Purpose**:  
 Show what matters to the business — users, website events, sessions, purchases, products, etc.
 
+**Granularity : One row per item within an order**
+
 ![Fact Order Items Conceptual Model](docs/images/fact_order_items_conceptual.png)  
+
+**Granularity : One row per web interaction/event (page view, add-to-cart, purchase, etc.)**
 
 ![CFact Event onceptual Model](docs/images/fact_events_conceptual.png) 
 
@@ -321,6 +288,44 @@ The actual implementation in the target database (**BigQuery** in this project).
 | Conceptual     | Business entities & relationships  | None             | Business stakeholders     | High-level ER diagram                |
 | Logical        | Facts, dimensions, keys, grain     | Low              | Data modelers & analysts  | Star schema diagram                  |
 | Physical       | Database-specific implementation   | High             | Engineers & DBAs          | Table definitions + optimization     |
+
+
+## Prerequisites
+
+- **Docker Desktop** (recommended) — for local development and testing  
+- **Git** — to clone the repository  
+- **Python 3.x** — for any helper scripts (e.g., `generate_data.py`)  
+- **Google Cloud Platform (GCP) Project** with billing enabled  
+
+**GCP Setup**  
+1. Create Cloud Storage buckets:  
+- `gs://bronze-data-ecom` (raw CSVs)  
+
+
+2. Enable required APIs:  
+- BigQuery API  
+- Cloud Storage API  
+- IAM API, Service Account Credentials API  
+
+3. Create a **Service Account** with:  
+- Storage Object Admin (on all three buckets)  
+- BigQuery Data Editor  
+- BigQuery Job User  
+
+4. Download the JSON key → save as `gcp_credentials.json` in the project root
+
+## Getting Started
+
+```bash
+# Clone the repo
+git clone https://github.com/shalini-p16/ecommerce-data-pipeline.git
+cd ecommerce-data-pipeline
+
+# Run the pipeline (example — adapt to your tool: dbt, DLT, Airflow, etc.)
+docker-compose up
+```
+
+
 
 ### Future Enhancements
 
