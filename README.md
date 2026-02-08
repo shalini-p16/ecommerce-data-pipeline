@@ -326,6 +326,46 @@ docker-compose up
 ```
 
 
+```markdown
+## Project Structure
+
+```text
+ECOMMERCE-DATA-PIPELINE/
+├─ config/
+├─ dags/
+│  ├─ __init__.py
+│  └─ etl_dag.py
+├─ docs/
+├─ logs/
+├─ plugins/
+├─ sql/
+│  ├─ gold/
+│  │  ├─ dim_browser.sql
+│  │  ├─ dim_date.sql
+│  │  ├─ dim_event_type.sql
+│  │  ├─ dim_location.sql
+│  │  ├─ dim_order_status.sql
+│  │  ├─ dim_page.sql
+│  │  ├─ dim_products.sql
+│  │  ├─ dim_time.sql
+│  │  ├─ dim_traffic_source.sql
+│  │  ├─ dim_users.sql
+│  │  ├─ fact_events.sql
+│  │  ├─ fact_order_items.sql
+│  │  └─ fact_sessions.sql
+│  └─ silver/
+│     ├─ distribution_centers.sql
+│     ├─ events.sql
+│     ├─ inventory_items.sql
+│     ├─ order_items.sql
+│     ├─ orders.sql
+│     ├─ products.sql
+│     └─ users.sql
+└─ src/
+   ├─ __init__.py
+   └─ extract.py
+
+
 
 ### Future Enhancements
 
