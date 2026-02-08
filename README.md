@@ -281,7 +281,8 @@ It focuses on **core entities** and their **natural relationships**, without tec
 **Purpose**:  
 Show what matters to the business — users, website events, sessions, purchases, products, etc.
 
-![Conceptual Model](docs/images/conceptual.png)  
+![Fact Order Items Conceptual Model](docs/images/fact_order_items_conceptual.png)  
+![CFact Event onceptual Model](docs/images/fact_events_conceptual.png) 
 *Conceptual Model — main business entities and relationships*
 
 #### Logical Model
@@ -296,7 +297,7 @@ Adds more structure to the conceptual model while remaining technology-independe
 
 Data types are suggested but not strictly enforced at this stage.
 
-![Logical Model](docs/images/logical.png)  
+![Logical Model](docs/images/fact_events_logical.png)  
 *Logical Model — Kimball star schema with facts and conformed dimensions*
 
 #### Physical Model
