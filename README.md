@@ -206,9 +206,9 @@ Based on core business questions, the following **business processes** are model
 
 | Business Process                     | Fact Table                     | Date / Time | User | Product | Event Type | Traffic Source | Session | Order Status | Page / URI | Browser | Location | Business Questions Supported |
 |--------------------------------------|--------------------------------|-------------|----------|---------|------------|----------------|---------|--------------|------------|---------|----------|--------------------------------|
-| Website Interaction / User Events    | Fact_Web_Events                | ✅          | ✅       | ⚪       | ✅         | ✅             | ✅      | —            | ✅         | ✅      | ✅       | Navigation patterns, event frequency, traffic influence, funnels |
+| Website Interaction / User Events    | Fact_Events                | ✅          | ✅       | ⚪       | ✅         | ✅             | ✅      | —            | ✅         | ✅      | ✅       | Navigation patterns, event frequency, traffic influence, funnels |
 | Website Sessions / Visits            | Fact_Sessions                  | ✅          | ✅       | —       | —          | ✅             | ✅      | —            | —          | ✅      | ✅       | Visit patterns, engagement, traffic attribution, bounce rates |
-| Product Purchases / Sales            | Fact_Sales_Order_Items         | ✅          | ✅       | ✅      | —          | ⚪             | —       | ✅           | —          | —       | ✅       | Revenue, units sold, top products, buyer profiles, conversion drivers |
+| Product Purchases / Sales            | Fact_Order_Items         | ✅          | ✅       | ✅      | —          | ⚪             | —       | ✅           | —          | —       | ✅       | Revenue, units sold, top products, buyer profiles, conversion drivers |
 | Order Fulfillment Lifecycle          | Fact_Orders                    | ✅          | ✅       | —       | —          | —              | —       | ✅           | —          | —       | —        | Fulfillment KPIs, shipping times, return rates, status monitoring |
 
 **Legend**  
