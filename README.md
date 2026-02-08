@@ -1,10 +1,17 @@
 # E-commerce Data Pipeline
 
-Designed and implemented a modern **ETL data pipeline** using the **medallion architecture** (bronze → silver → gold layers) to process the **Looker E-commerce BigQuery Dataset** (sourced as CSV files from Kaggle). The pipeline transforms raw e-commerce  data into clean, analytics-ready layers to enable deep insights into:
+Designed and implemented a modern **ETL data pipeline** using the **medallion architecture** (bronze → silver → gold layers) to process the **Looker E-commerce BigQuery Dataset** (sourced as CSV files from Kaggle) using bottom-up approach. The pipeline transforms raw e-commerce  data into clean, analytics-ready layers to enable deep insights into.
 
-- Customer website behavior and navigation patterns
-- Factors driving purchases and conversion rates
-- Product performance and sales trends
+## Technologies Used
+
+- **Storage**: Google Cloud Storage (GCS)  
+- **Data Warehouse**: Google BigQuery  
+- **Orchestration / Transformation**: dbt, Dagster, Apache Airflow, or custom Python (depending on implementation)  
+- **Data Formats**:  
+  - Raw layer: CSV  
+  - Processed / analytic layer: Parquet  
+- **Architecture Pattern**: Medallion architecture (bronze → silver → gold)  
+- **Cloud Platform**: Google Cloud Platform (GCP)  
 
 ## Business Questions Addressed
 
@@ -143,65 +150,48 @@ Only data relevant to the business questions above was included. Non-essential t
 
 **Included Sources** (based on TheLook e-commerce schema)  
 - Events (user interactions: views, clicks, add-to-cart, etc.)  
-- Orders & Order Items (purchases, status, revenue)  
+- Order Items (purchases, status, revenue)  
 - Users (customer attributes)  
 - Products (item details, categories, price)  
 - Related dimensions (traffic source, session, browser, etc.)
 
 ## Architecture Overview
 
+<!-- ![Architecture](docs/images/architecture_etl.png) -->![alt text](architecture_etl.png)
 The pipeline follows the **medallion pattern**:
 
-- **Bronze Layer** — Raw, unprocessed data (full daily snapshots)  
+- **Bronze Layer** — Raw, unprocessed data  
 - **Silver Layer** — Cleansed, validated, and lightly transformed data  
 - **Gold Layer** — Aggregated, business-ready tables optimized for analytics (e.g., user journeys, conversion funnels, product performance)
 
 ### Key Subsystems
 
-1. **Data Profiling**  
-   Early assessment of candidate sources for suitability → focused inclusion of relevant tables only.
-
-2. **Change Data Capture (CDC) / Incremental Strategy**  
+1. **Change Data Capture (CDC) / Incremental Strategy**  
    - Full daily load for simplicity and reliability  
    - Optional change detection via file hashes or row counts to skip unchanged datasets  
-   - Early delta identification before bulk transfer
+   
 
-3. **Extract System**  
+2. **Extract System**  
    Data landed in GCS with partitioned structure:  
    gs://your-bucket/raw-data/dataset_name=events/date=20260207/file.csv
-   gs://your-bucket/raw-data/dataset_name=orders/date=20260207/file.csv
 
 
-4. **Data Cleansing & Quality**  
+3. **Data Cleansing & Quality**  
 Multi-level quality checks:  
 - **Column screens**: null checks, range validation, format compliance  
 - **Structure screens**: foreign key integrity, hierarchical consistency  
 - **Business rule screens**: complex domain-specific validations
 
-5. **Error Handling**  
+4. **Error Handling**  
 - Dedicated error event logging schema  
 - Support for late-arriving data and slowly changing dimensions (Type 2 updates)  
 - Mechanisms to handle facts arriving before dimension context (e.g., placeholder keys, eventual updates)
 
-## Bus Matrix (Kimball Conformed Dimension Bus Architecture)
-
-### What is a Bus Matrix?
-
-The **Bus Matrix** is a central planning tool in Kimball dimensional modeling. It provides:
-
-- A high-level map of **business processes** to **fact tables**
-- Visibility of **conformed dimensions** reused across multiple facts
-- Assurance of **consistency** and **reusability** in analytics
-- Full coverage of business questions without duplication or missing pieces
-
-It helps stakeholders and developers understand:
-- Which facts support which business questions
-- Which dimensions are shared (conformed) across processes
-- Where analytics can be combined (drill-across reporting)
+## Bus Matrix 
 
 ### Step 1: Identified Business Processes
 
-Based on your core business questions, the following **business processes** are modeled:
+Based on core business questions, the following **business processes** are modeled:
 
 1. **Website Interaction / User Events**  
    Tracking every user action on the site (views, clicks, add-to-cart, etc.)
@@ -235,28 +225,11 @@ The following dimensions are **conformed** (designed once, reused everywhere):
 
 - **Dim_Date** (and role-playing variants: order_date, shipped_date, delivered_date, returned_date)
 - **Dim_Time**
-- **Dim_Customer**
-- **Dim_Product**
+- **Dim_Customer** (scd 2) 
+- **Dim_Product** (scd2)
 - **Dim_Traffic_Source** (especially important for attribution analysis)
 - **Dim_Location** (city, state, postal_code — can be derived from events/users)
 
-### Benefits for Business Stakeholders
-
-- **Consistency** — The same customer, product, date, and traffic definitions are used everywhere.
-- **Drill-across capability** — Combine website behavior (Fact_Web_Events) with actual purchases (Fact_Sales_Order_Items) to answer “Which events precede purchases?”
-- **Coverage** — All three main business questions are fully supported.
-- **Scalability** — Easy to add new facts or dimensions later without breaking existing reports.
-
-This Bus Matrix serves as the **blueprint** for ensuring the data warehouse delivers consistent, reusable, and business-aligned analytics.
-
-Mapping of business processes to fact tables and key dimensions:
-
-| Business Process                  | Date | User | Session | Event Type | Traffic Source | Page | Product | Location | Browser | Order Status | Business Requirements |
-|-----------------------------------|------|------|---------|------------|----------------|------|---------|----------|---------|--------------|------------------------|
-| **User Behavior / Interaction** (FACT_EVENTS)     | ✅   | ✅   | ✅      | ✅         | ✅             | ✅   | ❌      | ✅       | ✅      | ❌           | Track events, journeys, funnels, UX optimization |
-| **Session / Visit Tracking** (FACT_SESSIONS)      | ✅   | ✅   | ✅      | ❌         | ✅             | ❌   | ❌      | ✅       | ✅      | ❌           | Visit patterns, traffic attribution, engagement |
-| **Product Sales** (FACT_ORDER_ITEMS)              | ✅   | ✅   | ❌      | ❌         | ⚪ Optional    | ❌   | ✅      | ✅       | ❌      | ✅           | Revenue, units sold, product performance |
-| **Order Fulfillment** (FACT_ORDERS)               | ✅   | ✅   | ❌      | ❌         | ❌             | ❌   | ❌      | ❌       | ❌      | ✅           | Fulfillment KPIs, returns, status tracking |
 
 ## Prerequisites
 
@@ -289,27 +262,10 @@ Mapping of business processes to fact tables and key dimensions:
 git clone https://github.com/your-username/ecommerce-data-pipeline.git
 cd ecommerce-data-pipeline
 
-# (Optional) Set up virtual environment
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-
-# Install dependencies (if using Python-based tools)
-pip install -r requirements.txt
-
 # Run the pipeline (example — adapt to your tool: dbt, DLT, Airflow, etc.)
-# python main.py
-# or
-# docker-compose up
-## Technologies Used
+docker-compose up
 
-- **Storage**: Google Cloud Storage (GCS)  
-- **Data Warehouse**: Google BigQuery  
-- **Orchestration / Transformation**: dbt, Dagster, Apache Airflow, or custom Python (depending on implementation)  
-- **Data Formats**:  
-  - Raw layer: CSV  
-  - Processed / analytic layer: Parquet  
-- **Architecture Pattern**: Medallion architecture (bronze → silver → gold)  
-- **Cloud Platform**: Google Cloud Platform (GCP)  
+
 
 ## Data Modeling
 
@@ -319,7 +275,9 @@ The data warehouse uses a **Kimball dimensional modeling** methodology, optimize
 
 - **Conceptual Model**  
   The first high-level view of the business system. It identifies the core entities and their relationships without technical details.  
-  Focus: What the business cares about (customers, web interactions, purchases, products).
+  Focus: What the business cares about (users, events, products etc).
+
+  <!-- ![Conceptual Model](docs/images/conceptual.png) -->![alt text](conceptual.png)
 
 - **Logical Model**  
   Adds structure to the conceptual model by defining:  
@@ -328,26 +286,21 @@ The data warehouse uses a **Kimball dimensional modeling** methodology, optimize
   - Relationships between facts and dimensions  
   - (Data types are suggested but not strictly enforced at this stage)
 
+   <!-- ![Logical Model](docs/images/logical.png) -->![alt text](logical.png)
+
 - **Physical Model**  
   The final implementation in the target database (BigQuery). It includes:  
   - Actual data types  
   - Partitioning & clustering keys  
-  - Storage format (Parquet in GCS → BigQuery tables)  
   - Optimization for query performance (clustered tables, materialized views where appropriate)
 
-### Proposed Kimball Data Warehouse Architecture
-
-Data flow:  
-**Kaggle dataset (CSV) → Google Cloud Storage (raw & partitioned) → BigQuery (bronze → silver → gold)**
-
-The architecture follows the **medallion pattern** with dimensional modeling in the gold layer:
+ <!-- ![Physical Model](docs/images/physical.png) -->![alt text](physical.png)
 
 ## Future Enhancements
 
 - Implement true **incremental CDC** (change data capture) instead of full daily loads  
-- Add **real-time streaming ingestion** using Pub/Sub + Dataflow  
-- Develop **Looker** or **Tableau** dashboards connected to the gold layer  
+- Add **real-time streaming ingestion** using Pub/Sub + Dataflow   
 - Introduce **data lineage** and **observability** (e.g., via Monte Carlo, dbt docs, or similar tools)  
 - Add automated **data quality monitoring** and alerting  
 - Support **schema evolution** and backward-compatible transformations  
-- Containerize the pipeline (Docker + Cloud Run or Composer) for easier deployment  
+ 
