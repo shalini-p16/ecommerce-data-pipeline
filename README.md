@@ -156,7 +156,7 @@ Only data relevant to the business questions above was included. Non-essential t
 
 ## Architecture Overview
 
-![E-commerce Data Pipeline Architecture](docs/images/architecture_etl.png)
+![E-commerce Data Pipeline Architecture](docs/images/etl.png)
 The pipeline follows the **medallion pattern**:
 
 ## 🧱 Data Layers Explained
@@ -267,11 +267,6 @@ Show what matters to the business — users, website events, sessions, purchases
 
 ![Conceptual Model](docs/images/conceptual.jpg)  
 
-**Granularity : One row per web interaction/event (page view, add-to-cart, purchase, etc.)**
-
-![CFact Event onceptual Model](docs/images/fact_events_conceptual.png) 
-
-*Conceptual Model — main business entities and relationships*
 
 #### Logical Model
 Adds more structure to the conceptual model while remaining technology-independent.
@@ -284,8 +279,7 @@ Adds more structure to the conceptual model while remaining technology-independe
 - Grain of each fact table
 
 Data types are suggested but not strictly enforced at this stage.
-
-![Logical Model](docs/images/fact_events_logical.png)  
+ 
 
 *Logical Model — Kimball star schema with facts and conformed dimensions*
 
@@ -299,7 +293,7 @@ The actual implementation in the target database (**BigQuery** in this project).
 - Storage format considerations
 - Indexes / materialized views / query optimization decisions
 
-![Physical Model](docs/images/Physical_model.png)  
+![Physical Model](docs/images/etl.jpg)  
 
 *Physical Model — BigQuery tables with partitioning & clustering*
 
