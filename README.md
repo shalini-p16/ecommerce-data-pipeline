@@ -263,9 +263,9 @@ It focuses on **core entities** and their **natural relationships**, without tec
 **Purpose**:  
 Show what matters to the business — users, website events, sessions, purchases, products, etc.
 
-**Granularity : One row per item within an order**
 
-![Fact Order Items Conceptual Model](docs/images/fact_order_items_conceptual.png)  
+
+![Conceptual Model](docs/images/conceptual.jpg)  
 
 **Granularity : One row per web interaction/event (page view, add-to-cart, purchase, etc.)**
 
@@ -299,7 +299,7 @@ The actual implementation in the target database (**BigQuery** in this project).
 - Storage format considerations
 - Indexes / materialized views / query optimization decisions
 
-![Physical Model](docs/images/physical.png)  
+![Physical Model](docs/images/Physical_model.png)  
 
 *Physical Model — BigQuery tables with partitioning & clustering*
 
