@@ -156,7 +156,7 @@ Only data relevant to the business questions above was included. Non-essential t
 
 ## Architecture Overview
 
-![E-commerce Data Pipeline Architecture](docs/images/etl.png)
+![E-commerce Data Pipeline Architecture](docs/images/etl.jpg)
 The pipeline follows the **medallion pattern**:
 
 ## 🧱 Data Layers Explained
@@ -293,7 +293,7 @@ The actual implementation in the target database (**BigQuery** in this project).
 - Storage format considerations
 - Indexes / materialized views / query optimization decisions
 
-![Physical Model](docs/images/ERD.jpg)  
+![Physical Model](docs/images/ERD_2.png)  
 
 *Physical Model — BigQuery tables with partitioning & clustering*
 
