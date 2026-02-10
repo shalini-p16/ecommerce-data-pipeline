@@ -159,30 +159,52 @@ Only data relevant to the business questions above was included. Non-essential t
 ![E-commerce Data Pipeline Architecture](docs/images/architecture_etl.png)
 The pipeline follows the **medallion pattern**:
 
-- **Bronze Layer** — Raw, unprocessed data  
-- **Silver Layer** — Cleansed, validated, and lightly transformed data  
-- **Gold Layer** — Aggregated, business-ready tables optimized for analytics (e.g., user journeys, conversion funnels, product performance)
+## 🧱 Data Layers Explained
 
-### Key Subsystems
-
-1. **Change Data Capture (CDC) / Incremental Strategy**  
-   - Full daily load for simplicity and reliability  (Current Implementation)
-   - Optional change detection via file hashes or row counts to skip unchanged datasets  
-   
-
-2. **Extract System**  
+### Extract System
    Data landed in GCS with partitioned structure:  
-   gs://your-bucket/raw-data/dataset_name=events/date=20260207/file.csv
+   gs://your-bucket/raw-data/ingestion_date=events/date=2026-02-07/file.csv
 
+### 🥉 Bronze Layer
+- Raw ingestion from source systems  
+- Minimal transformations  
+- Partitioned by `ingestion_date`  
+- Acts as a replayable source of truth  
 
-3. **Data Cleansing & Quality**  
-   Multi-level quality checks:  
-- **Column screens**: null checks, range validation, format compliance    
-- **Business rule screens**: complex domain-specific validations
+---
 
-4. **Error Handling**  
-- Dedicated error event logging schema  
-- Support for slowly changing dimensions (Type 2 updates)  
+### 🥈 Silver Layer
+- Deduplication using window functions  
+- Data type normalization  
+- Data validation:
+  - Invalid IDs  
+  - Invalid timestamps  
+  - Known / allowed event types  
+- Business-cleaned fields 
+
+---
+
+### 🥇 Gold Layer
+- Star schema optimized for analytics  
+
+#### Fact Tables
+- `fact_orders`
+- `fact_order_items`
+- `fact_events`
+
+#### Dimension Tables
+- `dim_users`
+- `dim_products`
+- `dim_event_type`
+- `dim_date`
+- `dim_location`
+- `dim_order_status`
+- `dim_browser`
+
+- Surrogate keys generated using deterministic hashes  
+- Incremental loading using `MERGE`
+- Support for slowly changing dimensions (Type 2 updates) 
+
 
 ## Bus Matrix 
 
