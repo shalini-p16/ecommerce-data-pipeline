@@ -2,15 +2,15 @@
 
 Designed and implemented a modern **ETL data pipeline** using the **medallion architecture** (bronze → silver → gold layers) to process the **Looker E-commerce BigQuery Dataset** (sourced as CSV files from Kaggle) using bottom-up approach (Dimensional Data Modelling). The pipeline transforms raw e-commerce  data into clean, analytics-ready layers to enable deep insights.
 
-## Technologies Used
 
-- **Cloud Platform**: Google Cloud Platform (GCP) 
-- **Storage**: Google Cloud Storage (GCS)  
-- **Data Warehouse**: Google BigQuery  
-- **Orchestration / Transformation**: Apache Airflow, Python, SQL  
-- **Data Formats**:  
-  - Raw layer: CSV   
-- **Architecture Pattern**: Medallion architecture (bronze → silver → gold)  
+## ⚙️ Tech Stack
+
+- **Google BigQuery** – Data warehouse  
+- **Apache Airflow** – Orchestration & scheduling  
+- **SQL (BigQuery Standard SQL)** – Data transformations  
+- **Metabase** – Analytics & dashboards  
+- **GitHub** – Version control & documentation  
+- **Architecture Pattern**: Medallion architecture (bronze → silver → gold)
  
 
 ## Business Questions Addressed
@@ -388,6 +388,12 @@ ECOMMERCE-DATA-PIPELINE/
    └─ extract.py
 
 ```
+
+🛠️ Challenges
+
+Mismatched data types across layers
+→ Standardized user_id types in Silver layer
+Schema Issue
 
 ### Future Enhancements
 
