@@ -293,7 +293,7 @@ The actual implementation in the target database (**BigQuery** in this project).
 - Storage format considerations
 - Indexes / materialized views / query optimization decisions
 
-![Physical Model](docs/images/etl.jpg)  
+![Physical Model](docs/images/ERD.jpg)  
 
 *Physical Model — BigQuery tables with partitioning & clustering*
 
