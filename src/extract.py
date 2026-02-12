@@ -4,6 +4,7 @@ import os
 from kaggle.api.kaggle_api_extended import KaggleApi
 from datetime import datetime
 import shutil
+import pandas as pd
 
 def extract_data(**kwargs):
     """
@@ -11,7 +12,7 @@ def extract_data(**kwargs):
     and uploads them to Google Cloud Storage in date-partitioned folders:
         bronze/yyyy/mm/dd/<filename>.csv
     
-    Partition is based on Airflow execution_date.
+    Adds an 'ingestion_date' column to each CSV for BigQuery partitioning.
     """
     
     # ── 1. Get Kaggle credentials ─────────────────────────────────────
@@ -42,26 +43,38 @@ def extract_data(**kwargs):
     )
 
     # ── 3. Initialize GCS hook ──────────────────────────────────────
-    gcs_conn_id = 'google_cloud_default'  # Airflow connection ID for GCS
+    gcs_conn_id = 'google_cloud_default'
     gcs_bucket = 'bronze-data-ecom'
     gcs_hook = GCSHook(gcp_conn_id=gcs_conn_id)
 
-    # ── 4. Use execution_date for partition ─────────────────────────
-    execution_date = kwargs.get('execution_date')  # Provided by Airflow
-    if not execution_date:
-        execution_date = datetime.today()
-    
-    date_prefix = execution_date.strftime('%Y/%m/%d/')
-    print(f"Uploading CSVs to GCS under partition: {date_prefix}")
+    # ── 4. Get execution_date ────────────────────────────────────
+    execution_date = kwargs.get('execution_date') or datetime.today()
+    ingestion_date_str = execution_date.strftime('%Y-%m-%d')  # for folder partition
+    print(f"Adding ingestion_date={ingestion_date_str} to CSVs and uploading...")
 
     uploaded_count = 0
 
-    # ── 5. Upload CSVs to GCS ───────────────────────────────────────
+    # ── 5. Process and upload CSVs ───────────────────────────────
     for root, _, files in os.walk(local_download_path):
         for file_name in files:
             if file_name.lower().endswith('.csv'):
                 local_file_path = os.path.join(root, file_name)
-                gcs_object_name = f"{date_prefix}{file_name}"
+                
+                # Read CSV
+                df = pd.read_csv(local_file_path)
+
+                # ── Fix events.user_id if needed ─────────────────
+                if file_name.startswith("events") and 'user_id' in df.columns:
+                    df['user_id'] = pd.to_numeric(df['user_id'], errors='coerce')
+
+                # ── Add ingestion_date column ─────────────────────
+                df['ingestion_date'] = ingestion_date_str
+
+                # Save back to CSV
+                df.to_csv(local_file_path, index=False)
+
+                # GCS object path (still partitioned in folder for readability)
+                gcs_object_name = f"{file_name.split('.')[0]}/ingestion_date={ingestion_date_str}/{file_name}"
 
                 try:
                     gcs_hook.upload(
@@ -75,4 +88,4 @@ def extract_data(**kwargs):
                     print(f"Failed to upload {file_name}: {e}")
                     raise
 
-    print(f"Extraction complete. Uploaded {uploaded_count} CSV files to GCS under {date_prefix}")
+    print(f"Extraction complete. Uploaded {uploaded_count} CSV files to GCS.")

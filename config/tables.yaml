@@ -1,30 +1,945 @@
-tables:
+bronze_tables:
   - entity: events
-    gcs_uri: gs://bronze-data-ecom/events.csv
-    external_table: bronze.ext_events
+    bronze_table: bronze.events
+    # partition_field: ingestion_date
+    schema:
+    - name: id
+      type: INTEGER
+      mode: NULLABLE
+    - name: user_id #Needs to be chnaged to INTEGER
+      type: FLOAT64
+      mode: NULLABLE
+    - name: sequence_number
+      type: INTEGER
+      mode: NULLABLE
+    - name: session_id
+      type: STRING
+      mode: NULLABLE
+    - name: created_at
+      type: TIMESTAMP
+      mode: NULLABLE
+    - name: ip_address
+      type: STRING
+      mode: NULLABLE
+    - name: city
+      type: STRING
+      mode: NULLABLE
+    - name: state
+      type: STRING
+      mode: NULLABLE
+    - name: postal_code
+      type: STRING
+      mode: NULLABLE
+    - name: browser
+      type: STRING
+      mode: NULLABLE
+    - name: traffic_source
+      type: STRING
+      mode: NULLABLE
+    - name: uri
+      type: STRING
+      mode: NULLABLE
+    - name: event_type
+      type: STRING
+      mode: NULLABLE
+    - name: ingestion_date
+      type: DATE
+      mode: NULLABLE
+
+  - entity: order_items
+    # partition_field: ingestion_date
+    schema:
+    - name: id
+      type: INTEGER
+      mode: NULLABLE
+    - name: order_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: user_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: product_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: inventory_item_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: status
+      type: STRING
+      mode: NULLABLE
+    - name: created_at
+      type: TIMESTAMP
+      mode: NULLABLE
+    - name: shipped_at
+      type: TIMESTAMP
+      mode: NULLABLE
+    - name: delivered_at
+      type: TIMESTAMP
+      mode: NULLABLE
+    - name: returned_at
+      type: TIMESTAMP
+      mode: NULLABLE
+    - name: sale_price
+      type: FLOAT64
+      mode: NULLABLE
+    - name: ingestion_date
+      type: DATE
+      mode: NULLABLE
+    bronze_table: bronze.order_items
+
+  - entity: orders
+    # partition_field: ingestion_date
+    schema:
+      - name: order_id
+        type: STRING
+        mode: NULLABLE
+      - name: user_id
+        type: STRING
+        mode: NULLABLE
+      - name: status
+        type: STRING
+        mode: NULLABLE
+      - name: gender
+        type: STRING
+        mode: NULLABLE
+      - name: created_at
+        type: TIMESTAMP
+        mode: NULLABLE
+      - name: returned_at
+        type: TIMESTAMP
+        mode: NULLABLE
+      - name: shipped_at
+        type: TIMESTAMP
+        mode: NULLABLE
+      - name: delivered_at
+        type: TIMESTAMP
+        mode: NULLABLE
+      - name: num_of_item
+        type: INTEGER
+        mode: NULLABLE
+      - name: ingestion_date
+        type: DATE
+        mode: NULLABLE
+    bronze_table: bronze.orders
+
+  - entity: products
+    # partition_field: ingestion_date
+    schema:
+    - name: id
+      type: INTEGER
+      mode: NULLABLE
+    - name: cost
+      type: FLOAT64
+      mode: NULLABLE
+    - name: category
+      type: STRING
+      mode: NULLABLE
+    - name: name
+      type: STRING
+      mode: NULLABLE
+    - name: brand
+      type: STRING
+      mode: NULLABLE
+    - name: retail_price
+      type: FLOAT64
+      mode: NULLABLE
+    - name: department
+      type: STRING
+      mode: NULLABLE
+    - name: sku
+      type: STRING
+      mode: NULLABLE
+    - name: distribution_center_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: ingestion_date
+      type: DATE
+      mode: NULLABLE
+    bronze_table: bronze.products
+  
+
+  - entity: users
+    schema:
+    - name: id
+      type: INTEGER
+      mode: NULLABLE
+    - name: first_name
+      type: STRING
+      mode: NULLABLE
+    - name: last_name
+      type: STRING
+      mode: NULLABLE
+    - name: email
+      type: STRING
+      mode: NULLABLE
+    - name: age
+      type: INTEGER
+      mode: NULLABLE
+    - name: gender
+      type: STRING
+      mode: NULLABLE
+    - name: state
+      type: STRING
+      mode: NULLABLE
+    - name: street_address
+      type: STRING
+      mode: NULLABLE
+    - name: postal_code
+      type: STRING
+      mode: NULLABLE
+    - name: city
+      type: STRING
+      mode: NULLABLE
+    - name: country
+      type: STRING
+      mode: NULLABLE
+    - name: latitude
+      type: FLOAT64
+      mode: NULLABLE
+    - name: longitude
+      type: FLOAT64
+      mode: NULLABLE
+    - name: traffic_source
+      type: STRING
+      mode: NULLABLE
+    - name: created_at
+      type: TIMESTAMP
+      mode: NULLABLE
+    - name: ingestion_date
+      type: DATE
+      mode: NULLABLE
+    bronze_table: bronze.users
+
+
+silver_tables:
+  - entity: events
+    schema:
+      - name: id
+        type: INT64
+        mode: REQUIRED
+        description: Event identifier
+      - name: user_id
+        type: INT64
+        mode: REQUIRED
+        description: User identifier (0 for invalid/null values)
+      - name: event_order_in_session #Changed the column name for better readability
+        type: INT64
+        mode: NULLABLE
+        description: Event sequence number within session
+      - name: session_id
+        type: STRING
+        mode: REQUIRED
+        description: Session identifier (UNKNOWN for nulls)
+      - name: created_at
+        type: TIMESTAMP
+        mode: REQUIRED
+        description: Event timestamp
+      - name: ip_address
+        type: STRING
+        mode: REQUIRED
+        description: IP address (UNKNOWN for nulls)
+      - name: city
+        type: STRING
+        mode: REQUIRED
+        description: City name (UNKNOWN for nulls)
+      - name: state
+        type: STRING
+        mode: REQUIRED
+        description: State code (UNKNOWN for nulls)
+      - name: postal_code
+        type: STRING
+        mode: REQUIRED
+        description: Postal code (UNKNOWN for nulls)
+      - name: browser
+        type: STRING
+        mode: REQUIRED
+        description: Browser name (UNKNOWN for nulls)
+      - name: traffic_source
+        type: STRING
+        mode: REQUIRED
+        description: Traffic source (UNKNOWN for nulls)
+      - name: uri
+        type: STRING
+        mode: REQUIRED
+        description: Page URI (UNKNOWN for nulls)
+      - name: event_type
+        type: STRING
+        mode: REQUIRED
+        description: Event type (UNKNOWN for nulls)
+      - name: is_valid_id
+        type: BOOLEAN
+        mode: REQUIRED
+        description: ID validation flag
+      - name: is_valid_created_at
+        type: BOOLEAN
+        mode: REQUIRED
+        description: Created timestamp validation flag
+      - name: is_known_event_type
+        type: BOOLEAN
+        mode: REQUIRED
+        description: Event type validation flag
+      - name: ingestion_date
+        type: DATE
+        mode: REQUIRED
+        description: Event ingestion date #added as all event types were not shown in the dim_event_type table
+    partition:
+      type: DAY
+      field: created_at
     silver_table: silver.events
     silver_sql: silver/events.sql
 
   - entity: order_items
-    gcs_uri: gs://bronze-data-ecom/order_items.csv
-    external_table: bronze.ext_order_items
+    schema:
+      - name: order_item_id
+        type: INT64
+        mode: REQUIRED
+        description: Unique identifier for order item
+      - name: order_id
+        type: INT64
+        mode: NULLABLE
+        description: Reference to parent order
+      - name: user_id
+        type: INT64
+        mode: NULLABLE
+        description: User who placed the order
+      - name: product_id
+        type: INT64
+        mode: NULLABLE
+        description: Product identifier
+      - name: inventory_item_id
+        type: INT64
+        mode: NULLABLE
+        description: Specific inventory item identifier
+      - name: item_sale_price
+        type: NUMERIC
+        mode: NULLABLE
+        description: Sale price of the item
+      - name: order_status
+        type: STRING
+        mode: NULLABLE
+        description: Order item status (Title Case)
+      - name: order_created_at
+        type: TIMESTAMP
+        mode: NULLABLE
+        description: When order item was created
+      - name: shipped_at
+        type: TIMESTAMP
+        mode: NULLABLE
+        description: When item was shipped
+      - name: delivered_at
+        type: TIMESTAMP
+        mode: NULLABLE
+        description: When item was delivered
+      - name: returned_at
+        type: TIMESTAMP
+        mode: NULLABLE
+        description: When item was returned
+      - name: is_fully_completed
+        type: BOOLEAN
+        mode: REQUIRED
+        description: Flag indicating if order item is complete
+      - name: was_returned
+        type: BOOLEAN
+        mode: REQUIRED
+        description: Flag indicating if item was returned
+    partition:
+      type: DAY
+      field: order_created_at
     silver_table: silver.order_items
     silver_sql: silver/order_items.sql
 
   - entity: orders
-    gcs_uri: gs://bronze-data-ecom/orders.csv
-    external_table: bronze.ext_orders
+    schema:
+      - name: order_id
+        type: INT64
+        mode: NULLABLE
+        description: Unique order identifier
+      - name: user_id
+        type: INT64
+        mode: NULLABLE
+        description: User who placed the order
+      - name: status
+        type: STRING
+        mode: NULLABLE
+        description: Order status
+      - name: gender
+        type: STRING
+        mode: NULLABLE
+        description: Gender associated with order
+      - name: created_at
+        type: TIMESTAMP
+        mode: NULLABLE
+        description: Order creation timestamp (formatted as string)
+      - name: returned_at
+        type: TIMESTAMP
+        mode: NULLABLE
+        description: Order return timestamp (formatted as string)
+      - name: shipped_at
+        type: TIMESTAMP
+        mode: NULLABLE
+        description: Order shipment timestamp (formatted as string)
+      - name: TIMESTAMP
+        type: STRING
+        mode: NULLABLE
+        description: Order delivery timestamp (formatted as string)
+      - name: num_of_item
+        type: INTEGER
+        mode: NULLABLE
+        description: Number of items in order
+    partition:
+      type: DAY
+      field: created_at
     silver_table: silver.orders
     silver_sql: silver/orders.sql
 
   - entity: products
-    gcs_uri: gs://bronze-data-ecom/products.csv
-    external_table: bronze.ext_products
+    schema:
+      - name: product_id
+        type: INT64
+        mode: NULLABLE
+        description: Unique product identifier
+      - name: sku
+        type: STRING
+        mode: NULLABLE
+        description: Stock keeping unit
+      - name: product_name
+        type: STRING
+        mode: REQUIRED
+        description: Product name (defaults to Unnamed Product)
+      - name: brand_name
+        type: STRING
+        mode: REQUIRED
+        description: Brand name (defaults to Unknown Brand)
+      - name: product_category
+        type: STRING
+        mode: REQUIRED
+        description: Product category (defaults to General)
+      - name: department
+        type: STRING
+        mode: NULLABLE
+        description: Product department
+      - name: unit_cost
+        type: NUMERIC
+        mode: NULLABLE
+        description: Cost per unit
+      - name: retail_price
+        type: NUMERIC
+        mode: NULLABLE
+        description: Retail selling price
+      - name: dist_center_id
+        type: INT64
+        mode: NULLABLE
+        description: Distribution center identifier
+      - name: is_profitable
+        type: BOOLEAN
+        mode: NULLABLE
+        description: Flag indicating if retail price exceeds cost
+      - name: absolute_markup
+        type: NUMERIC
+        mode: NULLABLE
+        description: Absolute price markup (retail_price - cost)
+      - name: ingestion_ts
+        type: TIMESTAMP
+        mode: REQUIRED
+        description: Timestamp when record was ingested
     silver_table: silver.products
     silver_sql: silver/products.sql
 
   - entity: users
-    gcs_uri: gs://bronze-data-ecom/users.csv
-    external_table: bronze.ext_users
+    schema:
+      - name: user_id
+        type: INT64
+        mode: NULLABLE
+        description: Unique user identifier
+      - name: full_name
+        type: STRING
+        mode: NULLABLE
+        description: Concatenated first and last name
+      - name: email_address
+        type: STRING
+        mode: NULLABLE
+        description: Email address (lowercase)
+      - name: age
+        type: INT64
+        mode: NULLABLE
+        description: User age in years
+      - name: age_group
+        type: STRING
+        mode: NULLABLE
+        description: Age category (Under 18, 18-34, 35-54, 55+)
+      - name: gender
+        type: STRING
+        mode: REQUIRED
+        description: Gender (defaults to Not Specified)
+      - name: city
+        type: STRING
+        mode: REQUIRED
+        description: City name (defaults to Unknown City)
+      - name: state
+        type: STRING
+        mode: REQUIRED
+        description: State name (defaults to Unknown State)
+      - name: country
+        type: STRING
+        mode: NULLABLE
+        description: Country name
+      - name: zip_code
+        type: STRING
+        mode: REQUIRED
+        description: Postal code (defaults to N/A)
+      - name: street_address
+        type: STRING
+        mode: REQUIRED
+        description: Street address (defaults to UNKNOWN)
+      - name: latitude
+        type: BIGNUMERIC
+        mode: REQUIRED
+        description: Geographic latitude (defaults to 0.0)
+      - name: longitude
+        type: BIGNUMERIC
+        mode: REQUIRED
+        description: Geographic longitude (defaults to 0.0)
+      - name: traffic_source
+        type: STRING
+        mode: NULLABLE
+        description: Marketing traffic source
+      - name: signup_timestamp
+        type: TIMESTAMP
+        mode: NULLABLE
+        description: User account creation timestamp
+      - name: ingestion_ts
+        type: TIMESTAMP
+        mode: REQUIRED
+        description: Data ingestion timestamp
+      - name: is_valid_email_format
+        type: BOOLEAN
+        mode: NULLABLE
+        description: Email format validation flag
     silver_table: silver.users
     silver_sql: silver/users.sql
+
+gold_tables:
+  - name: dim_browser
+    schema:
+    - name: browser_key
+      type: STRING
+      mode: NULLABLE
+    - name: browser_name
+      type: STRING
+      mode: NULLABLE
+    sql: gold/dim_browser.sql
+    destination: dim_browser
+
+  - name: dim_event_type
+    schema:
+    - name: event_type_key
+      type: STRING
+      mode: NULLABLE
+    - name: event_type
+      type: STRING
+      mode: NULLABLE
+    sql: gold/dim_event_type.sql
+    destination: dim_event_type
+    
+  - name: dim_date
+    schema:
+    - name: date_key
+      type: STRING
+      description: "Surrogate key generated with GENERATE_UUID()."
+      mode: NULLABLE
+    - name: date
+      type: DATE
+      description: "Calendar date."
+      mode: NULLABLE
+    - name: year
+      type: INT64
+      description: "Year (e.g., 2025)."
+      mode: NULLABLE
+    - name: quarter
+      type: INT64
+      description: "Quarter of the year (1–4)."
+      mode: NULLABLE
+    - name: year_quarter
+      type: STRING
+      description: "Formatted year and quarter (e.g., 2025-Q1)."
+      mode: NULLABLE
+    - name: month
+      type: INT64
+      description: "Month of the year (1–12)."
+      mode: NULLABLE
+    - name: year_month
+      type: STRING
+      description: "Formatted year and month (e.g., 2025-01)."
+      mode: NULLABLE
+    - name: month_name
+      type: STRING
+      description: "Full month name (e.g., January)."
+      mode: NULLABLE
+    - name: week_of_year
+      type: INT64
+      description: "Week number of the year (1–53)."
+      mode: NULLABLE
+    - name: year_week
+      type: STRING
+      description: "Formatted year and week (e.g., 2025-W01)."
+      mode: NULLABLE
+    - name: day_of_month
+      type: INT64
+      description: "Day of the month (1–31)."
+      mode: NULLABLE
+    - name: day_of_year
+      type: INT64
+      description: "Day of the year (1–366)."
+      mode: NULLABLE
+    - name: day_name
+      type: STRING
+      description: "Full day name (e.g., Monday)."
+      mode: NULLABLE
+    - name: day_of_week
+      type: STRING
+      description: "Day of week as stringified integer (0=Sunday, 1=Monday, ...)."
+      mode: NULLABLE
+    - name: is_weekday
+      type: INT64
+      description: "1 if weekday, 0 if weekend."
+      mode: NULLABLE
+    - name: is_holiday
+      type: BOOL
+      description: "True if the date is a holiday (currently defaults to false)."
+      mode: NULLABLE
+    - name: is_business_day
+      type: BOOL
+      description: "True if the date is a business day (currently defaults to false)."
+      mode: NULLABLE
+    sql: gold/dim_date.sql
+    destination: dim_date 
+
+  - name: dim_order_status
+    schema:
+    - name: order_status_key
+      type: STRING
+      mode: NULLABLE
+    - name: order_status
+      type: STRING
+      mode: NULLABLE
+    sql: gold/dim_order_status.sql
+    destination: dim_order_status
+
+  - name: dim_page
+    schema:
+    - name: page_key
+      type: STRING
+      mode: NULLABLE
+    - name: page_uri
+      type: STRING
+      mode: NULLABLE
+    - name: created_at
+      type: TIMESTAMP
+      mode: NULLABLE
+    sql: gold/dim_page.sql
+    destination: dim_page
+
+  - name: dim_products
+    schema:
+    - name: product_key
+      type: STRING
+      mode: NULLABLE
+    - name: product_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: product_name
+      type: STRING
+      mode: NULLABLE
+    - name: brand_name
+      type: STRING
+      mode: NULLABLE
+    - name: product_category
+      type: STRING
+      mode: NULLABLE
+    - name: department
+      type: STRING
+      mode: NULLABLE
+    - name: dist_center_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: sku
+      type: STRING
+      mode: NULLABLE
+    - name: retail_price
+      type: NUMERIC
+      mode: NULLABLE
+    - name: effective_from
+      type: DATE
+      mode: NULLABLE
+    - name: effective_to
+      type: DATE
+      mode: NULLABLE
+    - name: is_current
+      type: BOOLEAN
+      mode: NULLABLE
+    sql: gold/dim_products.sql
+    destination: dim_products
+
+  # - name: dim_time
+  #   schema:
+  #   - name: time_key
+  #     type: STRING
+  #     mode: NULLABLE
+  #   - name: full_time
+  #     type: TIME
+  #     mode: NULLABLE
+  #   - name: hour_24
+  #     type: INT64
+  #     mode: NULLABLE
+  #   - name: hour_24_formatted
+  #     type: STRING
+  #     mode: NULLABLE
+  #   - name: hour_12
+  #     type: INT64
+  #     mode: NULLABLE
+  #   - name: hour_12_formatted
+  #     type: STRING
+  #     mode: NULLABLE
+  #   - name: minute
+  #     type: INT64
+  #     mode: NULLABLE
+  #   - name: minute_formatted
+  #     type: STRING
+  #     mode: NULLABLE
+  #   - name: second
+  #     type: INT64
+  #     mode: NULLABLE
+  #   - name: second_formatted
+  #     type: STRING
+  #     mode: NULLABLE
+  #   - name: am_pm
+  #     type: STRING
+  #     mode: NULLABLE
+  #   - name: time_of_day
+  #     type: STRING
+  #     mode: NULLABLE
+  #   - name: is_business_hour
+  #     type: BOOL
+  #     mode: NULLABLE
+  #   sql: gold/dim_time.sql
+  #   destination: dim_time
+
+  - name: dim_traffic_source
+    schema:
+    - name: traffic_source_key
+      type: STRING
+      mode: NULLABLE
+    - name: traffic_source
+      type: STRING
+      mode: NULLABLE
+    sql: gold/dim_traffic_source.sql
+    destination: dim_traffic_source
+
+  - name: dim_users
+    schema:
+    - name: user_key
+      type: STRING
+      mode: NULLABLE
+    - name: full_name
+      type: STRING
+      mode: NULLABLE
+    - name: user_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: gender
+      type: STRING
+      mode: NULLABLE
+    - name: age
+      type: INTEGER
+      mode: NULLABLE
+    - name: city
+      type: STRING
+      mode: NULLABLE
+    - name: state
+      type: STRING
+      mode: NULLABLE
+    - name: country
+      type: STRING
+      mode: NULLABLE
+    - name: zip_code
+      type: STRING
+      mode: NULLABLE
+    - name: street_address
+      type: STRING
+      mode: NULLABLE
+    - name: traffic_source
+      type: STRING
+      mode: NULLABLE
+    - name: signup_timestamp
+      type: TIMESTAMP
+      mode: NULLABLE
+    - name: effective_from
+      type: DATE
+      mode: NULLABLE
+    - name: effective_to
+      type: DATE
+      mode: NULLABLE
+    - name: is_current
+      type: BOOLEAN
+      mode: NULLABLE
+    sql: gold/dim_users.sql
+    destination: dim_users
+
+  - name: dim_location
+    schema:
+    - name: location_key
+      type: STRING
+      mode: NULLABLE
+    - name: city
+      type: STRING
+      mode: NULLABLE
+    - name: state
+      type: STRING
+      mode: NULLABLE
+    - name: postal_code
+      type: STRING
+      mode: NULLABLE
+    sql: gold/dim_location.sql
+    destination: dim_location
+
+  - name: fact_events
+    schema:
+    - name: event_key
+      type: STRING
+      mode: NULLABLE
+    - name: event_id
+      type: STRING
+      mode: NULLABLE
+    - name: session_id
+      type: STRING
+      mode: NULLABLE
+    - name: browser_key
+      type: STRING
+      mode: NULLABLE
+    - name: traffic_source_key
+      type: STRING
+      mode: NULLABLE
+    - name: location_key
+      type: STRING
+      mode: NULLABLE
+    - name: user_key
+      type: STRING
+      mode: NULLABLE
+    - name: date_key
+      type: STRING
+      mode: NULLABLE
+    # - name: time_key
+    #   type: STRING
+      mode: NULLABLE
+    - name: event_type_key
+      type: STRING
+      mode: NULLABLE
+    - name: event_order_in_session
+      type: INTEGER
+      mode: NULLABLE
+    - name: event_timestamp
+      type: TIMESTAMP
+      mode: NULLABLE  
+    sql: gold/fact_events.sql
+    destination: fact_events
+
+  - name: fact_order_items
+    schema:
+    - name: order_item_key
+      type: STRING
+      mode: REQUIRED
+    - name: order_key
+      type: STRING
+      mode: NULLABLE
+    - name: user_key
+      type: STRING
+      mode: NULLABLE
+    - name: product_key
+      type: STRING
+      mode: NULLABLE
+    - name: order_item_id
+      type: INTEGER
+      mode: REQUIRED
+    - name: order_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: user_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: product_id
+      type: INTEGER
+      mode: NULLABLE
+    - name: order_status_key
+      type: STRING
+      mode: NULLABLE
+    - name: order_date_key
+      type: DATE
+      mode: NULLABLE
+    - name: shipped_date_key
+      type: DATE
+      mode: NULLABLE
+    - name: delivered_date_key
+      type: DATE
+      mode: NULLABLE
+    - name: returned_date_key
+      type: DATE
+      mode: NULLABLE
+    - name: item_sale_price
+      type: NUMERIC
+      mode: NULLABLE
+    sql: gold/fact_order_items.sql
+    destination: fact_order_items
+
+  - name: fact_orders
+    schema:
+    - name: order_key
+      type: STRING
+      mode: REQUIRED
+      description: Surrogate primary key for the order
+    - name: order_id
+      type: STRING
+      mode: NULLABLE
+      description: Natural order ID from silver.orders
+    - name: user_key
+      type: STRING
+      mode: NULLABLE
+      description: Foreign key to dim_users
+    - name: order_status_key
+      type: STRING
+      mode: NULLABLE
+      description: Foreign key to dim_order_status
+    - name: created_at_key
+      type: DATE
+      mode: NULLABLE
+      description: Foreign key to dim_date for order creation date
+    - name: shipped_at_key
+      type: DATE
+      mode: NULLABLE
+      description: Foreign key to dim_date for order shipped date
+    - name: delivered_at_key
+      type: DATE
+      mode: NULLABLE
+      description: Foreign key to dim_date for order delivered date
+    - name: returned_at_key
+      type: DATE
+      mode: NULLABLE
+      description: Foreign key to dim_date for order returned date
+    - name: num_of_item
+      type: INTEGER
+      mode: NULLABLE
+      description: Total number of items in the order
+    - name: is_fully_completed
+      type: BOOLEAN
+      mode: NULLABLE
+      description: TRUE if the order has been delivered
+    - name: was_returned
+      type: BOOLEAN
+      mode: NULLABLE
+      description: TRUE if the order has been returned
+    sql: gold/fact_orders.sql
+    destination: fact_orders
+
+
+  # - name: fact_sessions
+  #   sql: gold/fact_sessions.sql
+  #   destination: fact_sessions

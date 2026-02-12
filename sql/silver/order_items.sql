@@ -5,7 +5,8 @@ WITH deduplicated_order_items AS (
     *,
     ROW_NUMBER() OVER (PARTITION BY id ORDER BY created_at DESC) as row_num
   FROM
-    `bronze.ext_order_items`
+    `bronze.order_items`
+     WHERE ingestion_date = @run_date  -- keep idempotent by batch
 )
 SELECT
   -- Step 2: Identifiers & Renaming
@@ -41,8 +42,6 @@ SELECT
 FROM
   deduplicated_order_items
 WHERE
-  row_num = 1
-ORDER BY 
-  order_created_at DESC;
+  row_num = 1;
 
 

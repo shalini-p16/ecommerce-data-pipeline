@@ -6,7 +6,8 @@ WITH deduplicated_users AS (
       PARTITION BY id
       ORDER BY SAFE_CAST(created_at AS TIMESTAMP) DESC
     ) AS row_num
-  FROM bronze.ext_users
+  FROM  `bronze.users`
+  WHERE id IS NOT NULL and ingestion_date = @run_date -- Exclude records with a NULL ID before deduplication
 )
 
 SELECT
@@ -32,6 +33,10 @@ SELECT
   COALESCE(state, 'Unknown State') AS state,
   country,
   COALESCE(postal_code, 'N/A') AS zip_code,
+  COALESCE(street_address, 'UNKNOWN') AS street_address, -- Added street_address from schema
+  COALESCE(SAFE_CAST(latitude AS BIGNUMERIC), 0.0) AS latitude, -- Use BIGNUMERIC for precision, default to 0.0
+  COALESCE(SAFE_CAST(longitude AS BIGNUMERIC), 0.0) AS longitude, -- Use BIGNUMERIC for precision, default to 0.0
+
 
   -- Metadata
   traffic_source,

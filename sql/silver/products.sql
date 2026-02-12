@@ -5,7 +5,8 @@ WITH deduplicated_products AS (
     ROW_NUMBER() OVER (
       PARTITION BY id
     ) AS row_num
-  FROM bronze.ext_products
+  FROM bronze.products
+  WHERE ingestion_date = @run_date and id IS NOT NULL  -- keep idempotent by batch
 )
 
 SELECT
@@ -19,7 +20,7 @@ SELECT
   COALESCE(category, 'General') AS product_category,
   department,
 
-  -- Pricing
+  -- Pricing & Cost (using NUMERIC for financial precision)
   SAFE_CAST(cost AS NUMERIC) AS unit_cost,
   SAFE_CAST(retail_price AS NUMERIC) AS retail_price,
 

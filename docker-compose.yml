@@ -128,6 +128,22 @@ services:
       - ./kaggle.json:/home/airflow/.kaggle/kaggle.json:ro
     command: scheduler
 
+
+  
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./metabase-data:/metabase-data
+      - ./gcp-credentials.json:/gcp-credentials.json:ro
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+      MB_BIGQUERY_CREDENTIALS_FILE: /gcp-credentials.json
+      MB_BIGQUERY_PROJECT_ID: prism-486509
+      MB_BIGQUERY_DEFAULT_DATASET: gold
+      MB_BIGQUERY_USE_STANDARD_SQL: "true"
   
 
 volumes:
