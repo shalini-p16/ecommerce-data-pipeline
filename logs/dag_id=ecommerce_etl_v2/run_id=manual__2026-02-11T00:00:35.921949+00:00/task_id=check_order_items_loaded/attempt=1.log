@@ -1,0 +1,3 @@
+[2026-02-11T00:05:10.318+0000] {taskinstance.py:1946} INFO - Dependencies not met for <TaskInstance: ecommerce_etl_v2.check_order_items_loaded manual__2026-02-11T00:00:35.921949+00:00 [skipped]>, dependency 'Not Previously Skipped' FAILED: Skipping because of previous XCom result from parent task extract.check_new_files
+[2026-02-11T00:05:10.318+0000] {taskinstance.py:1946} INFO - Dependencies not met for <TaskInstance: ecommerce_etl_v2.check_order_items_loaded manual__2026-02-11T00:00:35.921949+00:00 [skipped]>, dependency 'Task Instance State' FAILED: Task is in the 'skipped' state.
+[2026-02-11T00:05:10.321+0000] {local_task_job_runner.py:160} INFO - Task is not able to be run

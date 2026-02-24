@@ -1,0 +1,41 @@
+[2026-02-10T12:45:21.077+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.silver_layer.transform_orders manual__2026-02-10T10:56:26.745143+00:00 [queued]>
+[2026-02-10T12:45:21.085+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.silver_layer.transform_orders manual__2026-02-10T10:56:26.745143+00:00 [queued]>
+[2026-02-10T12:45:21.085+0000] {taskinstance.py:2170} INFO - Starting attempt 11 of 13
+[2026-02-10T12:45:21.093+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): silver_layer.transform_orders> on 2026-02-10 10:56:26.745143+00:00
+[2026-02-10T12:45:21.099+0000] {standard_task_runner.py:60} INFO - Started process 18468 to run task
+[2026-02-10T12:45:21.107+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'silver_layer.transform_orders', 'manual__2026-02-10T10:56:26.745143+00:00', '--job-id', '1399', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmps6q3ju7x']
+[2026-02-10T12:45:21.109+0000] {standard_task_runner.py:88} INFO - Job 1399: Subtask silver_layer.transform_orders
+[2026-02-10T12:45:21.142+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.silver_layer.transform_orders manual__2026-02-10T10:56:26.745143+00:00 [running]> on host 89ab86e4d295
+[2026-02-10T12:45:21.183+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='silver_layer.transform_orders' AIRFLOW_CTX_EXECUTION_DATE='2026-02-10T10:56:26.745143+00:00' AIRFLOW_CTX_TRY_NUMBER='11' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-10T10:56:26.745143+00:00'
+[2026-02-10T12:45:21.187+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-10T12:45:21.188+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-10T12:45:21.188+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-10T12:45:21.229+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': 'SELECT\n    CAST(user_id AS INT64) AS user_id,\n    CAST(order_id AS INT64) AS user_id,\n    status,\n    CAST(gender AS STRING) AS gender,\n\n    -- Keep as TIMESTAMP\n    TIMESTAMP(created_at) AS created_at,\n    TIMESTAMP(returned_at) AS returned_at,\n    TIMESTAMP(shipped_at) AS shipped_at,\n    TIMESTAMP(delivered_at) AS delivered_at,\n\n    num_of_item\n\nFROM `bronze.orders`\nWHERE ingestion_date = @run_date;', 'useLegacySql': False, 'destinationTable': {'projectId': 'prism-486509', 'datasetId': 'silver', 'tableId': 'orders'}, 'writeDisposition': 'WRITE_TRUNCATE', 'createDisposition': 'CREATE_IF_NEEDED', 'queryParameters': [{'name': 'run_date', 'parameterType': {'type': 'DATE'}, 'parameterValue': {'value': '2026-02-10'}}]}}'
+[2026-02-10T12:45:21.230+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_silver_layer_transform_orders_2026_02_10T10_56_26_745143_00_00_171b2828781584b90f6b73402aa42554
+[2026-02-10T12:45:21.986+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Duplicate column names in the result are not supported when a destination table is present. Found duplicate(s): user_id; reason: invalidQuery, location: query, message: Duplicate column names in the result are not supported when a destination table is present. Found duplicate(s): user_id
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_silver_layer_transform_orders_2026_02_10T10_56_26_745143_00_00_171b2828781584b90f6b73402aa42554
+
+[2026-02-10T12:45:21.996+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=silver_layer.transform_orders, execution_date=20260210T105626, start_date=20260210T124521, end_date=20260210T124521
+[2026-02-10T12:45:22.007+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1399 for task silver_layer.transform_orders (400 Duplicate column names in the result are not supported when a destination table is present. Found duplicate(s): user_id; reason: invalidQuery, location: query, message: Duplicate column names in the result are not supported when a destination table is present. Found duplicate(s): user_id
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_silver_layer_transform_orders_2026_02_10T10_56_26_745143_00_00_171b2828781584b90f6b73402aa42554
+; 18468)
+[2026-02-10T12:45:22.016+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-10T12:45:22.040+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

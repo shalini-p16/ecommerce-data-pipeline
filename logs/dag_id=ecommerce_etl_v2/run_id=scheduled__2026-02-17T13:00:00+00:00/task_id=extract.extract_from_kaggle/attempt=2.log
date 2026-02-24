@@ -1,0 +1,73 @@
+[2026-02-18T13:29:03.050+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle scheduled__2026-02-17T13:00:00+00:00 [queued]>
+[2026-02-18T13:29:03.054+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle scheduled__2026-02-17T13:00:00+00:00 [queued]>
+[2026-02-18T13:29:03.054+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 3
+[2026-02-18T13:29:03.060+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): extract.extract_from_kaggle> on 2026-02-17 13:00:00+00:00
+[2026-02-18T13:29:03.063+0000] {standard_task_runner.py:60} INFO - Started process 63851 to run task
+[2026-02-18T13:29:03.065+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'extract.extract_from_kaggle', 'scheduled__2026-02-17T13:00:00+00:00', '--job-id', '2394', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp67cvz9pq']
+[2026-02-18T13:29:03.066+0000] {standard_task_runner.py:88} INFO - Job 2394: Subtask extract.extract_from_kaggle
+[2026-02-18T13:29:03.087+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle scheduled__2026-02-17T13:00:00+00:00 [running]> on host 89ab86e4d295
+[2026-02-18T13:29:03.122+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='extract.extract_from_kaggle' AIRFLOW_CTX_EXECUTION_DATE='2026-02-17T13:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-17T13:00:00+00:00'
+[2026-02-18T13:29:03.132+0000] {logging_mixin.py:188} INFO - Starting Kaggle dataset download...
+[2026-02-18T13:29:03.135+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/***/.kaggle/kaggle.json'
+[2026-02-18T13:29:03.145+0000] {logging_mixin.py:188} INFO - Dataset URL: https://www.kaggle.com/datasets/mustafakeser4/looker-ecommerce-bigquery-dataset
+[2026-02-18T13:29:03.623+0000] {logging_mixin.py:188} INFO - Downloading looker-ecommerce-bigquery-dataset.zip to /tmp/bronze_temp
+[2026-02-18T13:29:03.624+0000] {logging_mixin.py:188} WARNING -   0%|          | 0.00/162M [00:00<?, ?B/s]
+[2026-02-18T13:29:04.025+0000] {logging_mixin.py:188} WARNING -   1%|          | 1.00M/162M [00:00<01:04, 2.62MB/s]
+[2026-02-18T13:29:04.203+0000] {logging_mixin.py:188} WARNING -   2%|1         | 3.00M/162M [00:00<00:27, 6.18MB/s]
+[2026-02-18T13:29:04.370+0000] {logging_mixin.py:188} WARNING -   3%|3         | 5.00M/162M [00:00<00:19, 8.36MB/s]
+[2026-02-18T13:29:04.537+0000] {logging_mixin.py:188} WARNING -   4%|4         | 7.00M/162M [00:00<00:16, 9.75MB/s]
+[2026-02-18T13:29:04.709+0000] {logging_mixin.py:188} WARNING -   6%|5         | 9.00M/162M [00:01<00:15, 10.5MB/s]
+[2026-02-18T13:29:04.875+0000] {logging_mixin.py:188} WARNING -   7%|6         | 11.0M/162M [00:01<00:14, 11.2MB/s]
+[2026-02-18T13:29:05.074+0000] {logging_mixin.py:188} WARNING -   8%|8         | 13.0M/162M [00:01<00:14, 11.0MB/s]
+[2026-02-18T13:29:05.376+0000] {logging_mixin.py:188} WARNING -   9%|9         | 15.0M/162M [00:01<00:16, 9.24MB/s]
+[2026-02-18T13:29:05.500+0000] {logging_mixin.py:188} WARNING -  10%|9         | 16.0M/162M [00:01<00:16, 9.08MB/s]
+[2026-02-18T13:29:05.635+0000] {logging_mixin.py:188} WARNING -  10%|#         | 17.0M/162M [00:02<00:17, 8.77MB/s]
+[2026-02-18T13:29:05.816+0000] {logging_mixin.py:188} WARNING -  11%|#1        | 18.0M/162M [00:02<00:19, 7.84MB/s]
+[2026-02-18T13:29:06.112+0000] {logging_mixin.py:188} WARNING -  12%|#1        | 19.0M/162M [00:02<00:24, 6.03MB/s]
+[2026-02-18T13:29:06.453+0000] {logging_mixin.py:188} WARNING -  12%|#2        | 20.0M/162M [00:02<00:31, 4.81MB/s]
+[2026-02-18T13:29:06.633+0000] {logging_mixin.py:188} WARNING -  13%|#2        | 21.0M/162M [00:03<00:29, 5.05MB/s]
+[2026-02-18T13:29:06.734+0000] {logging_mixin.py:188} WARNING -  14%|#3        | 22.0M/162M [00:03<00:24, 5.90MB/s]
+[2026-02-18T13:29:07.134+0000] {logging_mixin.py:188} WARNING -  15%|#4        | 24.0M/162M [00:03<00:25, 5.59MB/s]
+[2026-02-18T13:29:07.294+0000] {logging_mixin.py:188} WARNING -  15%|#5        | 25.0M/162M [00:03<00:24, 5.79MB/s]
+[2026-02-18T13:29:07.466+0000] {logging_mixin.py:188} WARNING -  16%|#6        | 26.0M/162M [00:03<00:24, 5.87MB/s]
+[2026-02-18T13:29:07.654+0000] {logging_mixin.py:188} WARNING -  17%|#7        | 28.0M/162M [00:04<00:19, 7.34MB/s]
+[2026-02-18T13:29:07.808+0000] {logging_mixin.py:188} WARNING -  18%|#7        | 29.0M/162M [00:04<00:19, 7.21MB/s]
+[2026-02-18T13:29:07.991+0000] {logging_mixin.py:188} WARNING -  19%|#9        | 31.0M/162M [00:04<00:16, 8.46MB/s]
+[2026-02-18T13:29:08.405+0000] {logging_mixin.py:188} WARNING -  20%|#9        | 32.0M/162M [00:04<00:24, 5.57MB/s]
+[2026-02-18T13:29:08.527+0000] {logging_mixin.py:188} WARNING -  21%|##        | 34.0M/162M [00:04<00:17, 7.55MB/s]
+[2026-02-18T13:29:08.628+0000] {logging_mixin.py:188} WARNING -  22%|##1       | 35.0M/162M [00:05<00:16, 8.02MB/s]
+[2026-02-18T13:29:08.770+0000] {logging_mixin.py:188} WARNING -  22%|##2       | 36.0M/162M [00:05<00:16, 7.87MB/s]
+[2026-02-18T13:29:08.951+0000] {logging_mixin.py:188} WARNING -  23%|##2       | 37.0M/162M [00:05<00:18, 7.21MB/s]
+[2026-02-18T13:29:09.452+0000] {logging_mixin.py:188} WARNING -  23%|##3       | 38.0M/162M [00:05<00:29, 4.38MB/s]
+[2026-02-18T13:29:09.633+0000] {logging_mixin.py:188} WARNING -  25%|##4       | 40.0M/162M [00:06<00:21, 5.98MB/s]
+[2026-02-18T13:29:10.019+0000] {logging_mixin.py:188} WARNING -  25%|##5       | 41.0M/162M [00:06<00:27, 4.66MB/s]
+[2026-02-18T13:29:10.371+0000] {logging_mixin.py:188} WARNING -  26%|##6       | 42.6M/162M [00:06<00:26, 4.74MB/s]
+[2026-02-18T13:29:10.373+0000] {logging_mixin.py:188} WARNING -  26%|##6       | 42.6M/162M [00:06<00:18, 6.63MB/s]
+[2026-02-18T13:29:10.375+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/kaggle/api/kaggle_api_extended.py", line 1508, in dataset_download_files
+    with zipfile.ZipFile(outfile) as z:
+  File "/usr/local/lib/python3.8/zipfile.py", line 1269, in __init__
+    self._RealGetContents()
+  File "/usr/local/lib/python3.8/zipfile.py", line 1336, in _RealGetContents
+    raise BadZipFile("File is not a zip file")
+zipfile.BadZipFile: File is not a zip file
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/src/extract.py", line 38, in extract_data
+    api.dataset_download_files(
+  File "/home/airflow/.local/lib/python3.8/site-packages/kaggle/api/kaggle_api_extended.py", line 1511, in dataset_download_files
+    raise ValueError(
+ValueError: ('Bad zip file, please report on www.github.com/kaggle/kaggle-api', BadZipFile('File is not a zip file'))
+[2026-02-18T13:29:10.392+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=extract.extract_from_kaggle, execution_date=20260217T130000, start_date=20260218T132903, end_date=20260218T132910
+[2026-02-18T13:29:10.410+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 2394 for task extract.extract_from_kaggle (('Bad zip file, please report on www.github.com/kaggle/kaggle-api', BadZipFile('File is not a zip file')); 63851)
+[2026-02-18T13:29:10.417+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-18T13:29:10.446+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,123 @@
+[2026-02-09T02:37:32.658+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_order_status scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T02:37:32.673+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_order_status scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T02:37:32.674+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 4
+[2026-02-09T02:37:32.688+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): gold_layer.load_dim_order_status> on 2026-02-08 02:00:00+00:00
+[2026-02-09T02:37:32.696+0000] {standard_task_runner.py:60} INFO - Started process 8836 to run task
+[2026-02-09T02:37:32.702+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'gold_layer.load_dim_order_status', 'scheduled__2026-02-08T02:00:00+00:00', '--job-id', '1431', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpc36pm6ot']
+[2026-02-09T02:37:32.709+0000] {standard_task_runner.py:88} INFO - Job 1431: Subtask gold_layer.load_dim_order_status
+[2026-02-09T02:37:32.785+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_order_status scheduled__2026-02-08T02:00:00+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T02:37:32.862+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='gold_layer.load_dim_order_status' AIRFLOW_CTX_EXECUTION_DATE='2026-02-08T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-08T02:00:00+00:00'
+[2026-02-09T02:37:32.870+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T02:37:32.871+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T02:37:32.871+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T02:37:32.932+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': 'SELECT\n    GENERATE_UUID() AS order_status_key,   -- UUID surrogate key\n    order_status          -- natural/business key      -- attribute\n    status_description            -- attribute\nFROM (\n    SELECT DISTINCT \n        status, \n    FROM silver.order_items   -- source table with order status\n) AS distinct_statuses;', 'useLegacySql': False, 'queryParameters': [{'name': 'run_date', 'parameterType': {'type': 'DATE'}, 'parameterValue': {'value': '2026-02-08'}}]}}'
+[2026-02-09T02:37:32.933+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_gold_layer_load_dim_order_status_2026_02_08T02_00_00_00_00_f8f85c325a8f205f4718bfeb1f6c4cda
+[2026-02-09T02:37:33.297+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Unrecognized name: status at [7:9]; reason: invalidQuery, location: query, message: Unrecognized name: status at [7:9]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_order_status_2026_02_08T02_00_00_00_00_f8f85c325a8f205f4718bfeb1f6c4cda
+
+[2026-02-09T02:37:33.303+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=gold_layer.load_dim_order_status, execution_date=20260208T020000, start_date=20260209T023732, end_date=20260209T023733
+[2026-02-09T02:37:33.310+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1431 for task gold_layer.load_dim_order_status (400 Unrecognized name: status at [7:9]; reason: invalidQuery, location: query, message: Unrecognized name: status at [7:9]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_order_status_2026_02_08T02_00_00_00_00_f8f85c325a8f205f4718bfeb1f6c4cda
+; 8836)
+[2026-02-09T02:37:33.331+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-09T02:37:33.352+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-02-09T09:47:44.480+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_order_status scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T09:47:44.487+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_order_status scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T09:47:44.488+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 3
+[2026-02-09T09:47:44.496+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): gold_layer.load_dim_order_status> on 2026-02-08 02:00:00+00:00
+[2026-02-09T09:47:44.500+0000] {standard_task_runner.py:60} INFO - Started process 19944 to run task
+[2026-02-09T09:47:44.502+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'gold_layer.load_dim_order_status', 'scheduled__2026-02-08T02:00:00+00:00', '--job-id', '1641', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpr815a3__']
+[2026-02-09T09:47:44.505+0000] {standard_task_runner.py:88} INFO - Job 1641: Subtask gold_layer.load_dim_order_status
+[2026-02-09T09:47:44.539+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_order_status scheduled__2026-02-08T02:00:00+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T09:47:44.585+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='gold_layer.load_dim_order_status' AIRFLOW_CTX_EXECUTION_DATE='2026-02-08T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-08T02:00:00+00:00'
+[2026-02-09T09:47:44.591+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T09:47:44.591+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T09:47:44.592+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T09:47:44.633+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': 'SELECT\n    GENERATE_UUID() AS order_status_key,   -- UUID surrogate key\n    order_status          -- natural/business key      -- attribute\n    status_description            -- attribute\nFROM (\n    SELECT DISTINCT \n        status, \n    FROM silver.order_items   -- source table with order status\n) AS distinct_statuses;', 'useLegacySql': False, 'queryParameters': [{'name': 'run_date', 'parameterType': {'type': 'DATE'}, 'parameterValue': {'value': '2026-02-08'}}]}}'
+[2026-02-09T09:47:44.633+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_gold_layer_load_dim_order_status_2026_02_08T02_00_00_00_00_2202cc00f85986cd07efb889ed19099c
+[2026-02-09T09:47:45.224+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: Dataset prism-486509:silver was not found in location europe-west1; reason: notFound, message: Not found: Dataset prism-486509:silver was not found in location europe-west1
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_order_status_2026_02_08T02_00_00_00_00_2202cc00f85986cd07efb889ed19099c
+
+[2026-02-09T09:47:45.231+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=gold_layer.load_dim_order_status, execution_date=20260208T020000, start_date=20260209T094744, end_date=20260209T094745
+[2026-02-09T09:47:45.239+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1641 for task gold_layer.load_dim_order_status (404 Not found: Dataset prism-486509:silver was not found in location europe-west1; reason: notFound, message: Not found: Dataset prism-486509:silver was not found in location europe-west1
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_order_status_2026_02_08T02_00_00_00_00_2202cc00f85986cd07efb889ed19099c
+; 19944)
+[2026-02-09T09:47:45.258+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-09T09:47:45.279+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-02-09T10:08:28.833+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_order_status scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T10:08:28.840+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_order_status scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T10:08:28.841+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 3
+[2026-02-09T10:08:28.855+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): gold_layer.load_dim_order_status> on 2026-02-08 02:00:00+00:00
+[2026-02-09T10:08:28.861+0000] {standard_task_runner.py:60} INFO - Started process 24445 to run task
+[2026-02-09T10:08:28.864+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'gold_layer.load_dim_order_status', 'scheduled__2026-02-08T02:00:00+00:00', '--job-id', '1744', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpmutq9qj_']
+[2026-02-09T10:08:28.866+0000] {standard_task_runner.py:88} INFO - Job 1744: Subtask gold_layer.load_dim_order_status
+[2026-02-09T10:08:28.904+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_order_status scheduled__2026-02-08T02:00:00+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T10:08:28.962+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='gold_layer.load_dim_order_status' AIRFLOW_CTX_EXECUTION_DATE='2026-02-08T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-08T02:00:00+00:00'
+[2026-02-09T10:08:28.970+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T10:08:28.971+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T10:08:28.971+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T10:08:29.022+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': 'SELECT\n    GENERATE_UUID() AS order_status_key,   -- UUID surrogate key\n    order_status          -- natural/business key      -- attribute\n    status_description            -- attribute\nFROM (\n    SELECT DISTINCT \n        status, \n    FROM silver.order_items   -- source table with order status\n) AS distinct_statuses;', 'useLegacySql': False, 'queryParameters': [{'name': 'run_date', 'parameterType': {'type': 'DATE'}, 'parameterValue': {'value': '2026-02-08'}}]}}'
+[2026-02-09T10:08:29.024+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_gold_layer_load_dim_order_status_2026_02_08T02_00_00_00_00_812376322fd7fb805efb1488d7b9718d
+[2026-02-09T10:08:29.445+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Unrecognized name: status at [7:9]; reason: invalidQuery, location: query, message: Unrecognized name: status at [7:9]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_order_status_2026_02_08T02_00_00_00_00_812376322fd7fb805efb1488d7b9718d
+
+[2026-02-09T10:08:29.449+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=gold_layer.load_dim_order_status, execution_date=20260208T020000, start_date=20260209T100828, end_date=20260209T100829
+[2026-02-09T10:08:29.454+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1744 for task gold_layer.load_dim_order_status (400 Unrecognized name: status at [7:9]; reason: invalidQuery, location: query, message: Unrecognized name: status at [7:9]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_order_status_2026_02_08T02_00_00_00_00_812376322fd7fb805efb1488d7b9718d
+; 24445)
+[2026-02-09T10:08:29.494+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-09T10:08:29.511+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

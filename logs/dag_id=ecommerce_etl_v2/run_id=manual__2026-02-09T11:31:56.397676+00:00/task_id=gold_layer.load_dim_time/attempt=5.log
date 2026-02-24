@@ -1,0 +1,41 @@
+[2026-02-09T11:52:26.665+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_time manual__2026-02-09T11:31:56.397676+00:00 [queued]>
+[2026-02-09T11:52:26.672+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_time manual__2026-02-09T11:31:56.397676+00:00 [queued]>
+[2026-02-09T11:52:26.672+0000] {taskinstance.py:2170} INFO - Starting attempt 5 of 7
+[2026-02-09T11:52:26.683+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): gold_layer.load_dim_time> on 2026-02-09 11:31:56.397676+00:00
+[2026-02-09T11:52:26.687+0000] {standard_task_runner.py:60} INFO - Started process 37605 to run task
+[2026-02-09T11:52:26.694+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'gold_layer.load_dim_time', 'manual__2026-02-09T11:31:56.397676+00:00', '--job-id', '1984', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpr3d4pc2x']
+[2026-02-09T11:52:26.697+0000] {standard_task_runner.py:88} INFO - Job 1984: Subtask gold_layer.load_dim_time
+[2026-02-09T11:52:26.729+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_time manual__2026-02-09T11:31:56.397676+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T11:52:26.780+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='gold_layer.load_dim_time' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T11:31:56.397676+00:00' AIRFLOW_CTX_TRY_NUMBER='5' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-09T11:31:56.397676+00:00'
+[2026-02-09T11:52:26.788+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T11:52:26.789+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T11:52:26.789+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T11:52:26.831+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "SELECT\n  -- Surrogate key\n  GENERATE_UUID() AS time_key,\n  \n  -- Time components (00:00 to 23:59)\n  t AS full_time,\n  \n  -- Hour\n  EXTRACT(HOUR FROM t) AS hour_24,\n  LPAD(CAST(EXTRACT(HOUR FROM t) AS STRING), 2, '0') AS hour_24_formatted,\n  \n  -- Hour 12-hour format  \n  CASE \n    WHEN EXTRACT(HOUR FROM t) = 0 THEN 12\n    ELSE MOD(EXTRACT(HOUR FROM t), 12)\n  END AS hour_12,\n  FORMAT_TIME('%I', t) AS hour_12_formatted,\n  \n  -- Minutes\n  EXTRACT(MINUTE FROM t) AS minute,\n  FORMAT_TIME('%M', t) AS minute_formatted,\n  \n  -- Seconds\n  EXTRACT(SECOND FROM t) AS second,\n  FORMAT_TIME('%S', t) AS second_formatted,\n  \n  -- Time period\n  CASE \n    WHEN EXTRACT(HOUR FROM t) < 12 THEN 'AM'\n    WHEN EXTRACT(HOUR FROM t) = 12 THEN 'PM'\n    ELSE 'PM'\n  END AS am_pm,\n  \n  -- Time of day buckets\n  CASE \n    WHEN EXTRACT(HOUR FROM t) BETWEEN 5 AND 11 THEN 'Morning'\n    WHEN EXTRACT(HOUR FROM t) BETWEEN 12 AND 17 THEN 'Afternoon'\n    WHEN EXTRACT(HOUR FROM t) BETWEEN 18 AND 22 THEN 'Evening'\n    ELSE 'Night'\n  END AS time_of_day,\n  \n  -- Business hour flag\n  CASE \n    WHEN EXTRACT(HOUR FROM t) BETWEEN 9 AND 17 THEN TRUE\n    ELSE FALSE\n  END AS is_business_hour\n\nFROM UNNEST(\n  GENERATE_TIME_ARRAY(\n    TIME(0, 0, 0),      -- Start: 00:00:00\n    TIME(23, 59, 59),   -- End: 23:59:59\n    INTERVAL 1 MINUTE   -- Granularity: 1 minute\n  )\n) AS t\n\nORDER BY t;", 'useLegacySql': False, 'queryParameters': [{'name': 'run_date', 'parameterType': {'type': 'DATE'}, 'parameterValue': {'value': '2026-02-09'}}]}}'
+[2026-02-09T11:52:26.832+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_gold_layer_load_dim_time_2026_02_09T11_31_56_397676_00_00_2a0f559553a26eb6d718e46791ab1034
+[2026-02-09T11:52:27.178+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Function not found: GENERATE_TIME_ARRAY; Did you mean generate_date_array? at [49:3]; reason: invalidQuery, location: query, message: Function not found: GENERATE_TIME_ARRAY; Did you mean generate_date_array? at [49:3]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_time_2026_02_09T11_31_56_397676_00_00_2a0f559553a26eb6d718e46791ab1034
+
+[2026-02-09T11:52:27.183+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=gold_layer.load_dim_time, execution_date=20260209T113156, start_date=20260209T115226, end_date=20260209T115227
+[2026-02-09T11:52:27.189+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1984 for task gold_layer.load_dim_time (400 Function not found: GENERATE_TIME_ARRAY; Did you mean generate_date_array? at [49:3]; reason: invalidQuery, location: query, message: Function not found: GENERATE_TIME_ARRAY; Did you mean generate_date_array? at [49:3]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_time_2026_02_09T11_31_56_397676_00_00_2a0f559553a26eb6d718e46791ab1034
+; 37605)
+[2026-02-09T11:52:27.205+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-09T11:52:27.221+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

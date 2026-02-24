@@ -1,0 +1,52 @@
+[2026-02-09T02:46:07.445+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.bronze_layer.check_events_loaded scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T02:46:07.451+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.bronze_layer.check_events_loaded scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T02:46:07.451+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-09T02:46:07.459+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryCheckOperator): bronze_layer.check_events_loaded> on 2026-02-08 02:00:00+00:00
+[2026-02-09T02:46:07.462+0000] {standard_task_runner.py:60} INFO - Started process 10453 to run task
+[2026-02-09T02:46:07.465+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'bronze_layer.check_events_loaded', 'scheduled__2026-02-08T02:00:00+00:00', '--job-id', '1473', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpma92rm3q']
+[2026-02-09T02:46:07.466+0000] {standard_task_runner.py:88} INFO - Job 1473: Subtask bronze_layer.check_events_loaded
+[2026-02-09T02:46:07.494+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.bronze_layer.check_events_loaded scheduled__2026-02-08T02:00:00+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T02:46:07.551+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='bronze_layer.check_events_loaded' AIRFLOW_CTX_EXECUTION_DATE='2026-02-08T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-08T02:00:00+00:00'
+[2026-02-09T02:46:07.552+0000] {sql.py:785} INFO - Executing SQL check: 
+                    SELECT COUNT(*) > 0
+                    FROM `prism-486509.bronze.events`
+                
+[2026-02-09T02:46:07.558+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T02:46:07.558+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T02:46:07.559+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T02:46:07.601+0000] {sql.py:450} INFO - Running statement: 
+                    SELECT COUNT(*) > 0
+                    FROM `prism-486509.bronze.events`
+                , parameters: None
+[2026-02-09T02:46:07.602+0000] {bigquery.py:1596} INFO - Inserting job ***_1770605167601794_93611ab3681657fb52d80cf37e1df8e0
+[2026-02-09T02:46:08.455+0000] {sql.py:788} INFO - Record: [True]
+[2026-02-09T02:46:08.456+0000] {sql.py:796} INFO - Success.
+[2026-02-09T02:46:08.470+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=bronze_layer.check_events_loaded, execution_date=20260208T020000, start_date=20260209T024607, end_date=20260209T024608
+[2026-02-09T02:46:08.495+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-09T02:46:08.509+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-02-09T10:09:41.251+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.bronze_layer.check_events_loaded scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T10:09:41.257+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.bronze_layer.check_events_loaded scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T10:09:41.257+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-09T10:09:41.264+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryCheckOperator): bronze_layer.check_events_loaded> on 2026-02-08 02:00:00+00:00
+[2026-02-09T10:09:41.268+0000] {standard_task_runner.py:60} INFO - Started process 24545 to run task
+[2026-02-09T10:09:41.270+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'bronze_layer.check_events_loaded', 'scheduled__2026-02-08T02:00:00+00:00', '--job-id', '1753', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpsppybyfn']
+[2026-02-09T10:09:41.272+0000] {standard_task_runner.py:88} INFO - Job 1753: Subtask bronze_layer.check_events_loaded
+[2026-02-09T10:09:41.298+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.bronze_layer.check_events_loaded scheduled__2026-02-08T02:00:00+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T10:09:41.334+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='bronze_layer.check_events_loaded' AIRFLOW_CTX_EXECUTION_DATE='2026-02-08T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-08T02:00:00+00:00'
+[2026-02-09T10:09:41.335+0000] {sql.py:785} INFO - Executing SQL check: 
+                    SELECT COUNT(*) > 0
+                    FROM `prism-486509.bronze.events`
+                
+[2026-02-09T10:09:41.339+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T10:09:41.339+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T10:09:41.339+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T10:09:41.382+0000] {sql.py:450} INFO - Running statement: 
+                    SELECT COUNT(*) > 0
+                    FROM `prism-486509.bronze.events`
+                , parameters: None
+[2026-02-09T10:09:41.383+0000] {bigquery.py:1596} INFO - Inserting job ***_1770631781382809_93611ab3681657fb52d80cf37e1df8e0
+[2026-02-09T10:09:42.429+0000] {sql.py:788} INFO - Record: [True]
+[2026-02-09T10:09:42.430+0000] {sql.py:796} INFO - Success.
+[2026-02-09T10:09:42.437+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=bronze_layer.check_events_loaded, execution_date=20260208T020000, start_date=20260209T100941, end_date=20260209T100942
+[2026-02-09T10:09:42.470+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-09T10:09:42.484+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

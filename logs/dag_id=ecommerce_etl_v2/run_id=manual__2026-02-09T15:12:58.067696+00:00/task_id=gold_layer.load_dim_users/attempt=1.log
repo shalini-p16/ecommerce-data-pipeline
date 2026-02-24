@@ -1,0 +1,41 @@
+[2026-02-09T15:20:19.653+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_users manual__2026-02-09T15:12:58.067696+00:00 [queued]>
+[2026-02-09T15:20:19.658+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_users manual__2026-02-09T15:12:58.067696+00:00 [queued]>
+[2026-02-09T15:20:19.658+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-09T15:20:19.664+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): gold_layer.load_dim_users> on 2026-02-09 15:12:58.067696+00:00
+[2026-02-09T15:20:19.668+0000] {standard_task_runner.py:60} INFO - Started process 67000 to run task
+[2026-02-09T15:20:19.670+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'gold_layer.load_dim_users', 'manual__2026-02-09T15:12:58.067696+00:00', '--job-id', '2540', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp4hj9u8ug']
+[2026-02-09T15:20:19.671+0000] {standard_task_runner.py:88} INFO - Job 2540: Subtask gold_layer.load_dim_users
+[2026-02-09T15:20:19.692+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_users manual__2026-02-09T15:12:58.067696+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T15:20:19.724+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='gold_layer.load_dim_users' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T15:12:58.067696+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-09T15:12:58.067696+00:00'
+[2026-02-09T15:20:19.728+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T15:20:19.728+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T15:20:19.729+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T15:20:19.767+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "MERGE INTO `prism-486509.gold.dim_users` tgt\nUSING latest_users src\nON tgt.user_id = src.user_id\nAND tgt.is_current = TRUE\n\n-- 1️⃣ If attributes changed → expire old record\nWHEN MATCHED AND (\n     tgt.full_name        != src.full_name\n  OR tgt.email_address    != src.email_address\n  OR tgt.age              != src.age\n  OR tgt.age_group        != src.age_group\n  OR tgt.gender           != src.gender\n  OR tgt.city             != src.city\n  OR tgt.state            != src.state\n  OR tgt.country          != src.country\n  OR tgt.zip_code         != src.zip_code\n  OR tgt.street_address   != src.street_address\n  OR tgt.latitude         != src.latitude\n  OR tgt.longitude        != src.longitude\n  OR tgt.traffic_source   != src.traffic_source\n)\nTHEN\n  UPDATE SET\n    tgt.effective_end_ts = src.ingestion_ts,\n    tgt.is_current = FALSE\n\n-- 2️⃣ Insert new version (new or changed user)\nWHEN NOT MATCHED\nOR MATCHED AND tgt.is_current = FALSE\nTHEN\n  INSERT (\n    user_sk,\n    user_id,\n    full_name,\n    email_address,\n    age,\n    age_group,\n    gender,\n    city,\n    state,\n    country,\n    zip_code,\n    street_address,\n    latitude,\n    longitude,\n    traffic_source,\n    signup_timestamp,\n    effective_start_ts,\n    effective_end_ts,\n    is_current\n  )\n  VALUES (\n    GENERATE_UUID(),\n    src.user_id,\n    src.full_name,\n    src.email_address,\n    src.age,\n    src.age_group,\n    src.gender,\n    src.city,\n    src.state,\n    src.country,\n    src.zip_code,\n    src.street_address,\n    src.latitude,\n    src.longitude,\n    src.traffic_source,\n    src.signup_timestamp,\n    src.ingestion_ts,\n    TIMESTAMP('9999-12-31'),\n    TRUE\n  );", 'useLegacySql': False}}'
+[2026-02-09T15:20:19.767+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_gold_layer_load_dim_users_2026_02_09T15_12_58_067696_00_00_3ab1e279943e2750267f60da3830181d
+[2026-02-09T15:20:20.133+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Syntax error: Expected keyword AND or keyword BY or keyword THEN but got keyword OR at [29:1]; reason: invalidQuery, location: query, message: Syntax error: Expected keyword AND or keyword BY or keyword THEN but got keyword OR at [29:1]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_users_2026_02_09T15_12_58_067696_00_00_3ab1e279943e2750267f60da3830181d
+
+[2026-02-09T15:20:20.141+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=gold_layer.load_dim_users, execution_date=20260209T151258, start_date=20260209T152019, end_date=20260209T152020
+[2026-02-09T15:20:20.150+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 2540 for task gold_layer.load_dim_users (400 Syntax error: Expected keyword AND or keyword BY or keyword THEN but got keyword OR at [29:1]; reason: invalidQuery, location: query, message: Syntax error: Expected keyword AND or keyword BY or keyword THEN but got keyword OR at [29:1]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_users_2026_02_09T15_12_58_067696_00_00_3ab1e279943e2750267f60da3830181d
+; 67000)
+[2026-02-09T15:20:20.160+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-09T15:20:20.174+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

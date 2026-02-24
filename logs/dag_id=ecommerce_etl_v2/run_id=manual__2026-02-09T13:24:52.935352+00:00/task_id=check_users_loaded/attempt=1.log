@@ -1,0 +1,26 @@
+[2026-02-09T13:30:11.840+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.check_users_loaded manual__2026-02-09T13:24:52.935352+00:00 [queued]>
+[2026-02-09T13:30:11.846+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.check_users_loaded manual__2026-02-09T13:24:52.935352+00:00 [queued]>
+[2026-02-09T13:30:11.846+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-09T13:30:11.853+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryCheckOperator): check_users_loaded> on 2026-02-09 13:24:52.935352+00:00
+[2026-02-09T13:30:11.857+0000] {standard_task_runner.py:60} INFO - Started process 58073 to run task
+[2026-02-09T13:30:11.859+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'check_users_loaded', 'manual__2026-02-09T13:24:52.935352+00:00', '--job-id', '2466', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp9resjpkj']
+[2026-02-09T13:30:11.860+0000] {standard_task_runner.py:88} INFO - Job 2466: Subtask check_users_loaded
+[2026-02-09T13:30:11.884+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.check_users_loaded manual__2026-02-09T13:24:52.935352+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T13:30:11.922+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='check_users_loaded' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T13:24:52.935352+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-09T13:24:52.935352+00:00'
+[2026-02-09T13:30:11.923+0000] {sql.py:785} INFO - Executing SQL check: 
+                SELECT COUNT(*) > 0
+                FROM `prism-486509.bronze.users`
+            
+[2026-02-09T13:30:11.927+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T13:30:11.927+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T13:30:11.927+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T13:30:11.973+0000] {sql.py:450} INFO - Running statement: 
+                SELECT COUNT(*) > 0
+                FROM `prism-486509.bronze.users`
+            , parameters: None
+[2026-02-09T13:30:11.974+0000] {bigquery.py:1596} INFO - Inserting job ***_1770643811974018_0607e6378de18301b8c823d9936d8c58
+[2026-02-09T13:30:13.008+0000] {sql.py:788} INFO - Record: [True]
+[2026-02-09T13:30:13.009+0000] {sql.py:796} INFO - Success.
+[2026-02-09T13:30:13.014+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=check_users_loaded, execution_date=20260209T132452, start_date=20260209T133011, end_date=20260209T133013
+[2026-02-09T13:30:13.066+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-09T13:30:13.096+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,106 @@
+[2026-02-09T12:25:17.668+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle manual__2026-02-09T12:25:16.555665+00:00 [queued]>
+[2026-02-09T12:25:17.673+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle manual__2026-02-09T12:25:16.555665+00:00 [queued]>
+[2026-02-09T12:25:17.674+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-09T12:25:17.687+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): extract.extract_from_kaggle> on 2026-02-09 12:25:16.555665+00:00
+[2026-02-09T12:25:17.693+0000] {standard_task_runner.py:60} INFO - Started process 46692 to run task
+[2026-02-09T12:25:17.696+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'extract.extract_from_kaggle', 'manual__2026-02-09T12:25:16.555665+00:00', '--job-id', '2225', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpv9hn3shm']
+[2026-02-09T12:25:17.699+0000] {standard_task_runner.py:88} INFO - Job 2225: Subtask extract.extract_from_kaggle
+[2026-02-09T12:25:17.754+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle manual__2026-02-09T12:25:16.555665+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T12:25:17.823+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='extract.extract_from_kaggle' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T12:25:16.555665+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-09T12:25:16.555665+00:00'
+[2026-02-09T12:25:17.838+0000] {logging_mixin.py:188} INFO - Starting Kaggle dataset download...
+[2026-02-09T12:25:17.848+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/***/.kaggle/kaggle.json'
+[2026-02-09T12:25:17.920+0000] {logging_mixin.py:188} INFO - Dataset URL: https://www.kaggle.com/datasets/mustafakeser4/looker-ecommerce-bigquery-dataset
+[2026-02-09T12:25:18.479+0000] {logging_mixin.py:188} INFO - Downloading looker-ecommerce-bigquery-dataset.zip to /tmp/bronze_temp
+[2026-02-09T12:25:18.481+0000] {logging_mixin.py:188} WARNING -   0%|          | 0.00/162M [00:00<?, ?B/s]
+[2026-02-09T12:25:19.886+0000] {logging_mixin.py:188} WARNING -   1%|          | 1.00M/162M [00:01<03:46, 746kB/s]
+[2026-02-09T12:25:20.706+0000] {logging_mixin.py:188} WARNING -   1%|1         | 2.00M/162M [00:02<02:50, 988kB/s]
+[2026-02-09T12:25:21.648+0000] {logging_mixin.py:188} WARNING -   2%|1         | 3.00M/162M [00:03<02:40, 1.04MB/s]
+[2026-02-09T12:25:22.357+0000] {logging_mixin.py:188} WARNING -   2%|2         | 4.00M/162M [00:03<02:20, 1.18MB/s]
+[2026-02-09T12:25:23.000+0000] {logging_mixin.py:188} WARNING -   3%|3         | 5.00M/162M [00:04<02:05, 1.31MB/s]
+[2026-02-09T12:25:23.668+0000] {logging_mixin.py:188} WARNING -   4%|3         | 6.00M/162M [00:05<01:58, 1.39MB/s]
+[2026-02-09T12:25:24.283+0000] {logging_mixin.py:188} WARNING -   4%|4         | 7.00M/162M [00:05<01:50, 1.48MB/s]
+[2026-02-09T12:25:24.716+0000] {logging_mixin.py:188} WARNING -   5%|4         | 8.00M/162M [00:06<01:35, 1.69MB/s]
+[2026-02-09T12:25:25.133+0000] {logging_mixin.py:188} WARNING -   6%|5         | 9.00M/162M [00:06<01:25, 1.88MB/s]
+[2026-02-09T12:25:25.448+0000] {logging_mixin.py:188} WARNING -   6%|6         | 10.0M/162M [00:06<01:13, 2.17MB/s]
+[2026-02-09T12:25:25.836+0000] {logging_mixin.py:188} WARNING -   7%|6         | 11.0M/162M [00:07<01:08, 2.31MB/s]
+[2026-02-09T12:25:26.091+0000] {logging_mixin.py:188} WARNING -   7%|7         | 12.0M/162M [00:07<00:59, 2.67MB/s]
+[2026-02-09T12:25:26.209+0000] {logging_mixin.py:188} WARNING -   8%|8         | 13.0M/162M [00:07<00:46, 3.38MB/s]
+[2026-02-09T12:25:26.379+0000] {logging_mixin.py:188} WARNING -   9%|8         | 14.0M/162M [00:07<00:39, 3.92MB/s]
+[2026-02-09T12:25:26.563+0000] {logging_mixin.py:188} WARNING -   9%|9         | 15.0M/162M [00:08<00:35, 4.33MB/s]
+[2026-02-09T12:25:26.735+0000] {logging_mixin.py:188} WARNING -  10%|9         | 16.0M/162M [00:08<00:32, 4.74MB/s]
+[2026-02-09T12:25:26.912+0000] {logging_mixin.py:188} WARNING -  10%|#         | 17.0M/162M [00:08<00:30, 5.05MB/s]
+[2026-02-09T12:25:27.038+0000] {logging_mixin.py:188} WARNING -  11%|#1        | 18.0M/162M [00:08<00:26, 5.72MB/s]
+[2026-02-09T12:25:27.277+0000] {logging_mixin.py:188} WARNING -  12%|#2        | 20.0M/162M [00:08<00:21, 6.82MB/s]
+[2026-02-09T12:25:27.451+0000] {logging_mixin.py:188} WARNING -  13%|#2        | 21.0M/162M [00:08<00:22, 6.60MB/s]
+[2026-02-09T12:25:27.636+0000] {logging_mixin.py:188} WARNING -  14%|#3        | 22.0M/162M [00:09<00:23, 6.33MB/s]
+[2026-02-09T12:25:27.828+0000] {logging_mixin.py:188} WARNING -  14%|#4        | 23.0M/162M [00:09<00:24, 6.06MB/s]
+[2026-02-09T12:25:27.958+0000] {logging_mixin.py:188} WARNING -  15%|#4        | 24.0M/162M [00:09<00:22, 6.52MB/s]
+[2026-02-09T12:25:28.146+0000] {logging_mixin.py:188} WARNING -  16%|#6        | 26.0M/162M [00:09<00:17, 7.99MB/s]
+[2026-02-09T12:25:28.329+0000] {logging_mixin.py:188} WARNING -  17%|#6        | 27.0M/162M [00:09<00:19, 7.31MB/s]
+[2026-02-09T12:25:28.631+0000] {logging_mixin.py:188} WARNING -  17%|#7        | 28.0M/162M [00:10<00:24, 5.69MB/s]
+[2026-02-09T12:25:28.799+0000] {logging_mixin.py:188} WARNING -  18%|#7        | 29.0M/162M [00:10<00:23, 5.83MB/s]
+[2026-02-09T12:25:28.969+0000] {logging_mixin.py:188} WARNING -  18%|#8        | 30.0M/162M [00:10<00:23, 5.92MB/s]
+[2026-02-09T12:25:29.106+0000] {logging_mixin.py:188} WARNING -  19%|#9        | 31.0M/162M [00:10<00:21, 6.33MB/s]
+[2026-02-09T12:25:29.308+0000] {logging_mixin.py:188} WARNING -  20%|##        | 33.0M/162M [00:10<00:17, 7.66MB/s]
+[2026-02-09T12:25:29.423+0000] {logging_mixin.py:188} WARNING -  21%|##        | 34.0M/162M [00:10<00:16, 7.98MB/s]
+[2026-02-09T12:25:29.606+0000] {logging_mixin.py:188} WARNING -  22%|##1       | 35.0M/162M [00:11<00:18, 7.25MB/s]
+[2026-02-09T12:25:29.789+0000] {logging_mixin.py:188} WARNING -  22%|##2       | 36.0M/162M [00:11<00:19, 6.77MB/s]
+[2026-02-09T12:25:29.983+0000] {logging_mixin.py:188} WARNING -  23%|##2       | 37.0M/162M [00:11<00:20, 6.32MB/s]
+[2026-02-09T12:25:30.157+0000] {logging_mixin.py:188} WARNING -  23%|##3       | 38.0M/162M [00:11<00:20, 6.23MB/s]
+[2026-02-09T12:25:30.355+0000] {logging_mixin.py:188} WARNING -  25%|##4       | 40.0M/162M [00:11<00:16, 7.64MB/s]
+[2026-02-09T12:25:30.620+0000] {logging_mixin.py:188} WARNING -  25%|##5       | 41.0M/162M [00:12<00:20, 6.24MB/s]
+[2026-02-09T12:25:30.885+0000] {logging_mixin.py:188} WARNING -  26%|##5       | 42.0M/162M [00:12<00:23, 5.43MB/s]
+[2026-02-09T12:25:31.025+0000] {logging_mixin.py:188} WARNING -  26%|##6       | 43.0M/162M [00:12<00:21, 5.86MB/s]
+[2026-02-09T12:25:31.303+0000] {logging_mixin.py:188} WARNING -  28%|##7       | 45.0M/162M [00:12<00:18, 6.50MB/s]
+[2026-02-09T12:25:31.495+0000] {logging_mixin.py:188} WARNING -  28%|##8       | 46.0M/162M [00:13<00:19, 6.21MB/s]
+[2026-02-09T12:25:31.698+0000] {logging_mixin.py:188} WARNING -  29%|##8       | 47.0M/162M [00:13<00:20, 5.91MB/s]
+[2026-02-09T12:25:31.862+0000] {logging_mixin.py:188} WARNING -  30%|##9       | 48.0M/162M [00:13<00:19, 6.03MB/s]
+[2026-02-09T12:25:32.046+0000] {logging_mixin.py:188} WARNING -  31%|###       | 50.0M/162M [00:13<00:15, 7.56MB/s]
+[2026-02-09T12:25:32.152+0000] {logging_mixin.py:188} WARNING -  31%|###1      | 51.0M/162M [00:13<00:14, 8.01MB/s]
+[2026-02-09T12:25:32.340+0000] {logging_mixin.py:188} WARNING -  32%|###2      | 52.0M/162M [00:13<00:16, 7.22MB/s]
+[2026-02-09T12:25:32.512+0000] {logging_mixin.py:188} WARNING -  33%|###2      | 53.0M/162M [00:14<00:16, 6.88MB/s]
+[2026-02-09T12:25:32.690+0000] {logging_mixin.py:188} WARNING -  33%|###3      | 54.0M/162M [00:14<00:17, 6.57MB/s]
+[2026-02-09T12:25:32.830+0000] {local_task_job_runner.py:302} WARNING - State of this instance has been externally set to None. Terminating instance.
+[2026-02-09T12:25:32.831+0000] {process_utils.py:131} INFO - Sending 15 to group 46692. PIDs of all processes in the group: [46692]
+[2026-02-09T12:25:32.831+0000] {process_utils.py:86} INFO - Sending the signal 15 to group 46692
+[2026-02-09T12:25:32.831+0000] {taskinstance.py:2450} ERROR - Received SIGTERM. Terminating subprocesses.
+[2026-02-09T12:25:32.832+0000] {logging_mixin.py:188} WARNING -  33%|###3      | 54.0M/162M [00:14<00:28, 3.95MB/s]
+[2026-02-09T12:25:32.837+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/src/extract.py", line 37, in extract_data
+    api.dataset_download_files(
+  File "/home/airflow/.local/lib/python3.8/site-packages/kaggle/api/kaggle_api_extended.py", line 1499, in dataset_download_files
+    self.download_file(response, outfile, quiet, not force)
+  File "/home/airflow/.local/lib/python3.8/site-packages/kaggle/api/kaggle_api_extended.py", line 1958, in download_file
+    data = response.read(chunk_size)
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/response.py", line 567, in read
+    data = self._fp_read(amt) if not fp_closed else b""
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/response.py", line 533, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+  File "/usr/local/lib/python3.8/http/client.py", line 459, in read
+    n = self.readinto(b)
+  File "/usr/local/lib/python3.8/http/client.py", line 503, in readinto
+    n = self.fp.readinto(b)
+  File "/usr/local/lib/python3.8/socket.py", line 669, in readinto
+    return self._sock.recv_into(b)
+  File "/usr/local/lib/python3.8/ssl.py", line 1274, in recv_into
+    return self.read(nbytes, buffer)
+  File "/usr/local/lib/python3.8/ssl.py", line 1132, in read
+    return self._sslobj.read(len, buffer)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2452, in signal_handler
+    raise AirflowException("Task received SIGTERM signal")
+airflow.exceptions.AirflowException: Task received SIGTERM signal
+[2026-02-09T12:25:32.844+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=extract.extract_from_kaggle, execution_date=20260209T122516, start_date=20260209T122517, end_date=20260209T122532
+[2026-02-09T12:25:32.852+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 2225 for task extract.extract_from_kaggle ((psycopg2.errors.ForeignKeyViolation) insert or update on table "task_fail" violates foreign key constraint "task_fail_ti_fkey"
+DETAIL:  Key (dag_id, task_id, run_id, map_index)=(ecommerce_etl_v2, extract.extract_from_kaggle, manual__2026-02-09T12:25:16.555665+00:00, -1) is not present in table "task_instance".
+
+[SQL: INSERT INTO task_fail (task_id, dag_id, run_id, map_index, start_date, end_date, duration) VALUES (%(task_id)s, %(dag_id)s, %(run_id)s, %(map_index)s, %(start_date)s, %(end_date)s, %(duration)s) RETURNING task_fail.id]
+[parameters: {'task_id': 'extract.extract_from_kaggle', 'dag_id': 'ecommerce_etl_v2', 'run_id': 'manual__2026-02-09T12:25:16.555665+00:00', 'map_index': -1, 'start_date': datetime.datetime(2026, 2, 9, 12, 25, 17, 668893, tzinfo=Timezone('UTC')), 'end_date': datetime.datetime(2026, 2, 9, 12, 25, 32, 844401, tzinfo=Timezone('UTC')), 'duration': 15}]
+(Background on this error at: https://sqlalche.me/e/14/gkpj); 46692)
+[2026-02-09T12:25:32.863+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=46692, status='terminated', exitcode=1, started='12:25:17') (46692) terminated with exit code 1

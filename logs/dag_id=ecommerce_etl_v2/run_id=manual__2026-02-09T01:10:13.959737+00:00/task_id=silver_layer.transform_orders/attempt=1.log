@@ -1,0 +1,53 @@
+[2026-02-09T01:10:18.454+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.silver_layer.transform_orders manual__2026-02-09T01:10:13.959737+00:00 [queued]>
+[2026-02-09T01:10:18.460+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.silver_layer.transform_orders manual__2026-02-09T01:10:13.959737+00:00 [queued]>
+[2026-02-09T01:10:18.460+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-09T01:10:18.469+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): silver_layer.transform_orders> on 2026-02-09 01:10:13.959737+00:00
+[2026-02-09T01:10:18.473+0000] {standard_task_runner.py:60} INFO - Started process 37878 to run task
+[2026-02-09T01:10:18.476+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'silver_layer.transform_orders', 'manual__2026-02-09T01:10:13.959737+00:00', '--job-id', '1166', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp9anbv59z']
+[2026-02-09T01:10:18.477+0000] {standard_task_runner.py:88} INFO - Job 1166: Subtask silver_layer.transform_orders
+[2026-02-09T01:10:18.503+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.silver_layer.transform_orders manual__2026-02-09T01:10:13.959737+00:00 [running]> on host 52b3fbe2fc57
+[2026-02-09T01:10:18.550+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='silver_layer.transform_orders' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T01:10:13.959737+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-09T01:10:13.959737+00:00'
+[2026-02-09T01:10:18.555+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T01:10:18.556+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T01:10:18.556+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T01:10:18.604+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "SELECT\n    order_id,\n    user_id,\n    status,\n    CAST(gender AS STRING) AS gender,\n    -- Convert created_at from STRING to TIMESTAMP and format\n    FORMAT_TIMESTAMP('%Y-%m-%d %H:%M:%S', TIMESTAMP(created_at)) AS created_at,\n    \n    -- Handle other timestamp columns, allow NULLs\n    CASE \n        WHEN returned_at IS NOT NULL THEN FORMAT_TIMESTAMP('%Y-%m-%d %H:%M:%S', TIMESTAMP(returned_at))\n        ELSE NULL\n    END AS returned_at,\n    \n    CASE \n        WHEN shipped_at IS NOT NULL THEN FORMAT_TIMESTAMP('%Y-%m-%d %H:%M:%S', TIMESTAMP(shipped_at))\n        ELSE NULL\n    END AS shipped_at,\n    \n    CASE \n        WHEN delivered_at IS NOT NULL THEN FORMAT_TIMESTAMP('%Y-%m-%d %H:%M:%S', TIMESTAMP(delivered_at))\n        ELSE NULL\n    END AS delivered_at,\n    \n    num_of_item\n\nFROM `bronze.orders`\n WHERE ingestion_date = @run_date  -- keep idempotent by batch;", 'useLegacySql': False, 'destinationTable': {'projectId': 'prism-486509', 'datasetId': 'silver', 'tableId': 'orders', 'writeDisposition': 'WRITE_TRUNCATE', 'createDisposition': 'CREATE_IF_NEEDED'}, 'queryParameters': [{'name': 'run_date', 'parameterType': {'type': 'DATE'}, 'parameterValue': {'value': '2026-02-09'}}]}}'
+[2026-02-09T01:10:18.604+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_silver_layer_transform_orders_2026_02_09T01_10_13_959737_00_00_402c3aa7f5246094e20f0a823e192bd9
+[2026-02-09T01:10:19.202+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 No matching signature for operator = for argument types: STRING, DATE
+  Signature: T1 = T1
+    Unable to find common supertype for templated argument <T1>
+      Input types for <T1>: {STRING, DATE} at [28:8]; reason: invalidQuery, location: query, message: No matching signature for operator = for argument types: STRING, DATE
+  Signature: T1 = T1
+    Unable to find common supertype for templated argument <T1>
+      Input types for <T1>: {STRING, DATE} at [28:8]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_silver_layer_transform_orders_2026_02_09T01_10_13_959737_00_00_402c3aa7f5246094e20f0a823e192bd9
+
+[2026-02-09T01:10:19.207+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=silver_layer.transform_orders, execution_date=20260209T011013, start_date=20260209T011018, end_date=20260209T011019
+[2026-02-09T01:10:19.215+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1166 for task silver_layer.transform_orders (400 No matching signature for operator = for argument types: STRING, DATE
+  Signature: T1 = T1
+    Unable to find common supertype for templated argument <T1>
+      Input types for <T1>: {STRING, DATE} at [28:8]; reason: invalidQuery, location: query, message: No matching signature for operator = for argument types: STRING, DATE
+  Signature: T1 = T1
+    Unable to find common supertype for templated argument <T1>
+      Input types for <T1>: {STRING, DATE} at [28:8]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_silver_layer_transform_orders_2026_02_09T01_10_13_959737_00_00_402c3aa7f5246094e20f0a823e192bd9
+; 37878)
+[2026-02-09T01:10:19.236+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-09T01:10:19.246+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

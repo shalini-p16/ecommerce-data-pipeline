@@ -1,0 +1,100 @@
+[2026-02-17T13:00:00.916+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle scheduled__2026-02-16T13:00:00+00:00 [queued]>
+[2026-02-17T13:00:00.920+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle scheduled__2026-02-16T13:00:00+00:00 [queued]>
+[2026-02-17T13:00:00.920+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-17T13:00:00.927+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): extract.extract_from_kaggle> on 2026-02-16 13:00:00+00:00
+[2026-02-17T13:00:00.933+0000] {standard_task_runner.py:60} INFO - Started process 61594 to run task
+[2026-02-17T13:00:00.936+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'extract.extract_from_kaggle', 'scheduled__2026-02-16T13:00:00+00:00', '--job-id', '2381', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpz2jep2bq']
+[2026-02-17T13:00:00.938+0000] {standard_task_runner.py:88} INFO - Job 2381: Subtask extract.extract_from_kaggle
+[2026-02-17T13:00:00.976+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle scheduled__2026-02-16T13:00:00+00:00 [running]> on host 89ab86e4d295
+[2026-02-17T13:00:01.029+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='extract.extract_from_kaggle' AIRFLOW_CTX_EXECUTION_DATE='2026-02-16T13:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-16T13:00:00+00:00'
+[2026-02-17T13:00:01.039+0000] {logging_mixin.py:188} INFO - Starting Kaggle dataset download...
+[2026-02-17T13:00:01.042+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/***/.kaggle/kaggle.json'
+[2026-02-17T13:00:01.108+0000] {logging_mixin.py:188} INFO - Dataset URL: https://www.kaggle.com/datasets/mustafakeser4/looker-ecommerce-bigquery-dataset
+[2026-02-17T13:00:01.793+0000] {logging_mixin.py:188} INFO - Downloading looker-ecommerce-bigquery-dataset.zip to /tmp/bronze_temp
+[2026-02-17T13:00:01.794+0000] {logging_mixin.py:188} WARNING -   0%|          | 0.00/162M [00:00<?, ?B/s]
+[2026-02-17T13:00:02.400+0000] {logging_mixin.py:188} WARNING -   1%|          | 1.00M/162M [00:00<01:37, 1.73MB/s]
+[2026-02-17T13:00:02.501+0000] {logging_mixin.py:188} WARNING -   1%|1         | 2.00M/162M [00:00<00:49, 3.40MB/s]
+[2026-02-17T13:00:02.666+0000] {logging_mixin.py:188} WARNING -   2%|2         | 4.00M/162M [00:00<00:26, 6.29MB/s]
+[2026-02-17T13:00:02.839+0000] {logging_mixin.py:188} WARNING -   4%|3         | 6.00M/162M [00:01<00:20, 8.14MB/s]
+[2026-02-17T13:00:02.998+0000] {logging_mixin.py:188} WARNING -   5%|4         | 8.00M/162M [00:01<00:16, 9.63MB/s]
+[2026-02-17T13:00:03.162+0000] {logging_mixin.py:188} WARNING -   6%|6         | 10.0M/162M [00:01<00:15, 10.6MB/s]
+[2026-02-17T13:00:03.329+0000] {logging_mixin.py:188} WARNING -   7%|7         | 12.0M/162M [00:01<00:14, 11.2MB/s]
+[2026-02-17T13:00:03.493+0000] {logging_mixin.py:188} WARNING -   9%|8         | 14.0M/162M [00:01<00:13, 11.7MB/s]
+[2026-02-17T13:00:03.662+0000] {logging_mixin.py:188} WARNING -  10%|9         | 16.0M/162M [00:01<00:12, 11.9MB/s]
+[2026-02-17T13:00:03.827+0000] {logging_mixin.py:188} WARNING -  11%|#1        | 18.0M/162M [00:02<00:12, 12.1MB/s]
+[2026-02-17T13:00:03.988+0000] {logging_mixin.py:188} WARNING -  12%|#2        | 20.0M/162M [00:02<00:12, 12.4MB/s]
+[2026-02-17T13:00:04.153+0000] {logging_mixin.py:188} WARNING -  14%|#3        | 22.0M/162M [00:02<00:11, 12.5MB/s]
+[2026-02-17T13:00:04.317+0000] {logging_mixin.py:188} WARNING -  15%|#4        | 24.0M/162M [00:02<00:11, 12.6MB/s]
+[2026-02-17T13:00:04.483+0000] {logging_mixin.py:188} WARNING -  16%|#6        | 26.0M/162M [00:02<00:11, 12.6MB/s]
+[2026-02-17T13:00:04.648+0000] {logging_mixin.py:188} WARNING -  17%|#7        | 28.0M/162M [00:02<00:11, 12.6MB/s]
+[2026-02-17T13:00:04.812+0000] {logging_mixin.py:188} WARNING -  18%|#8        | 30.0M/162M [00:03<00:10, 12.7MB/s]
+[2026-02-17T13:00:04.977+0000] {logging_mixin.py:188} WARNING -  20%|#9        | 32.0M/162M [00:03<00:10, 12.7MB/s]
+[2026-02-17T13:00:05.146+0000] {logging_mixin.py:188} WARNING -  21%|##        | 34.0M/162M [00:03<00:10, 12.6MB/s]
+[2026-02-17T13:00:05.305+0000] {logging_mixin.py:188} WARNING -  22%|##2       | 36.0M/162M [00:03<00:10, 12.8MB/s]
+[2026-02-17T13:00:05.471+0000] {logging_mixin.py:188} WARNING -  23%|##3       | 38.0M/162M [00:03<00:10, 12.7MB/s]
+[2026-02-17T13:00:05.674+0000] {logging_mixin.py:188} WARNING -  25%|##4       | 40.0M/162M [00:03<00:10, 11.9MB/s]
+[2026-02-17T13:00:05.851+0000] {logging_mixin.py:188} WARNING -  26%|##5       | 42.0M/162M [00:04<00:10, 11.9MB/s]
+[2026-02-17T13:00:06.011+0000] {logging_mixin.py:188} WARNING -  27%|##7       | 44.0M/162M [00:04<00:10, 12.2MB/s]
+[2026-02-17T13:00:06.182+0000] {logging_mixin.py:188} WARNING -  28%|##8       | 46.0M/162M [00:04<00:09, 12.2MB/s]
+[2026-02-17T13:00:06.611+0000] {logging_mixin.py:188} WARNING -  30%|##9       | 48.0M/162M [00:04<00:14, 8.44MB/s]
+[2026-02-17T13:00:06.866+0000] {logging_mixin.py:188} WARNING -  30%|###       | 49.0M/162M [00:05<00:16, 7.11MB/s]
+[2026-02-17T13:00:07.104+0000] {logging_mixin.py:188} WARNING -  31%|###       | 50.0M/162M [00:05<00:18, 6.33MB/s]
+[2026-02-17T13:00:07.465+0000] {logging_mixin.py:188} WARNING -  31%|###1      | 51.0M/162M [00:05<00:23, 5.01MB/s]
+[2026-02-17T13:00:07.818+0000] {logging_mixin.py:188} WARNING -  32%|###2      | 52.0M/162M [00:06<00:26, 4.30MB/s]
+[2026-02-17T13:00:07.998+0000] {logging_mixin.py:188} WARNING -  33%|###2      | 53.0M/162M [00:06<00:24, 4.60MB/s]
+[2026-02-17T13:00:08.270+0000] {logging_mixin.py:188} WARNING -  34%|###3      | 55.0M/162M [00:06<00:20, 5.55MB/s]
+[2026-02-17T13:00:08.475+0000] {logging_mixin.py:188} WARNING -  34%|###4      | 56.0M/162M [00:06<00:20, 5.45MB/s]
+[2026-02-17T13:00:08.602+0000] {logging_mixin.py:188} WARNING -  36%|###6      | 59.0M/162M [00:06<00:12, 8.91MB/s]
+[2026-02-17T13:00:08.767+0000] {logging_mixin.py:188} WARNING -  38%|###7      | 61.0M/162M [00:06<00:10, 9.86MB/s]
+[2026-02-17T13:00:08.933+0000] {logging_mixin.py:188} WARNING -  39%|###8      | 63.0M/162M [00:07<00:09, 10.6MB/s]
+[2026-02-17T13:00:09.101+0000] {logging_mixin.py:188} WARNING -  40%|####      | 65.0M/162M [00:07<00:09, 11.1MB/s]
+[2026-02-17T13:00:09.265+0000] {logging_mixin.py:188} WARNING -  41%|####1     | 67.0M/162M [00:07<00:08, 11.6MB/s]
+[2026-02-17T13:00:09.429+0000] {logging_mixin.py:188} WARNING -  42%|####2     | 69.0M/162M [00:07<00:08, 11.9MB/s]
+[2026-02-17T13:00:09.590+0000] {logging_mixin.py:188} WARNING -  44%|####3     | 71.0M/162M [00:07<00:07, 12.2MB/s]
+[2026-02-17T13:00:09.759+0000] {logging_mixin.py:188} WARNING -  45%|####4     | 73.0M/162M [00:07<00:07, 12.3MB/s]
+[2026-02-17T13:00:09.920+0000] {logging_mixin.py:188} WARNING -  46%|####6     | 75.0M/162M [00:08<00:07, 12.5MB/s]
+[2026-02-17T13:00:10.086+0000] {logging_mixin.py:188} WARNING -  47%|####7     | 77.0M/162M [00:08<00:07, 12.5MB/s]
+[2026-02-17T13:00:10.253+0000] {logging_mixin.py:188} WARNING -  49%|####8     | 79.0M/162M [00:08<00:06, 12.6MB/s]
+[2026-02-17T13:00:10.417+0000] {logging_mixin.py:188} WARNING -  50%|####9     | 81.0M/162M [00:08<00:06, 12.6MB/s]
+[2026-02-17T13:00:10.585+0000] {logging_mixin.py:188} WARNING -  51%|#####1    | 83.0M/162M [00:08<00:06, 12.6MB/s]
+[2026-02-17T13:00:10.752+0000] {logging_mixin.py:188} WARNING -  52%|#####2    | 85.0M/162M [00:08<00:06, 12.6MB/s]
+[2026-02-17T13:00:10.911+0000] {logging_mixin.py:188} WARNING -  54%|#####3    | 87.0M/162M [00:09<00:06, 12.7MB/s]
+[2026-02-17T13:00:11.074+0000] {logging_mixin.py:188} WARNING -  55%|#####4    | 89.0M/162M [00:09<00:06, 12.8MB/s]
+[2026-02-17T13:00:11.241+0000] {logging_mixin.py:188} WARNING -  56%|#####6    | 91.0M/162M [00:09<00:05, 12.7MB/s]
+[2026-02-17T13:00:11.408+0000] {logging_mixin.py:188} WARNING -  57%|#####7    | 93.0M/162M [00:09<00:05, 12.7MB/s]
+[2026-02-17T13:00:11.577+0000] {logging_mixin.py:188} WARNING -  59%|#####8    | 95.0M/162M [00:09<00:05, 12.6MB/s]
+[2026-02-17T13:00:11.742+0000] {logging_mixin.py:188} WARNING -  60%|#####9    | 97.0M/162M [00:09<00:05, 12.6MB/s]
+[2026-02-17T13:00:11.904+0000] {logging_mixin.py:188} WARNING -  61%|######    | 99.0M/162M [00:10<00:05, 12.7MB/s]
+[2026-02-17T13:00:12.066+0000] {logging_mixin.py:188} WARNING -  62%|######2   | 101M/162M [00:10<00:05, 12.8MB/s] 
+[2026-02-17T13:00:12.230+0000] {logging_mixin.py:188} WARNING -  63%|######3   | 103M/162M [00:10<00:04, 12.8MB/s]
+[2026-02-17T13:07:40.786+0000] {logging_mixin.py:188} WARNING -  63%|######3   | 103M/162M [07:38<00:04, 12.8MB/s]
+[2026-02-17T13:07:47.644+0000] {logging_mixin.py:188} WARNING -  64%|######3   | 104M/162M [07:45<1:22:27, 12.4kB/s]
+[2026-02-17T13:07:47.645+0000] {logging_mixin.py:188} WARNING -  64%|######3   | 104M/162M [07:45<04:23, 233kB/s]   
+[2026-02-17T13:07:47.647+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/kaggle/api/kaggle_api_extended.py", line 1508, in dataset_download_files
+    with zipfile.ZipFile(outfile) as z:
+  File "/usr/local/lib/python3.8/zipfile.py", line 1269, in __init__
+    self._RealGetContents()
+  File "/usr/local/lib/python3.8/zipfile.py", line 1336, in _RealGetContents
+    raise BadZipFile("File is not a zip file")
+zipfile.BadZipFile: File is not a zip file
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/src/extract.py", line 38, in extract_data
+    api.dataset_download_files(
+  File "/home/airflow/.local/lib/python3.8/site-packages/kaggle/api/kaggle_api_extended.py", line 1511, in dataset_download_files
+    raise ValueError(
+ValueError: ('Bad zip file, please report on www.github.com/kaggle/kaggle-api', BadZipFile('File is not a zip file'))
+[2026-02-17T13:07:47.657+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=extract.extract_from_kaggle, execution_date=20260216T130000, start_date=20260217T130000, end_date=20260217T130747
+[2026-02-17T13:07:47.677+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 2381 for task extract.extract_from_kaggle (('Bad zip file, please report on www.github.com/kaggle/kaggle-api', BadZipFile('File is not a zip file')); 61594)
+[2026-02-17T13:07:47.692+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-17T13:07:47.719+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

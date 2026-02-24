@@ -1,0 +1,86 @@
+[2026-02-09T13:22:06.391+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-09T12:40:21.598201+00:00 [queued]>
+[2026-02-09T13:22:06.399+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-09T12:40:21.598201+00:00 [queued]>
+[2026-02-09T13:22:06.399+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-09T13:22:06.414+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): load_events> on 2026-02-09 12:40:21.598201+00:00
+[2026-02-09T13:22:06.420+0000] {standard_task_runner.py:60} INFO - Started process 56862 to run task
+[2026-02-09T13:22:06.430+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'load_events', 'manual__2026-02-09T12:40:21.598201+00:00', '--job-id', '2442', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmploghhs6g']
+[2026-02-09T13:22:06.434+0000] {standard_task_runner.py:88} INFO - Job 2442: Subtask load_events
+[2026-02-09T13:22:06.487+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-09T12:40:21.598201+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T13:22:06.539+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='load_events' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T12:40:21.598201+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-09T12:40:21.598201+00:00'
+[2026-02-09T13:23:52.139+0000] {local_task_job_runner.py:302} WARNING - State of this instance has been externally set to None. Terminating instance.
+[2026-02-09T13:23:52.140+0000] {process_utils.py:131} INFO - Sending 15 to group 56862. PIDs of all processes in the group: [56862]
+[2026-02-09T13:23:52.141+0000] {process_utils.py:86} INFO - Sending the signal 15 to group 56862
+[2026-02-09T13:24:23.690+0000] {taskinstance.py:2450} ERROR - Received SIGTERM. Terminating subprocesses.
+[2026-02-09T13:24:23.707+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/etl_dag.py", line 103, in load_bronze_with_ingestion_date
+    df.to_gbq(
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas/core/frame.py", line 2088, in to_gbq
+    gbq.to_gbq(
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas/io/gbq.py", line 215, in to_gbq
+    pandas_gbq.to_gbq(
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas_gbq/gbq.py", line 1238, in to_gbq
+    connector.load_data(
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas_gbq/gbq.py", line 604, in load_data
+    chunks = load.load_chunks(
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas_gbq/load.py", line 243, in load_chunks
+    load_parquet(
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas_gbq/load.py", line 131, in load_parquet
+    client.load_table_from_dataframe(
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/client.py", line 2727, in load_table_from_dataframe
+    return self.load_table_from_file(
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/client.py", line 2487, in load_table_from_file
+    response = self._do_resumable_upload(
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/client.py", line 2894, in _do_resumable_upload
+    response = upload.transmit_next_chunk(transport, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/resumable_media/requests/upload.py", line 515, in transmit_next_chunk
+    return _request_helpers.wait_and_retry(
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/resumable_media/requests/_request_helpers.py", line 155, in wait_and_retry
+    response = func()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/resumable_media/requests/upload.py", line 507, in retriable_request
+    result = transport.request(
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/auth/transport/requests.py", line 541, in request
+    response = super(AuthorizedSession, self).request(
+  File "/home/airflow/.local/lib/python3.8/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 715, in urlopen
+    httplib_response = self._make_request(
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 416, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/connection.py", line 244, in request
+    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
+  File "/usr/local/lib/python3.8/http/client.py", line 1256, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.8/http/client.py", line 1302, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.8/http/client.py", line 1251, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.8/http/client.py", line 1050, in _send_output
+    self.send(chunk)
+  File "/usr/local/lib/python3.8/http/client.py", line 972, in send
+    self.sock.sendall(data)
+  File "/usr/local/lib/python3.8/ssl.py", line 1237, in sendall
+    v = self.send(byte_view[count:])
+  File "/usr/local/lib/python3.8/ssl.py", line 1206, in send
+    return self._sslobj.write(data)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2452, in signal_handler
+    raise AirflowException("Task received SIGTERM signal")
+airflow.exceptions.AirflowException: Task received SIGTERM signal
+[2026-02-09T13:24:23.711+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=load_events, execution_date=20260209T124021, start_date=20260209T132206, end_date=20260209T132423
+[2026-02-09T13:24:23.719+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 2442 for task load_events ((psycopg2.errors.ForeignKeyViolation) insert or update on table "task_fail" violates foreign key constraint "task_fail_ti_fkey"
+DETAIL:  Key (dag_id, task_id, run_id, map_index)=(ecommerce_etl_v2, load_events, manual__2026-02-09T12:40:21.598201+00:00, -1) is not present in table "task_instance".
+
+[SQL: INSERT INTO task_fail (task_id, dag_id, run_id, map_index, start_date, end_date, duration) VALUES (%(task_id)s, %(dag_id)s, %(run_id)s, %(map_index)s, %(start_date)s, %(end_date)s, %(duration)s) RETURNING task_fail.id]
+[parameters: {'task_id': 'load_events', 'dag_id': 'ecommerce_etl_v2', 'run_id': 'manual__2026-02-09T12:40:21.598201+00:00', 'map_index': -1, 'start_date': datetime.datetime(2026, 2, 9, 13, 22, 6, 392645, tzinfo=Timezone('UTC')), 'end_date': datetime.datetime(2026, 2, 9, 13, 24, 23, 711662, tzinfo=Timezone('UTC')), 'duration': 137}]
+(Background on this error at: https://sqlalche.me/e/14/gkpj); 56862)
+[2026-02-09T13:24:23.820+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=56862, status='terminated', exitcode=1, started='13:22:05') (56862) terminated with exit code 1

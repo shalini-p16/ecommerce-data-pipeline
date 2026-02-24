@@ -1,0 +1,64 @@
+[2026-02-09T17:42:48.948+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.check_products_loaded manual__2026-02-09T17:18:26.382743+00:00 [queued]>
+[2026-02-09T17:42:48.956+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.check_products_loaded manual__2026-02-09T17:18:26.382743+00:00 [queued]>
+[2026-02-09T17:42:48.957+0000] {taskinstance.py:2170} INFO - Starting attempt 3 of 5
+[2026-02-09T17:42:48.964+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryCheckOperator): check_products_loaded> on 2026-02-09 17:18:26.382743+00:00
+[2026-02-09T17:42:48.969+0000] {standard_task_runner.py:60} INFO - Started process 5860 to run task
+[2026-02-09T17:42:48.971+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'check_products_loaded', 'manual__2026-02-09T17:18:26.382743+00:00', '--job-id', '105', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpsz6ot94c']
+[2026-02-09T17:42:48.973+0000] {standard_task_runner.py:88} INFO - Job 105: Subtask check_products_loaded
+[2026-02-09T17:42:48.997+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.check_products_loaded manual__2026-02-09T17:18:26.382743+00:00 [running]> on host 5d242a8c4230
+[2026-02-09T17:42:49.030+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='check_products_loaded' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T17:18:26.382743+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-09T17:18:26.382743+00:00'
+[2026-02-09T17:42:49.030+0000] {sql.py:785} INFO - Executing SQL check: 
+                SELECT COUNT(*) > 0
+                FROM `prism-486509.bronze.products`
+            
+[2026-02-09T17:42:49.035+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T17:42:49.035+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T17:42:49.035+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T17:42:49.078+0000] {sql.py:450} INFO - Running statement: 
+                SELECT COUNT(*) > 0
+                FROM `prism-486509.bronze.products`
+            , parameters: None
+[2026-02-09T17:42:49.079+0000] {bigquery.py:1596} INFO - Inserting job ***_1770658969079357_627372c49bfff5c7f28b0c4e47f1310f
+[2026-02-09T17:42:49.434+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 300, in execute
+    super().execute(context=context)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/operators/sql.py", line 786, in execute
+    records = self.get_db_hook().get_first(self.sql, self.parameters)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 270, in get_first
+    return self.run(sql=sql, parameters=parameters, handler=fetch_one_handler)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 398, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 455, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 2779, in execute
+    self.job_id = self._run_query(sql)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 2927, in _run_query
+    job = self.hook.insert_job(configuration=configuration, project_id=self.project_id, location=location)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/common/hooks/base_google.py", line 477, in inner_wrapper
+    return func(self, *args, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1602, in insert_job
+    job_api_repr.result(timeout=timeout, retry=retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: Dataset prism-486509:bronze was not found in location europe-west1; reason: notFound, message: Not found: Dataset prism-486509:bronze was not found in location europe-west1
+
+Location: europe-west1
+Job ID: airflow_1770658969079357_627372c49bfff5c7f28b0c4e47f1310f
+
+[2026-02-09T17:42:49.440+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=check_products_loaded, execution_date=20260209T171826, start_date=20260209T174248, end_date=20260209T174249
+[2026-02-09T17:42:49.446+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 105 for task check_products_loaded (404 Not found: Dataset prism-486509:bronze was not found in location europe-west1; reason: notFound, message: Not found: Dataset prism-486509:bronze was not found in location europe-west1
+
+Location: europe-west1
+Job ID: airflow_1770658969079357_627372c49bfff5c7f28b0c4e47f1310f
+; 5860)
+[2026-02-09T17:42:49.482+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-09T17:42:49.557+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

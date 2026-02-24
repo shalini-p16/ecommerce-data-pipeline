@@ -1,17 +1,17 @@
 # E-commerce Data Pipeline
 
-Designed and implemented a modern **ETL data pipeline** using the **medallion architecture** (bronze → silver → gold layers) to process the **Looker E-commerce BigQuery Dataset** (sourced as CSV files from Kaggle) using bottom-up approach. The pipeline transforms raw e-commerce  data into clean, analytics-ready layers to enable deep insights into.
+Designed and implemented a modern **ETL data pipeline** using the **medallion architecture** (bronze → silver → gold layers) to process the **Looker E-commerce BigQuery Dataset** (sourced as CSV files from Kaggle) using bottom-up approach (Dimensional Data Modelling). The pipeline transforms raw e-commerce  data into clean, analytics-ready layers to enable deep insights.
 
-## Technologies Used
 
-- **Storage**: Google Cloud Storage (GCS)  
-- **Data Warehouse**: Google BigQuery  
-- **Orchestration / Transformation**: dbt, Dagster, Apache Airflow, or custom Python (depending on implementation)  
-- **Data Formats**:  
-  - Raw layer: CSV  
-  - Processed / analytic layer: Parquet  
-- **Architecture Pattern**: Medallion architecture (bronze → silver → gold)  
-- **Cloud Platform**: Google Cloud Platform (GCP)  
+## ⚙️ Tech Stack
+
+- **Google BigQuery** – Data warehouse  
+- **Apache Airflow** – Orchestration & scheduling  
+- **SQL (BigQuery Standard SQL)** – Data transformations  
+- **Metabase** – Analytics & dashboards  
+- **GitHub** – Version control & documentation  
+- **Architecture Pattern**: Medallion architecture (bronze → silver → gold)
+ 
 
 ## Business Questions Addressed
 
@@ -153,39 +153,58 @@ Only data relevant to the business questions above was included. Non-essential t
 - Order Items (purchases, status, revenue)  
 - Users (customer attributes)  
 - Products (item details, categories, price)  
-- Related dimensions (traffic source, session, browser, etc.)
 
 ## Architecture Overview
 
-![E-commerce Data Pipeline Architecture](docs/images/architecture_etl.png)
+![E-commerce Data Pipeline Architecture](docs/images/etl.jpg)
 The pipeline follows the **medallion pattern**:
 
-- **Bronze Layer** — Raw, unprocessed data  
-- **Silver Layer** — Cleansed, validated, and lightly transformed data  
-- **Gold Layer** — Aggregated, business-ready tables optimized for analytics (e.g., user journeys, conversion funnels, product performance)
+## 🧱 Data Layers Explained
 
-### Key Subsystems
-
-1. **Change Data Capture (CDC) / Incremental Strategy**  
-   - Full daily load for simplicity and reliability  
-   - Optional change detection via file hashes or row counts to skip unchanged datasets  
-   
-
-2. **Extract System**  
+### Extract System
    Data landed in GCS with partitioned structure:  
-   gs://your-bucket/raw-data/dataset_name=events/date=20260207/file.csv
+   gs://your-bucket/raw-data/ingestion_date=events/date=2026-02-07/file.csv
 
+### 🥉 Bronze Layer
+- Raw ingestion from source systems  
+- Minimal transformations  
+- Partitioned by `ingestion_date`  
+- Acts as a replayable source of truth  
 
-3. **Data Cleansing & Quality**  
-Multi-level quality checks:  
-- **Column screens**: null checks, range validation, format compliance  
-- **Structure screens**: foreign key integrity, hierarchical consistency  
-- **Business rule screens**: complex domain-specific validations
+---
 
-4. **Error Handling**  
-- Dedicated error event logging schema  
-- Support for late-arriving data and slowly changing dimensions (Type 2 updates)  
-- Mechanisms to handle facts arriving before dimension context (e.g., placeholder keys, eventual updates)
+### 🥈 Silver Layer
+- Deduplication using window functions  
+- Data type normalization  
+- Data validation:
+  - Invalid IDs  
+  - Invalid timestamps  
+  - Known / allowed event types  
+- Business-cleaned fields 
+
+---
+
+### 🥇 Gold Layer
+- Star schema optimized for analytics  
+
+#### Fact Tables
+- `fact_orders`
+- `fact_order_items`
+- `fact_events`
+
+#### Dimension Tables
+- `dim_users`
+- `dim_products`
+- `dim_event_type`
+- `dim_date`
+- `dim_location`
+- `dim_order_status`
+- `dim_browser`
+
+- Surrogate keys generated using deterministic hashes  
+- Incremental loading using `MERGE`
+- Support for slowly changing dimensions (Type 2 updates) 
+
 
 ## Bus Matrix 
 
@@ -207,11 +226,11 @@ Based on core business questions, the following **business processes** are model
 
 ### Step 2: Final Bus Matrix
 
-| Business Process                     | Fact Table                     | Date / Time | Customer | Product | Event Type | Traffic Source | Session | Order Status | Page / URI | Browser | Location | Business Questions Supported |
+| Business Process                     | Fact Table                     | Date / Time | User | Product | Event Type | Traffic Source | Session | Order Status | Page / URI | Browser | Location | Business Questions Supported |
 |--------------------------------------|--------------------------------|-------------|----------|---------|------------|----------------|---------|--------------|------------|---------|----------|--------------------------------|
-| Website Interaction / User Events    | Fact_Web_Events                | ✅          | ✅       | ⚪       | ✅         | ✅             | ✅      | —            | ✅         | ✅      | ✅       | Navigation patterns, event frequency, traffic influence, funnels |
+| Website Interaction / User Events    | Fact_Events                | ✅          | ✅       | ⚪       | ✅         | ✅             | ✅      | —            | ✅         | ✅      | ✅       | Navigation patterns, event frequency, traffic influence, funnels |
 | Website Sessions / Visits            | Fact_Sessions                  | ✅          | ✅       | —       | —          | ✅             | ✅      | —            | —          | ✅      | ✅       | Visit patterns, engagement, traffic attribution, bounce rates |
-| Product Purchases / Sales            | Fact_Sales_Order_Items         | ✅          | ✅       | ✅      | —          | ⚪             | —       | ✅           | —          | —       | ✅       | Revenue, units sold, top products, buyer profiles, conversion drivers |
+| Product Purchases / Sales            | Fact_Order_Items         | ✅          | ✅       | ✅      | —          | ⚪             | —       | ✅           | —          | —       | ✅       | Revenue, units sold, top products, buyer profiles, conversion drivers |
 | Order Fulfillment Lifecycle          | Fact_Orders                    | ✅          | ✅       | —       | —          | —              | —       | ✅           | —          | —       | —        | Fulfillment KPIs, shipping times, return rates, status monitoring |
 
 **Legend**  
@@ -230,43 +249,6 @@ The following dimensions are **conformed** (designed once, reused everywhere):
 - **Dim_Traffic_Source** (especially important for attribution analysis)
 - **Dim_Location** (city, state, postal_code — can be derived from events/users)
 
-
-## Prerequisites
-
-- **Docker Desktop** (recommended) — for local development and testing  
-- **Git** — to clone the repository  
-- **Python 3.x** — for any helper scripts (e.g., `generate_data.py`)  
-- **Google Cloud Platform (GCP) Project** with billing enabled  
-
-**GCP Setup**  
-1. Create Cloud Storage buckets:  
-- `gs://your-project-id-raw-data` (raw CSVs)  
-
-
-2. Enable required APIs:  
-- BigQuery API  
-- Cloud Storage API  
-- IAM API, Security Token Service API, Service Account Credentials API  
-
-3. Create a **Service Account** with:  
-- Storage Object Admin (on all three buckets)  
-- BigQuery Data Editor  
-- BigQuery Job User  
-
-4. Download the JSON key → save as `gcp_credentials.json` in the project root
-
-## Getting Started
-
-```bash
-# Clone the repo
-git clone https://github.com/your-username/ecommerce-data-pipeline.git
-cd ecommerce-data-pipeline
-
-# Run the pipeline (example — adapt to your tool: dbt, DLT, Airflow, etc.)
-docker-compose up
-```
-
-
 ## Data Modeling
 
 The data warehouse follows the **Kimball dimensional modeling** approach.  
@@ -281,9 +263,10 @@ It focuses on **core entities** and their **natural relationships**, without tec
 **Purpose**:  
 Show what matters to the business — users, website events, sessions, purchases, products, etc.
 
-![Fact Order Items Conceptual Model](docs/images/fact_order_items_conceptual.png)  
-![CFact Event onceptual Model](docs/images/fact_events_conceptual.png) 
-*Conceptual Model — main business entities and relationships*
+
+
+![Conceptual Model](docs/images/conceptual.jpg)  
+
 
 #### Logical Model
 Adds more structure to the conceptual model while remaining technology-independent.
@@ -296,8 +279,8 @@ Adds more structure to the conceptual model while remaining technology-independe
 - Grain of each fact table
 
 Data types are suggested but not strictly enforced at this stage.
+ 
 
-![Logical Model](docs/images/fact_events_logical.png)  
 *Logical Model — Kimball star schema with facts and conformed dimensions*
 
 #### Physical Model
@@ -310,7 +293,8 @@ The actual implementation in the target database (**BigQuery** in this project).
 - Storage format considerations
 - Indexes / materialized views / query optimization decisions
 
-![Physical Model](docs/images/physical.png)  
+![Physical Model](docs/images/ERD_2.png)  
+
 *Physical Model — BigQuery tables with partitioning & clustering*
 
 ### Summary of Modeling Approach
@@ -321,10 +305,93 @@ The actual implementation in the target database (**BigQuery** in this project).
 | Logical        | Facts, dimensions, keys, grain     | Low              | Data modelers & analysts  | Star schema diagram                  |
 | Physical       | Database-specific implementation   | High             | Engineers & DBAs          | Table definitions + optimization     |
 
+
+## Prerequisites
+
+- **Docker Desktop** (recommended) — for local development and testing  
+- **Git** — to clone the repository  
+- **Python 3.x** — for any helper scripts (e.g., `generate_data.py`)  
+- **Google Cloud Platform (GCP) Project** with billing enabled  
+
+**GCP Setup**  
+1. Create Cloud Storage buckets:  
+- `gs://bronze-data-ecom` (raw CSVs)  
+
+
+2. Enable required APIs:  
+- BigQuery API  
+- Cloud Storage API  
+- IAM API, Service Account Credentials API  
+
+3. Create a **Service Account** with:  
+- Storage Object Admin (on all three buckets)  
+- BigQuery Data Editor  
+- BigQuery Job User  
+
+4. Download the JSON key → save as `gcp_credentials.json` in the project root
+
+## Getting Started
+
+```bash
+# Clone the repo
+git clone https://github.com/shalini-p16/ecommerce-data-pipeline.git
+cd ecommerce-data-pipeline
+
+# Run the pipeline (example — adapt to your tool: dbt, DLT, Airflow, etc.)
+docker-compose up
+```
+
+
+```markdown
+## Project Structure
+
+```text
+ECOMMERCE-DATA-PIPELINE/
+├─ config/
+├─ dags/
+│  ├─ __init__.py
+│  └─ etl_dag.py
+├─ docs/
+├─ logs/
+├─ plugins/
+├─ sql/
+│  ├─ gold/
+│  │  ├─ dim_browser.sql
+│  │  ├─ dim_date.sql
+│  │  ├─ dim_event_type.sql
+│  │  ├─ dim_location.sql
+│  │  ├─ dim_order_status.sql
+│  │  ├─ dim_page.sql
+│  │  ├─ dim_products.sql
+│  │  ├─ dim_time.sql
+│  │  ├─ dim_traffic_source.sql
+│  │  ├─ dim_users.sql
+│  │  ├─ fact_events.sql
+│  │  ├─ fact_order_items.sql
+│  │  └─ fact_sessions.sql
+│  └─ silver/
+│     ├─ distribution_centers.sql
+│     ├─ events.sql
+│     ├─ inventory_items.sql
+│     ├─ order_items.sql
+│     ├─ orders.sql
+│     ├─ products.sql
+│     └─ users.sql
+└─ src/
+   ├─ __init__.py
+   └─ extract.py
+
+```
+
+🛠️ Challenges
+
+Mismatched data types across layers
+→ Standardized user_id types in Silver layer
+Schema Issue
+
 ### Future Enhancements
 
 - Implement true **incremental CDC** (change data capture) instead of full daily loads
-- Add **real-time streaming ingestion** using Pub/Sub + Dataflow
 - Introduce **data lineage** and **observability** (e.g. via dbt docs, Monte Carlo, or similar tools)
 - Add automated **data quality monitoring** and alerting
 - Support **schema evolution** and backward-compatible transformations

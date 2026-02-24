@@ -1,0 +1,17 @@
+[2026-02-08T23:23:05.570+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.bronze_layer.load_order_items manual__2026-02-08T21:48:44.938383+00:00 [queued]>
+[2026-02-08T23:23:05.575+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.bronze_layer.load_order_items manual__2026-02-08T21:48:44.938383+00:00 [queued]>
+[2026-02-08T23:23:05.576+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 4
+[2026-02-08T23:23:05.582+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): bronze_layer.load_order_items> on 2026-02-08 21:48:44.938383+00:00
+[2026-02-08T23:23:05.586+0000] {standard_task_runner.py:60} INFO - Started process 27095 to run task
+[2026-02-08T23:23:05.588+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'bronze_layer.load_order_items', 'manual__2026-02-08T21:48:44.938383+00:00', '--job-id', '1027', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpqvgg6tnx']
+[2026-02-08T23:23:05.590+0000] {standard_task_runner.py:88} INFO - Job 1027: Subtask bronze_layer.load_order_items
+[2026-02-08T23:23:05.620+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.bronze_layer.load_order_items manual__2026-02-08T21:48:44.938383+00:00 [running]> on host 52b3fbe2fc57
+[2026-02-08T23:23:05.662+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='bronze_layer.load_order_items' AIRFLOW_CTX_EXECUTION_DATE='2026-02-08T21:48:44.938383+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-08T21:48:44.938383+00:00'
+[2026-02-08T23:23:05.667+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-08T23:23:05.668+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-08T23:23:05.669+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-08T23:23:05.713+0000] {bigquery.py:2807} INFO - Executing: {'load': {'sourceUris': ['gs://bronze-data-ecom/20260208/order_items.csv'], 'destinationTable': {'projectId': 'prism-486509', 'datasetId': 'bronze', 'tableId': 'order_items'}, 'sourceFormat': 'CSV', 'skipLeadingRows': 1, 'schema': None, 'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'writeDisposition': 'WRITE_TRUNCATE', 'maxBadRecords': 100}}'
+[2026-02-08T23:23:05.713+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_bronze_layer_load_order_items_2026_02_08T21_48_44_938383_00_00_59fc8f66e52d900d124078849df52150
+[2026-02-08T23:23:12.692+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=bronze_layer.load_order_items, execution_date=20260208T214844, start_date=20260208T232305, end_date=20260208T232312
+[2026-02-08T23:23:12.713+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-08T23:23:12.726+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

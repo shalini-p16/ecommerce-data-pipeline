@@ -1,0 +1,45 @@
+[2026-02-10T11:05:10.040+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_products manual__2026-02-10T10:56:26.745143+00:00 [queued]>
+[2026-02-10T11:05:10.045+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_products manual__2026-02-10T10:56:26.745143+00:00 [queued]>
+[2026-02-10T11:05:10.046+0000] {taskinstance.py:2170} INFO - Starting attempt 4 of 6
+[2026-02-10T11:05:10.052+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): load_products> on 2026-02-10 10:56:26.745143+00:00
+[2026-02-10T11:05:10.056+0000] {standard_task_runner.py:60} INFO - Started process 3715 to run task
+[2026-02-10T11:05:10.058+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'load_products', 'manual__2026-02-10T10:56:26.745143+00:00', '--job-id', '1103', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpvy0r321_']
+[2026-02-10T11:05:10.059+0000] {standard_task_runner.py:88} INFO - Job 1103: Subtask load_products
+[2026-02-10T11:05:10.081+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.load_products manual__2026-02-10T10:56:26.745143+00:00 [running]> on host 89ab86e4d295
+[2026-02-10T11:05:10.112+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='load_products' AIRFLOW_CTX_EXECUTION_DATE='2026-02-10T10:56:26.745143+00:00' AIRFLOW_CTX_TRY_NUMBER='4' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-10T10:56:26.745143+00:00'
+[2026-02-10T11:05:10.302+0000] {etl_dag.py:100} INFO - Creating table if not exists: bronze.products
+[2026-02-10T11:05:11.007+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/etl_dag.py", line 101, in load_bronze_with_ingestion_date
+    client.query(create_sql).result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/retry.py", line 372, in retry_wrapped_func
+    return retry_target(
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/retry.py", line 207, in retry_target
+    result = target()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Type not found: FLOAT at [1:62]; reason: invalidQuery, location: query, message: Type not found: FLOAT at [1:62]
+
+Location: europe-west1
+Job ID: 3bdbc5f7-ae4c-45e3-92e3-1a7e7eecb6cb
+
+[2026-02-10T11:05:11.022+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=load_products, execution_date=20260210T105626, start_date=20260210T110510, end_date=20260210T110511
+[2026-02-10T11:05:11.035+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1103 for task load_products (400 Type not found: FLOAT at [1:62]; reason: invalidQuery, location: query, message: Type not found: FLOAT at [1:62]
+
+Location: europe-west1
+Job ID: 3bdbc5f7-ae4c-45e3-92e3-1a7e7eecb6cb
+; 3715)
+[2026-02-10T11:05:11.055+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-10T11:05:11.080+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

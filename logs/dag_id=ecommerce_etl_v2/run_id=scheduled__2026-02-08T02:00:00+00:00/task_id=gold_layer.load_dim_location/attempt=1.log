@@ -1,0 +1,17 @@
+[2026-02-09T02:35:45.419+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_location scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T02:35:45.425+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_location scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T02:35:45.426+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-09T02:35:45.437+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): gold_layer.load_dim_location> on 2026-02-08 02:00:00+00:00
+[2026-02-09T02:35:45.442+0000] {standard_task_runner.py:60} INFO - Started process 8155 to run task
+[2026-02-09T02:35:45.449+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'gold_layer.load_dim_location', 'scheduled__2026-02-08T02:00:00+00:00', '--job-id', '1412', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp62f9s3r3']
+[2026-02-09T02:35:45.456+0000] {standard_task_runner.py:88} INFO - Job 1412: Subtask gold_layer.load_dim_location
+[2026-02-09T02:35:45.521+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_location scheduled__2026-02-08T02:00:00+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T02:35:45.629+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='gold_layer.load_dim_location' AIRFLOW_CTX_EXECUTION_DATE='2026-02-08T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-08T02:00:00+00:00'
+[2026-02-09T02:35:45.638+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T02:35:45.639+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T02:35:45.639+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T02:35:45.705+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': 'SELECT\n    GENERATE_UUID() AS location_key,       -- UUID surrogate key\n    city,\n    state,\n    postal_code,\n  \nFROM (\n    SELECT DISTINCT \n        city,\n        state,\n        postal_code,\n    FROM bronze.events  -- source table\n) AS distinct_locations;', 'useLegacySql': False, 'queryParameters': [{'name': 'run_date', 'parameterType': {'type': 'DATE'}, 'parameterValue': {'value': '2026-02-08'}}]}}'
+[2026-02-09T02:35:45.706+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_gold_layer_load_dim_location_2026_02_08T02_00_00_00_00_19b33ea17f95c008196a85179a28eb05
+[2026-02-09T02:35:47.207+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=gold_layer.load_dim_location, execution_date=20260208T020000, start_date=20260209T023545, end_date=20260209T023547
+[2026-02-09T02:35:47.243+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-09T02:35:47.260+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

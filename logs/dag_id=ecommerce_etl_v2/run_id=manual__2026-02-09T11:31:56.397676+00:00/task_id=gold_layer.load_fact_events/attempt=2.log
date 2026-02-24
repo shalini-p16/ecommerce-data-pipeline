@@ -1,0 +1,41 @@
+[2026-02-09T12:21:43.839+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_fact_events manual__2026-02-09T11:31:56.397676+00:00 [queued]>
+[2026-02-09T12:21:43.848+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_fact_events manual__2026-02-09T11:31:56.397676+00:00 [queued]>
+[2026-02-09T12:21:43.848+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 4
+[2026-02-09T12:21:43.857+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): gold_layer.load_fact_events> on 2026-02-09 11:31:56.397676+00:00
+[2026-02-09T12:21:43.860+0000] {standard_task_runner.py:60} INFO - Started process 45465 to run task
+[2026-02-09T12:21:43.862+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'gold_layer.load_fact_events', 'manual__2026-02-09T11:31:56.397676+00:00', '--job-id', '2194', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp_es24s6h']
+[2026-02-09T12:21:43.864+0000] {standard_task_runner.py:88} INFO - Job 2194: Subtask gold_layer.load_fact_events
+[2026-02-09T12:21:43.887+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.gold_layer.load_fact_events manual__2026-02-09T11:31:56.397676+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T12:21:43.925+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='gold_layer.load_fact_events' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T11:31:56.397676+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-09T11:31:56.397676+00:00'
+[2026-02-09T12:21:43.929+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T12:21:43.929+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T12:21:43.930+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T12:21:43.970+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': "\n\n\nSELECT\n  -- Surrogate key\n  GENERATE_UUID() AS event_key,\n  \n  -- FKs from dimensions\n  CAST(e.id AS STRING) AS event_id,\n  b.browser_key,\n  ts.traffic_source_key,\n  l.location_key,\n  u.user_key,\n  d.date_key,\n--   t.time_key,\n  et.event_type_key,\n  \n  -- Measures\n  e.sequence_number,\n  \n  -- Audit\n  e.created_at AS event_timestamp\n\nFROM `prism-486509.silver.events` e\n\n-- User dimension\nLEFT JOIN `prism-486509.gold.dim_users` u\n  ON CAST(e.user_id AS STRING) = CAST(u.user_id AS STRING)\n\n-- Browser dimension  \nLEFT JOIN `prism-486509.gold.dim_browser` b\n  ON e.browser = b.browser_name\n\n-- Traffic source dimension\nLEFT JOIN `prism-486509.gold.dim_traffic_source` ts\n  ON e.traffic_source = ts.traffic_source\n\n-- Event type dimension\nLEFT JOIN `prism-486509.gold.dim_event_type` et\n  ON e.event_type = et.event_type\n\n-- -- Location dimension (city+state+postal_code)\n-- LEFT JOIN `prism-486509.gold.dim_location` l\n--   ON CONCAT(e.city, '|', e.state, '|', e.postal_code) = l.location_hash\n\n-- Date dimension\nLEFT JOIN `prism-486509.gold.dim_date` d\n  ON DATE(e.created_at) = d.date\n\n-- -- Time dimension\n-- LEFT JOIN `prism-486509.gold.Dim_Time` t\n--   ON EXTRACT(TIME FROM e.created_at) = t.full_time\n\nWHERE e.is_valid_id = TRUE \n  AND e.is_valid_created_at = TRUE", 'useLegacySql': False, 'queryParameters': [{'name': 'run_date', 'parameterType': {'type': 'DATE'}, 'parameterValue': {'value': '2026-02-09'}}]}}'
+[2026-02-09T12:21:43.970+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_gold_layer_load_fact_events_2026_02_09T11_31_56_397676_00_00_7b74ef04b9ed7f6a485e59cb0acf5c1f
+[2026-02-09T12:21:44.342+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Unrecognized name: l at [12:3]; reason: invalidQuery, location: query, message: Unrecognized name: l at [12:3]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_fact_events_2026_02_09T11_31_56_397676_00_00_7b74ef04b9ed7f6a485e59cb0acf5c1f
+
+[2026-02-09T12:21:44.346+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=gold_layer.load_fact_events, execution_date=20260209T113156, start_date=20260209T122143, end_date=20260209T122144
+[2026-02-09T12:21:44.351+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 2194 for task gold_layer.load_fact_events (400 Unrecognized name: l at [12:3]; reason: invalidQuery, location: query, message: Unrecognized name: l at [12:3]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_fact_events_2026_02_09T11_31_56_397676_00_00_7b74ef04b9ed7f6a485e59cb0acf5c1f
+; 45465)
+[2026-02-09T12:21:44.372+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-09T12:21:44.385+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

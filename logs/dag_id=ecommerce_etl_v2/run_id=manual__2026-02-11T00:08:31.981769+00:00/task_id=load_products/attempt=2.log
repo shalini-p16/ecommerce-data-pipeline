@@ -1,0 +1,16 @@
+[2026-02-11T00:12:47.716+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_products manual__2026-02-11T00:08:31.981769+00:00 [queued]>
+[2026-02-11T00:12:47.727+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_products manual__2026-02-11T00:08:31.981769+00:00 [queued]>
+[2026-02-11T00:12:47.728+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 4
+[2026-02-11T00:12:47.737+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): load_products> on 2026-02-11 00:08:31.981769+00:00
+[2026-02-11T00:12:47.742+0000] {standard_task_runner.py:60} INFO - Started process 71282 to run task
+[2026-02-11T00:12:47.752+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'load_products', 'manual__2026-02-11T00:08:31.981769+00:00', '--job-id', '1921', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpr7hpy6yn']
+[2026-02-11T00:12:47.754+0000] {standard_task_runner.py:88} INFO - Job 1921: Subtask load_products
+[2026-02-11T00:12:47.782+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.load_products manual__2026-02-11T00:08:31.981769+00:00 [running]> on host 89ab86e4d295
+[2026-02-11T00:12:47.828+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='load_products' AIRFLOW_CTX_EXECUTION_DATE='2026-02-11T00:08:31.981769+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-11T00:08:31.981769+00:00'
+[2026-02-11T00:12:48.048+0000] {etl_dag.py:100} INFO - Creating table if not exists: bronze.products
+[2026-02-11T00:12:48.570+0000] {etl_dag.py:114} INFO - Loading data from gs://bronze-data-ecom/products/ingestion_date=2026-02-11/*.csv into bronze.products
+[2026-02-11T00:12:51.486+0000] {etl_dag.py:127} INFO - Loaded 29120 rows into bronze.products
+[2026-02-11T00:12:51.487+0000] {python.py:201} INFO - Done. Returned value was: None
+[2026-02-11T00:12:51.494+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=load_products, execution_date=20260211T000831, start_date=20260211T001247, end_date=20260211T001251
+[2026-02-11T00:12:51.533+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-11T00:12:51.557+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

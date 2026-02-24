@@ -1,0 +1,41 @@
+[2026-02-09T09:20:27.399+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_browser scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T09:20:27.411+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_browser scheduled__2026-02-08T02:00:00+00:00 [queued]>
+[2026-02-09T09:20:27.412+0000] {taskinstance.py:2170} INFO - Starting attempt 11 of 12
+[2026-02-09T09:20:27.423+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): gold_layer.load_dim_browser> on 2026-02-08 02:00:00+00:00
+[2026-02-09T09:20:27.428+0000] {standard_task_runner.py:60} INFO - Started process 14789 to run task
+[2026-02-09T09:20:27.438+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'gold_layer.load_dim_browser', 'scheduled__2026-02-08T02:00:00+00:00', '--job-id', '1518', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpd3g96seu']
+[2026-02-09T09:20:27.442+0000] {standard_task_runner.py:88} INFO - Job 1518: Subtask gold_layer.load_dim_browser
+[2026-02-09T09:20:27.477+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_browser scheduled__2026-02-08T02:00:00+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T09:20:27.531+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='gold_layer.load_dim_browser' AIRFLOW_CTX_EXECUTION_DATE='2026-02-08T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='11' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-08T02:00:00+00:00'
+[2026-02-09T09:20:27.538+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T09:20:27.539+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T09:20:27.540+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T09:20:27.581+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': '-- Just the SELECT part, destination set in job config\nSELECT\n    GENERATE_UUID() AS browser_key,\n    browser AS browser_name\nFROM (\n    SELECT DISTINCT browser\n    FROM bronze.events\n) AS distinct_browsers', 'useLegacySql': False, 'queryParameters': [{'name': 'run_date', 'parameterType': {'type': 'DATE'}, 'parameterValue': {'value': '2026-02-08'}}]}}'
+[2026-02-09T09:20:27.582+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_gold_layer_load_dim_browser_2026_02_08T02_00_00_00_00_31670154ac44589126e680a871376fce
+[2026-02-09T09:20:28.012+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2864, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1595, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1584, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Unrecognized name: browser at [6:21]; reason: invalidQuery, location: query, message: Unrecognized name: browser at [6:21]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_browser_2026_02_08T02_00_00_00_00_31670154ac44589126e680a871376fce
+
+[2026-02-09T09:20:28.016+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=gold_layer.load_dim_browser, execution_date=20260208T020000, start_date=20260209T092027, end_date=20260209T092028
+[2026-02-09T09:20:28.024+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1518 for task gold_layer.load_dim_browser (400 Unrecognized name: browser at [6:21]; reason: invalidQuery, location: query, message: Unrecognized name: browser at [6:21]
+
+Location: europe-west1
+Job ID: airflow_ecommerce_etl_v2_gold_layer_load_dim_browser_2026_02_08T02_00_00_00_00_31670154ac44589126e680a871376fce
+; 14789)
+[2026-02-09T09:20:28.061+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-09T09:20:28.094+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

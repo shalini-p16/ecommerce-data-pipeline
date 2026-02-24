@@ -1,0 +1,36 @@
+[2026-02-09T13:02:32.458+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.data_quality.check_dim_users_duplicates manual__2026-02-09T12:40:19.465033+00:00 [queued]>
+[2026-02-09T13:02:32.464+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.data_quality.check_dim_users_duplicates manual__2026-02-09T12:40:19.465033+00:00 [queued]>
+[2026-02-09T13:02:32.464+0000] {taskinstance.py:2170} INFO - Starting attempt 4 of 6
+[2026-02-09T13:02:32.472+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryCheckOperator): data_quality.check_dim_users_duplicates> on 2026-02-09 12:40:19.465033+00:00
+[2026-02-09T13:02:32.475+0000] {standard_task_runner.py:60} INFO - Started process 54308 to run task
+[2026-02-09T13:02:32.477+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'data_quality.check_dim_users_duplicates', 'manual__2026-02-09T12:40:19.465033+00:00', '--job-id', '2407', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpp34fo06m']
+[2026-02-09T13:02:32.479+0000] {standard_task_runner.py:88} INFO - Job 2407: Subtask data_quality.check_dim_users_duplicates
+[2026-02-09T13:02:32.503+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.data_quality.check_dim_users_duplicates manual__2026-02-09T12:40:19.465033+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T13:02:32.541+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='data_quality.check_dim_users_duplicates' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T12:40:19.465033+00:00' AIRFLOW_CTX_TRY_NUMBER='4' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-09T12:40:19.465033+00:00'
+[2026-02-09T13:02:32.542+0000] {sql.py:785} INFO - Executing SQL check: 
+                SELECT COUNT(*) = 0
+                FROM (
+                    SELECT user_key, COUNT(*) as cnt
+                    FROM `prism-486509.gold.dim_users`
+                    GROUP BY user_key
+                    HAVING cnt > 1
+                )
+            
+[2026-02-09T13:02:32.547+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T13:02:32.548+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T13:02:32.548+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T13:02:32.592+0000] {sql.py:450} INFO - Running statement: 
+                SELECT COUNT(*) = 0
+                FROM (
+                    SELECT user_key, COUNT(*) as cnt
+                    FROM `prism-486509.gold.dim_users`
+                    GROUP BY user_key
+                    HAVING cnt > 1
+                )
+            , parameters: None
+[2026-02-09T13:02:32.593+0000] {bigquery.py:1596} INFO - Inserting job ***_1770642152593606_7149b80e8c3d2efad33e5fc0ba4bc4e8
+[2026-02-09T13:02:33.597+0000] {sql.py:788} INFO - Record: [True]
+[2026-02-09T13:02:33.597+0000] {sql.py:796} INFO - Success.
+[2026-02-09T13:02:33.603+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=data_quality.check_dim_users_duplicates, execution_date=20260209T124019, start_date=20260209T130232, end_date=20260209T130233
+[2026-02-09T13:02:33.644+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-09T13:02:33.656+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

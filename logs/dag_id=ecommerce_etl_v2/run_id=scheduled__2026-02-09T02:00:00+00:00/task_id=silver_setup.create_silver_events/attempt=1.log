@@ -1,0 +1,34 @@
+[2026-02-10T03:15:00.707+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.silver_setup.create_silver_events scheduled__2026-02-09T02:00:00+00:00 [queued]>
+[2026-02-10T03:15:00.712+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.silver_setup.create_silver_events scheduled__2026-02-09T02:00:00+00:00 [queued]>
+[2026-02-10T03:15:00.712+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-10T03:15:00.725+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryCreateEmptyTableOperator): silver_setup.create_silver_events> on 2026-02-09 02:00:00+00:00
+[2026-02-10T03:15:00.730+0000] {standard_task_runner.py:60} INFO - Started process 28737 to run task
+[2026-02-10T03:15:00.733+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'silver_setup.create_silver_events', 'scheduled__2026-02-09T02:00:00+00:00', '--job-id', '891', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpmgqglkn0']
+[2026-02-10T03:15:00.736+0000] {standard_task_runner.py:88} INFO - Job 891: Subtask silver_setup.create_silver_events
+[2026-02-10T03:15:00.799+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.silver_setup.create_silver_events scheduled__2026-02-09T02:00:00+00:00 [running]> on host 8e292c18926b
+[2026-02-10T03:15:00.874+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='silver_setup.create_silver_events' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-09T02:00:00+00:00'
+[2026-02-10T03:15:00.885+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-10T03:15:00.886+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-10T03:15:00.887+0000] {bigquery.py:1514} INFO - Creating table
+[2026-02-10T03:15:00.887+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-10T03:15:01.399+0000] {bigquery.py:1536} INFO - Table prism-486509.silver.events created successfully
+[2026-02-10T03:15:01.411+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=silver_setup.create_silver_events, execution_date=20260209T020000, start_date=20260210T031500, end_date=20260210T031501
+[2026-02-10T03:15:01.455+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-10T03:15:01.552+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-02-10T23:37:03.291+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.silver_setup.create_silver_events scheduled__2026-02-09T02:00:00+00:00 [queued]>
+[2026-02-10T23:37:03.299+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.silver_setup.create_silver_events scheduled__2026-02-09T02:00:00+00:00 [queued]>
+[2026-02-10T23:37:03.300+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-10T23:37:03.310+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryCreateEmptyTableOperator): silver_setup.create_silver_events> on 2026-02-09 02:00:00+00:00
+[2026-02-10T23:37:03.316+0000] {standard_task_runner.py:60} INFO - Started process 66829 to run task
+[2026-02-10T23:37:03.321+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'silver_setup.create_silver_events', 'scheduled__2026-02-09T02:00:00+00:00', '--job-id', '1846', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpnh2qnqw4']
+[2026-02-10T23:37:03.324+0000] {standard_task_runner.py:88} INFO - Job 1846: Subtask silver_setup.create_silver_events
+[2026-02-10T23:37:03.377+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.silver_setup.create_silver_events scheduled__2026-02-09T02:00:00+00:00 [running]> on host 89ab86e4d295
+[2026-02-10T23:37:03.443+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='silver_setup.create_silver_events' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T02:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-09T02:00:00+00:00'
+[2026-02-10T23:37:03.457+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-10T23:37:03.458+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-10T23:37:03.459+0000] {bigquery.py:1514} INFO - Creating table
+[2026-02-10T23:37:03.462+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-10T23:37:03.902+0000] {bigquery.py:1536} INFO - Table prism-486509.silver.events created successfully
+[2026-02-10T23:37:03.913+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=silver_setup.create_silver_events, execution_date=20260209T020000, start_date=20260210T233703, end_date=20260210T233703
+[2026-02-10T23:37:03.957+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-10T23:37:03.996+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

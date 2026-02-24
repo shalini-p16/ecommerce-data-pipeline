@@ -1,0 +1,31 @@
+[2026-02-10T10:17:32.544+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-10T10:00:49.771923+00:00 [queued]>
+[2026-02-10T10:17:32.548+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-10T10:00:49.771923+00:00 [queued]>
+[2026-02-10T10:17:32.549+0000] {taskinstance.py:2170} INFO - Starting attempt 8 of 10
+[2026-02-10T10:17:32.554+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): load_events> on 2026-02-10 10:00:49.771923+00:00
+[2026-02-10T10:17:32.558+0000] {standard_task_runner.py:60} INFO - Started process 41691 to run task
+[2026-02-10T10:17:32.561+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'load_events', 'manual__2026-02-10T10:00:49.771923+00:00', '--job-id', '1038', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpi6csz5tb']
+[2026-02-10T10:17:32.562+0000] {standard_task_runner.py:88} INFO - Job 1038: Subtask load_events
+[2026-02-10T10:17:32.590+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-10T10:00:49.771923+00:00 [running]> on host 8e292c18926b
+[2026-02-10T10:17:32.626+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='load_events' AIRFLOW_CTX_EXECUTION_DATE='2026-02-10T10:00:49.771923+00:00' AIRFLOW_CTX_TRY_NUMBER='8' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-10T10:00:49.771923+00:00'
+[2026-02-10T10:17:32.860+0000] {etl_dag.py:100} INFO - Creating table if not exists: bronze.events
+[2026-02-10T10:17:33.411+0000] {etl_dag.py:106} INFO - Deleting partition 2026-02-10 from table bronze.events
+[2026-02-10T10:17:35.435+0000] {etl_dag.py:114} INFO - Loading data from gs://bronze-data-ecom/events/ingestion_date=2026-02-10/*.csv into bronze.events
+[2026-02-10T10:17:35.632+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/etl_dag.py", line 125, in load_bronze_with_ingestion_date
+    load_job.result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Incompatible table partitioning specification. Expects partitioning specification none, but input partitioning specification is interval(type:day,field:ingestion_date); reason: invalid, message: Incompatible table partitioning specification. Expects partitioning specification none, but input partitioning specification is interval(type:day,field:ingestion_date)
+[2026-02-10T10:17:35.645+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=load_events, execution_date=20260210T100049, start_date=20260210T101732, end_date=20260210T101735
+[2026-02-10T10:17:35.652+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1038 for task load_events (400 Incompatible table partitioning specification. Expects partitioning specification none, but input partitioning specification is interval(type:day,field:ingestion_date); reason: invalid, message: Incompatible table partitioning specification. Expects partitioning specification none, but input partitioning specification is interval(type:day,field:ingestion_date); 41691)
+[2026-02-10T10:17:35.689+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-10T10:17:35.713+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,30 @@
+[2026-02-11T00:08:34.054+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-11T00:08:31.981769+00:00 [queued]>
+[2026-02-11T00:08:34.062+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-11T00:08:31.981769+00:00 [queued]>
+[2026-02-11T00:08:34.065+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-02-11T00:08:34.080+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): load_events> on 2026-02-11 00:08:31.981769+00:00
+[2026-02-11T00:08:34.085+0000] {standard_task_runner.py:60} INFO - Started process 70799 to run task
+[2026-02-11T00:08:34.090+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'load_events', 'manual__2026-02-11T00:08:31.981769+00:00', '--job-id', '1912', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp10cqrszg']
+[2026-02-11T00:08:34.093+0000] {standard_task_runner.py:88} INFO - Job 1912: Subtask load_events
+[2026-02-11T00:08:34.135+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-11T00:08:31.981769+00:00 [running]> on host 89ab86e4d295
+[2026-02-11T00:08:34.207+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='load_events' AIRFLOW_CTX_EXECUTION_DATE='2026-02-11T00:08:31.981769+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-11T00:08:31.981769+00:00'
+[2026-02-11T00:08:34.561+0000] {etl_dag.py:100} INFO - Creating table if not exists: bronze.events
+[2026-02-11T00:08:35.102+0000] {etl_dag.py:114} INFO - Loading data from gs://bronze-data-ecom/events/ingestion_date=2026-02-11/*.csv into bronze.events
+[2026-02-11T00:08:35.389+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/etl_dag.py", line 125, in load_bronze_with_ingestion_date
+    load_job.result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: Uris gs://bronze-data-ecom/events/ingestion_date=2026-02-11/*.csv; reason: notFound, message: Not found: Uris gs://bronze-data-ecom/events/ingestion_date=2026-02-11/*.csv
+[2026-02-11T00:08:35.405+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=load_events, execution_date=20260211T000831, start_date=20260211T000834, end_date=20260211T000835
+[2026-02-11T00:08:35.419+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1912 for task load_events (404 Not found: Uris gs://bronze-data-ecom/events/ingestion_date=2026-02-11/*.csv; reason: notFound, message: Not found: Uris gs://bronze-data-ecom/events/ingestion_date=2026-02-11/*.csv; 70799)
+[2026-02-11T00:08:35.465+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-11T00:08:35.529+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

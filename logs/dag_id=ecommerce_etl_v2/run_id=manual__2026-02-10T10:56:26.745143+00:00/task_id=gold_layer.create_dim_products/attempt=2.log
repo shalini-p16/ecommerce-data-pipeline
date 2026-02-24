@@ -1,0 +1,17 @@
+[2026-02-10T11:25:33.160+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.create_dim_products manual__2026-02-10T10:56:26.745143+00:00 [queued]>
+[2026-02-10T11:25:33.168+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.create_dim_products manual__2026-02-10T10:56:26.745143+00:00 [queued]>
+[2026-02-10T11:25:33.168+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 4
+[2026-02-10T11:25:33.177+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryCreateEmptyTableOperator): gold_layer.create_dim_products> on 2026-02-10 10:56:26.745143+00:00
+[2026-02-10T11:25:33.181+0000] {standard_task_runner.py:60} INFO - Started process 6550 to run task
+[2026-02-10T11:25:33.192+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'gold_layer.create_dim_products', 'manual__2026-02-10T10:56:26.745143+00:00', '--job-id', '1158', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpk4m0o9bf']
+[2026-02-10T11:25:33.195+0000] {standard_task_runner.py:88} INFO - Job 1158: Subtask gold_layer.create_dim_products
+[2026-02-10T11:25:33.245+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.gold_layer.create_dim_products manual__2026-02-10T10:56:26.745143+00:00 [running]> on host 89ab86e4d295
+[2026-02-10T11:25:33.311+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='gold_layer.create_dim_products' AIRFLOW_CTX_EXECUTION_DATE='2026-02-10T10:56:26.745143+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-10T10:56:26.745143+00:00'
+[2026-02-10T11:25:33.318+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-10T11:25:33.319+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-10T11:25:33.320+0000] {bigquery.py:1514} INFO - Creating table
+[2026-02-10T11:25:33.321+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-10T11:25:33.737+0000] {bigquery.py:1536} INFO - Table prism-486509.gold.dim_products created successfully
+[2026-02-10T11:25:33.747+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=gold_layer.create_dim_products, execution_date=20260210T105626, start_date=20260210T112533, end_date=20260210T112533
+[2026-02-10T11:25:33.775+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-10T11:25:33.789+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

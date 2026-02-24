@@ -1,0 +1,152 @@
+[2026-02-20T15:13:39.640+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle scheduled__2026-02-19T13:00:00+00:00 [queued]>
+[2026-02-20T15:13:39.647+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle scheduled__2026-02-19T13:00:00+00:00 [queued]>
+[2026-02-20T15:13:39.647+0000] {taskinstance.py:2170} INFO - Starting attempt 3 of 3
+[2026-02-20T15:13:39.655+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): extract.extract_from_kaggle> on 2026-02-19 13:00:00+00:00
+[2026-02-20T15:13:39.659+0000] {standard_task_runner.py:60} INFO - Started process 80285 to run task
+[2026-02-20T15:13:39.663+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'extract.extract_from_kaggle', 'scheduled__2026-02-19T13:00:00+00:00', '--job-id', '2449', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpxxfmyuaf']
+[2026-02-20T15:13:39.665+0000] {standard_task_runner.py:88} INFO - Job 2449: Subtask extract.extract_from_kaggle
+[2026-02-20T15:13:39.703+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.extract.extract_from_kaggle scheduled__2026-02-19T13:00:00+00:00 [running]> on host 89ab86e4d295
+[2026-02-20T15:13:39.757+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='extract.extract_from_kaggle' AIRFLOW_CTX_EXECUTION_DATE='2026-02-19T13:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-02-19T13:00:00+00:00'
+[2026-02-20T15:13:39.767+0000] {logging_mixin.py:188} INFO - Starting Kaggle dataset download...
+[2026-02-20T15:13:39.770+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/***/.kaggle/kaggle.json'
+[2026-02-20T15:13:39.776+0000] {logging_mixin.py:188} INFO - Dataset URL: https://www.kaggle.com/datasets/mustafakeser4/looker-ecommerce-bigquery-dataset
+[2026-02-20T15:13:40.314+0000] {logging_mixin.py:188} INFO - Downloading looker-ecommerce-bigquery-dataset.zip to /tmp/bronze_temp
+[2026-02-20T15:13:40.316+0000] {logging_mixin.py:188} WARNING -   0%|          | 0.00/162M [00:00<?, ?B/s]
+[2026-02-20T15:13:40.835+0000] {logging_mixin.py:188} WARNING -   1%|          | 1.00M/162M [00:00<01:23, 2.03MB/s]
+[2026-02-20T15:13:41.011+0000] {logging_mixin.py:188} WARNING -   2%|1         | 3.00M/162M [00:00<00:31, 5.25MB/s]
+[2026-02-20T15:13:41.180+0000] {logging_mixin.py:188} WARNING -   3%|3         | 5.00M/162M [00:00<00:22, 7.48MB/s]
+[2026-02-20T15:13:41.345+0000] {logging_mixin.py:188} WARNING -   4%|4         | 7.00M/162M [00:01<00:17, 9.06MB/s]
+[2026-02-20T15:13:41.515+0000] {logging_mixin.py:188} WARNING -   6%|5         | 9.00M/162M [00:01<00:15, 10.1MB/s]
+[2026-02-20T15:13:41.681+0000] {logging_mixin.py:188} WARNING -   7%|6         | 11.0M/162M [00:01<00:14, 10.8MB/s]
+[2026-02-20T15:13:41.838+0000] {logging_mixin.py:188} WARNING -   8%|8         | 13.0M/162M [00:01<00:13, 11.6MB/s]
+[2026-02-20T15:13:42.002+0000] {logging_mixin.py:188} WARNING -   9%|9         | 15.0M/162M [00:01<00:12, 11.9MB/s]
+[2026-02-20T15:13:42.170+0000] {logging_mixin.py:188} WARNING -  10%|#         | 17.0M/162M [00:01<00:12, 12.1MB/s]
+[2026-02-20T15:13:42.334+0000] {logging_mixin.py:188} WARNING -  12%|#1        | 19.0M/162M [00:02<00:12, 12.3MB/s]
+[2026-02-20T15:13:42.505+0000] {logging_mixin.py:188} WARNING -  13%|#2        | 21.0M/162M [00:02<00:12, 12.3MB/s]
+[2026-02-20T15:13:42.667+0000] {logging_mixin.py:188} WARNING -  14%|#4        | 23.0M/162M [00:02<00:11, 12.5MB/s]
+[2026-02-20T15:13:42.835+0000] {logging_mixin.py:188} WARNING -  15%|#5        | 25.0M/162M [00:02<00:11, 12.5MB/s]
+[2026-02-20T15:13:42.996+0000] {logging_mixin.py:188} WARNING -  17%|#6        | 27.0M/162M [00:02<00:11, 12.6MB/s]
+[2026-02-20T15:13:43.160+0000] {logging_mixin.py:188} WARNING -  18%|#7        | 29.0M/162M [00:02<00:11, 12.7MB/s]
+[2026-02-20T15:13:43.328+0000] {logging_mixin.py:188} WARNING -  19%|#9        | 31.0M/162M [00:03<00:10, 12.6MB/s]
+[2026-02-20T15:13:43.496+0000] {logging_mixin.py:188} WARNING -  20%|##        | 33.0M/162M [00:03<00:10, 12.6MB/s]
+[2026-02-20T15:13:43.658+0000] {logging_mixin.py:188} WARNING -  22%|##1       | 35.0M/162M [00:03<00:10, 12.7MB/s]
+[2026-02-20T15:13:43.822+0000] {logging_mixin.py:188} WARNING -  23%|##2       | 37.0M/162M [00:03<00:10, 12.7MB/s]
+[2026-02-20T15:13:45.596+0000] {logging_mixin.py:188} WARNING -  24%|##3       | 38.3M/162M [00:05<00:45, 2.88MB/s]
+[2026-02-20T15:13:45.598+0000] {logging_mixin.py:188} WARNING -  24%|##3       | 38.3M/162M [00:05<00:17, 7.60MB/s]
+[2026-02-20T15:13:45.598+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/kaggle/api/kaggle_api_extended.py", line 1508, in dataset_download_files
+    with zipfile.ZipFile(outfile) as z:
+  File "/usr/local/lib/python3.8/zipfile.py", line 1269, in __init__
+    self._RealGetContents()
+  File "/usr/local/lib/python3.8/zipfile.py", line 1336, in _RealGetContents
+    raise BadZipFile("File is not a zip file")
+zipfile.BadZipFile: File is not a zip file
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/src/extract.py", line 38, in extract_data
+    api.dataset_download_files(
+  File "/home/airflow/.local/lib/python3.8/site-packages/kaggle/api/kaggle_api_extended.py", line 1511, in dataset_download_files
+    raise ValueError(
+ValueError: ('Bad zip file, please report on www.github.com/kaggle/kaggle-api', BadZipFile('File is not a zip file'))
+[2026-02-20T15:13:45.609+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=ecommerce_etl_v2, task_id=extract.extract_from_kaggle, execution_date=20260219T130000, start_date=20260220T151339, end_date=20260220T151345
+[2026-02-20T15:13:45.625+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/utils/email.py:154 RemovedInAirflow3Warning: Fetching SMTP credentials from configuration variables will be deprecated in a future release. Please set credentials using a connection instead.
+[2026-02-20T15:13:45.626+0000] {configuration.py:1046} WARNING - section/key [smtp/smtp_user] not found in config
+[2026-02-20T15:13:45.626+0000] {email.py:270} INFO - Email alerting: attempt 1
+[2026-02-20T15:13:45.634+0000] {configuration.py:1046} WARNING - section/key [smtp/smtp_user] not found in config
+[2026-02-20T15:13:45.635+0000] {email.py:270} INFO - Email alerting: attempt 1
+[2026-02-20T15:13:45.635+0000] {taskinstance.py:826} ERROR - Failed to send email to: ['data-team@company.com']
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/kaggle/api/kaggle_api_extended.py", line 1508, in dataset_download_files
+    with zipfile.ZipFile(outfile) as z:
+  File "/usr/local/lib/python3.8/zipfile.py", line 1269, in __init__
+    self._RealGetContents()
+  File "/usr/local/lib/python3.8/zipfile.py", line 1336, in _RealGetContents
+    raise BadZipFile("File is not a zip file")
+zipfile.BadZipFile: File is not a zip file
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2334, in _run_raw_task
+    self._execute_task_with_callbacks(context, test_mode, session=session)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2499, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2516, in _execute_task
+    return _execute_task(self, context, task_orig)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/src/extract.py", line 38, in extract_data
+    api.dataset_download_files(
+  File "/home/airflow/.local/lib/python3.8/site-packages/kaggle/api/kaggle_api_extended.py", line 1511, in dataset_download_files
+    raise ValueError(
+ValueError: ('Bad zip file, please report on www.github.com/kaggle/kaggle-api', BadZipFile('File is not a zip file'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1000, in _email_alert
+    send_email(task.email, subject, html_content)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 80, in send_email
+    return backend(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 154, in send_email_smtp
+    send_mime_email(e_from=mail_from, e_to=recipients, mime_msg=msg, conn_id=conn_id, dryrun=dryrun)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 272, in send_mime_email
+    smtp_conn = _get_smtp_connection(smtp_host, smtp_port, smtp_timeout, smtp_ssl)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 316, in _get_smtp_connection
+    return smtplib.SMTP(host=host, port=port, timeout=timeout)
+  File "/usr/local/lib/python3.8/smtplib.py", line 255, in __init__
+    (code, msg) = self.connect(host, port)
+  File "/usr/local/lib/python3.8/smtplib.py", line 339, in connect
+    self.sock = self._get_socket(host, port, self.timeout)
+  File "/usr/local/lib/python3.8/smtplib.py", line 310, in _get_socket
+    return socket.create_connection((host, port), timeout,
+  File "/usr/local/lib/python3.8/socket.py", line 808, in create_connection
+    raise err
+  File "/usr/local/lib/python3.8/socket.py", line 796, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 824, in _handle_failure
+    task_instance.email_alert(error, failure_context["task"])
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2946, in email_alert
+    _email_alert(task_instance=self, exception=exception, task=task)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 1002, in _email_alert
+    send_email(task.email, subject, html_content_err)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 80, in send_email
+    return backend(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 154, in send_email_smtp
+    send_mime_email(e_from=mail_from, e_to=recipients, mime_msg=msg, conn_id=conn_id, dryrun=dryrun)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 272, in send_mime_email
+    smtp_conn = _get_smtp_connection(smtp_host, smtp_port, smtp_timeout, smtp_ssl)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 316, in _get_smtp_connection
+    return smtplib.SMTP(host=host, port=port, timeout=timeout)
+  File "/usr/local/lib/python3.8/smtplib.py", line 255, in __init__
+    (code, msg) = self.connect(host, port)
+  File "/usr/local/lib/python3.8/smtplib.py", line 339, in connect
+    self.sock = self._get_socket(host, port, self.timeout)
+  File "/usr/local/lib/python3.8/smtplib.py", line 310, in _get_socket
+    return socket.create_connection((host, port), timeout,
+  File "/usr/local/lib/python3.8/socket.py", line 808, in create_connection
+    raise err
+  File "/usr/local/lib/python3.8/socket.py", line 796, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+[2026-02-20T15:13:45.645+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 2449 for task extract.extract_from_kaggle (('Bad zip file, please report on www.github.com/kaggle/kaggle-api', BadZipFile('File is not a zip file')); 80285)
+[2026-02-20T15:13:45.680+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-20T15:13:45.708+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

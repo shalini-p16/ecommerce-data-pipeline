@@ -1,0 +1,56 @@
+[2026-02-08T17:05:39.343+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl.gold_fact_events manual__2026-02-08T15:37:02.081199+00:00 [queued]>
+[2026-02-08T17:05:39.348+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl.gold_fact_events manual__2026-02-08T15:37:02.081199+00:00 [queued]>
+[2026-02-08T17:05:39.349+0000] {taskinstance.py:2170} INFO - Starting attempt 6 of 6
+[2026-02-08T17:05:39.356+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): gold_fact_events> on 2026-02-08 15:37:02.081199+00:00
+[2026-02-08T17:05:39.361+0000] {standard_task_runner.py:60} INFO - Started process 5558 to run task
+[2026-02-08T17:05:39.364+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl', 'gold_fact_events', 'manual__2026-02-08T15:37:02.081199+00:00', '--job-id', '513', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpw3vl2cij']
+[2026-02-08T17:05:39.366+0000] {standard_task_runner.py:88} INFO - Job 513: Subtask gold_fact_events
+[2026-02-08T17:05:39.408+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl.gold_fact_events manual__2026-02-08T15:37:02.081199+00:00 [running]> on host 052c3b514c1c
+[2026-02-08T17:05:39.469+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ecommerce_etl' AIRFLOW_CTX_TASK_ID='gold_fact_events' AIRFLOW_CTX_EXECUTION_DATE='2026-02-08T15:37:02.081199+00:00' AIRFLOW_CTX_TRY_NUMBER='6' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-08T15:37:02.081199+00:00'
+[2026-02-08T17:05:39.479+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-08T17:05:39.481+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-08T17:05:39.482+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-08T17:05:39.530+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': '', 'useLegacySql': False, 'destinationTable': {'projectId': 'prism-486509', 'datasetId': 'gold', 'tableId': 'fact_events'}, 'writeDisposition': 'WRITE_APPEND', 'queryParameters': [{'name': 'run_date', 'parameterType': {'type': 'DATE'}, 'parameterValue': {'value': '2026-02-08'}}]}}'
+[2026-02-08T17:05:39.531+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_gold_fact_events_2026_02_08T15_37_02_081199_00_00_f9d63871c571878f11f90daf8eeed678
+[2026-02-08T17:05:39.816+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1379, in _begin
+    super(QueryJob, self)._begin(client=client, retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/client.py", line 818, in _call_api
+    return call()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/retry.py", line 372, in retry_wrapped_func
+    return retry_target(
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/retry.py", line 207, in retry_target
+    result = target()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/prism-486509/jobs?prettyPrint=false: Required parameter is missing: query
+
+Location: None
+Job ID: airflow_ecommerce_etl_gold_fact_events_2026_02_08T15_37_02_081199_00_00_f9d63871c571878f11f90daf8eeed678
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2808, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(hook, self.job_id)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2773, in _submit_job
+    return hook.insert_job(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/common/hooks/base_google.py", line 477, in inner_wrapper
+    return func(self, *args, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1599, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1384, in _begin
+    exc.debug_message = self._format_for_exception(exc.message, self.query)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/query.py", line 1342, in _format_for_exception
+    max_line_len = max(len(line) for line in lines)
+ValueError: max() arg is an empty sequence
+[2026-02-08T17:05:39.822+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=ecommerce_etl, task_id=gold_fact_events, execution_date=20260208T153702, start_date=20260208T170539, end_date=20260208T170539
+[2026-02-08T17:05:39.827+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 513 for task gold_fact_events (max() arg is an empty sequence; 5558)
+[2026-02-08T17:05:39.870+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-02-08T17:05:39.878+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

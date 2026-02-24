@@ -1,0 +1,17 @@
+[2026-02-09T13:01:37.912+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_traffic_source manual__2026-02-09T12:40:19.465033+00:00 [queued]>
+[2026-02-09T13:01:37.918+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_traffic_source manual__2026-02-09T12:40:19.465033+00:00 [queued]>
+[2026-02-09T13:01:37.918+0000] {taskinstance.py:2170} INFO - Starting attempt 3 of 5
+[2026-02-09T13:01:37.931+0000] {taskinstance.py:2191} INFO - Executing <Task(BigQueryInsertJobOperator): gold_layer.load_dim_traffic_source> on 2026-02-09 12:40:19.465033+00:00
+[2026-02-09T13:01:37.935+0000] {standard_task_runner.py:60} INFO - Started process 53514 to run task
+[2026-02-09T13:01:37.941+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'gold_layer.load_dim_traffic_source', 'manual__2026-02-09T12:40:19.465033+00:00', '--job-id', '2377', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpdl9u1s3p']
+[2026-02-09T13:01:37.947+0000] {standard_task_runner.py:88} INFO - Job 2377: Subtask gold_layer.load_dim_traffic_source
+[2026-02-09T13:01:37.991+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.gold_layer.load_dim_traffic_source manual__2026-02-09T12:40:19.465033+00:00 [running]> on host 707cd2e8ef6b
+[2026-02-09T13:01:38.047+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='gold_layer.load_dim_traffic_source' AIRFLOW_CTX_EXECUTION_DATE='2026-02-09T12:40:19.465033+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-09T12:40:19.465033+00:00'
+[2026-02-09T13:01:38.054+0000] {connection.py:234} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-02-09T13:01:38.054+0000] {base.py:83} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-02-09T13:01:38.057+0000] {credentials_provider.py:353} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-02-09T13:01:38.099+0000] {bigquery.py:2807} INFO - Executing: {'query': {'query': 'SELECT\n    GENERATE_UUID() AS traffic_source_key,  -- UUID surrogate key\n    traffic_source\nFROM (\n    SELECT DISTINCT traffic_source\n    FROM `prism-486509.silver.events` -- staging/source table\n) AS distinct_sources;', 'useLegacySql': False}}'
+[2026-02-09T13:01:38.099+0000] {bigquery.py:1596} INFO - Inserting job ***_ecommerce_etl_v2_gold_layer_load_dim_traffic_source_2026_02_09T12_40_19_465033_00_00_0d98ce89d41de7fe30b27eb58a6187ef
+[2026-02-09T13:01:38.943+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=ecommerce_etl_v2, task_id=gold_layer.load_dim_traffic_source, execution_date=20260209T124019, start_date=20260209T130137, end_date=20260209T130138
+[2026-02-09T13:01:38.968+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-02-09T13:01:38.997+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,42 @@
+[2026-02-10T14:46:48.107+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-10T14:45:30.482875+00:00 [queued]>
+[2026-02-10T14:46:48.112+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-10T14:45:30.482875+00:00 [queued]>
+[2026-02-10T14:46:48.113+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 4
+[2026-02-10T14:46:48.120+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): load_events> on 2026-02-10 14:45:30.482875+00:00
+[2026-02-10T14:46:48.125+0000] {standard_task_runner.py:60} INFO - Started process 28425 to run task
+[2026-02-10T14:46:48.128+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'ecommerce_etl_v2', 'load_events', 'manual__2026-02-10T14:45:30.482875+00:00', '--job-id', '1481', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmp6f_fz20w']
+[2026-02-10T14:46:48.136+0000] {standard_task_runner.py:88} INFO - Job 1481: Subtask load_events
+[2026-02-10T14:46:48.174+0000] {task_command.py:423} INFO - Running <TaskInstance: ecommerce_etl_v2.load_events manual__2026-02-10T14:45:30.482875+00:00 [running]> on host 89ab86e4d295
+[2026-02-10T14:46:48.216+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_EMAIL='data-team@company.com' AIRFLOW_CTX_DAG_OWNER='data_engineering' AIRFLOW_CTX_DAG_ID='ecommerce_etl_v2' AIRFLOW_CTX_TASK_ID='load_events' AIRFLOW_CTX_EXECUTION_DATE='2026-02-10T14:45:30.482875+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-10T14:45:30.482875+00:00'
+[2026-02-10T14:46:48.315+0000] {etl_dag.py:100} INFO - Creating table if not exists: bronze.events
+[2026-02-10T14:46:48.924+0000] {etl_dag.py:106} INFO - Deleting partition 2026-02-10 from table bronze.events
+[2026-02-10T14:46:50.348+0000] {etl_dag.py:114} INFO - Loading data from gs://bronze-data-ecom/events/ingestion_date=2026-02-10/*.csv into bronze.events
+[2026-02-10T14:47:03.234+0000] {local_task_job_runner.py:302} WARNING - State of this instance has been externally set to restarting. Terminating instance.
+[2026-02-10T14:47:03.236+0000] {process_utils.py:131} INFO - Sending 15 to group 28425. PIDs of all processes in the group: [28425]
+[2026-02-10T14:47:03.236+0000] {process_utils.py:86} INFO - Sending the signal 15 to group 28425
+[2026-02-10T14:47:03.237+0000] {taskinstance.py:2450} ERROR - Received SIGTERM. Terminating subprocesses.
+[2026-02-10T14:47:03.243+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/etl_dag.py", line 125, in load_bronze_with_ingestion_date
+    load_job.result()
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 256, in result
+    self._blocking_poll(timeout=timeout, retry=retry, polling=polling)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/future/polling.py", line 137, in _blocking_poll
+    polling(self._done_or_raise)(retry=retry)
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/retry.py", line 372, in retry_wrapped_func
+    return retry_target(
+  File "/home/airflow/.local/lib/python3.8/site-packages/google/api_core/retry.py", line 236, in retry_target
+    time.sleep(sleep)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2452, in signal_handler
+    raise AirflowException("Task received SIGTERM signal")
+airflow.exceptions.AirflowException: Task received SIGTERM signal
+[2026-02-10T14:47:03.248+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ecommerce_etl_v2, task_id=load_events, execution_date=20260210T144530, start_date=20260210T144648, end_date=20260210T144703
+[2026-02-10T14:47:03.256+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 1481 for task load_events (Task received SIGTERM signal; 28425)
+[2026-02-10T14:47:03.270+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=28425, status='terminated', exitcode=1, started='14:46:47') (28425) terminated with exit code 1
