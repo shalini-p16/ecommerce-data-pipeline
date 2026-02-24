@@ -10663,3 +10663,102 @@
 [2026-02-24T10:00:25.823+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:00:25.823+0000] {dag.py:3036} INFO - Sync 1 DAGs
 [2026-02-24T10:00:25.836+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:00:25.836+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
 [2026-02-24T10:00:25.848+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.185 seconds
+[2026-02-24T10:00:56.134+0000] {processor.py:161} INFO - Started process (PID=66743) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:00:56.135+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:00:56.136+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:00:56.135+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:00:56.191+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:00:56.255+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:00:56.265+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:00:56.286+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:00:56.286+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:00:56.299+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:00:56.299+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:00:56.310+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.181 seconds
+[2026-02-24T10:01:26.499+0000] {processor.py:161} INFO - Started process (PID=66774) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:01:26.500+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:01:26.501+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:01:26.501+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:01:26.562+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:01:26.626+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:01:26.637+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:01:26.660+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:01:26.660+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:01:26.675+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:01:26.674+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:01:26.685+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.191 seconds
+[2026-02-24T10:01:56.855+0000] {processor.py:161} INFO - Started process (PID=66805) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:01:56.856+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:01:56.857+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:01:56.856+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:01:56.905+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:01:56.966+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:01:56.975+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:01:56.994+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:01:56.994+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:01:57.005+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:01:57.005+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:01:57.014+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.163 seconds
+[2026-02-24T10:02:27.277+0000] {processor.py:161} INFO - Started process (PID=66836) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:02:27.278+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:02:27.278+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:02:27.278+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:02:27.325+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:02:27.389+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:02:27.399+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:02:27.421+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:02:27.421+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:02:27.434+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:02:27.434+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:02:27.464+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.190 seconds
+[2026-02-24T10:02:57.590+0000] {processor.py:161} INFO - Started process (PID=66867) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:02:57.591+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:02:57.592+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:02:57.592+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:02:57.644+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:02:57.704+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:02:57.713+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:02:57.732+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:02:57.732+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:02:57.743+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:02:57.743+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:02:57.753+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.167 seconds
+[2026-02-24T10:03:28.114+0000] {processor.py:161} INFO - Started process (PID=66898) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:03:28.115+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:03:28.116+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:03:28.115+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:03:28.168+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:03:28.229+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:03:28.238+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:03:28.258+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:03:28.257+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:03:28.268+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:03:28.268+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:03:28.277+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.167 seconds
+[2026-02-24T10:03:58.404+0000] {processor.py:161} INFO - Started process (PID=66929) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:03:58.405+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:03:58.406+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:03:58.406+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:03:58.454+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:03:58.516+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:03:58.526+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:03:58.546+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:03:58.546+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:03:58.558+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:03:58.558+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:03:58.567+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.167 seconds
+[2026-02-24T10:04:28.838+0000] {processor.py:161} INFO - Started process (PID=66960) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:04:28.839+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:04:28.840+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:04:28.840+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:04:28.891+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:04:28.952+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:04:28.961+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:04:28.980+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:04:28.980+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:04:28.990+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:04:28.990+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:04:28.999+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.166 seconds
+[2026-02-24T10:04:59.143+0000] {processor.py:161} INFO - Started process (PID=66991) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:04:59.144+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:04:59.145+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:04:59.145+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:04:59.189+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:04:59.250+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:04:59.260+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:04:59.280+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:04:59.279+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:04:59.292+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:04:59.291+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:04:59.301+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.161 seconds
+[2026-02-24T10:05:29.560+0000] {processor.py:161} INFO - Started process (PID=67022) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:05:29.561+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:05:29.562+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:05:29.562+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:05:29.610+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:05:29.671+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:05:29.682+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:05:29.701+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:05:29.701+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:05:29.711+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:05:29.711+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:05:29.719+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.163 seconds
+[2026-02-24T10:05:59.838+0000] {processor.py:161} INFO - Started process (PID=67053) to work on /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:05:59.838+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/etl_dag.py for tasks to queue
+[2026-02-24T10:05:59.839+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:05:59.839+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:05:59.885+0000] {logging_mixin.py:188} INFO - Warning: Your Kaggle API key is readable by other users on this system! To fix this, you can run 'chmod 600 /home/airflow/.kaggle/kaggle.json'
+[2026-02-24T10:05:59.950+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.8/site-packages/airflow/models/baseoperator.py:437 AirflowProviderDeprecationWarning: `exists_ok` parameter is deprecated, please use `if_exists`
+[2026-02-24T10:05:59.960+0000] {processor.py:840} INFO - DAG(s) 'ecommerce_etl_v2' retrieved from /opt/airflow/dags/etl_dag.py
+[2026-02-24T10:05:59.981+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:05:59.981+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-02-24T10:05:59.993+0000] {logging_mixin.py:188} INFO - [2026-02-24T10:05:59.993+0000] {dag.py:3823} INFO - Setting next_dagrun for ecommerce_etl_v2 to 2026-02-23 13:00:00+00:00, run_after=2026-02-24 13:00:00+00:00
+[2026-02-24T10:06:00.003+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/etl_dag.py took 0.168 seconds

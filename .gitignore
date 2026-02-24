@@ -1,3 +1,6 @@
+gcp-credentials.json
+metabase-data/
+*.db
 echo "gcp-credentials.json" >> .gitignore
 git add .gitignore
 git commit -m "Ignore gcp-credentials.json"
